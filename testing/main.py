@@ -1,8 +1,12 @@
+
 # I. Create a causal model from the data and given graph.
 from dowhy import CausalModel
 import dowhy.datasets
 import warnings
 from sklearn.exceptions import DataConversionWarning
+import sys
+sys.stdin.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8')
 warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 warnings.filterwarnings(action='ignore', category=FutureWarning)
 # Load some sample data
@@ -21,6 +25,7 @@ model = CausalModel(
 # II. Identify causal effect and return target estimands
 identified_estimand = model.identify_effect()
 print(identified_estimand)
+
 # III. Estimate the target estimand using a statistical method.
 estimate = model.estimate_effect(identified_estimand,
                                  method_name="backdoor.propensity_score_matching")
