@@ -23,7 +23,10 @@ model = CausalModel(
     graph=data["gml_graph"])
 
 # II. Identify causal effect and return target estimands
-identified_estimand = model.identify_effect()
+model.view_model()
+from IPython.display import Image, display
+display(Image(filename="causal_model.png"))
+identified_estimand= model.identify_effect(proceed_when_unidentifiable=False)
 print(identified_estimand)
 
 # III. Estimate the target estimand using a statistical method.
@@ -34,3 +37,4 @@ print(estimate)
 refute_results = model.refute_estimate(identified_estimand, estimate,
                                        method_name="random_common_cause")
 print(refute_results)
+
