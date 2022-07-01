@@ -5,9 +5,11 @@ import dowhy.datasets
 import warnings
 from sklearn.exceptions import DataConversionWarning
 import sys
-from econml.dml import CausalForestDML
 from sklearn.linear_model import LassoCV
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.preprocessing import PolynomialFeatures
 from IPython.display import Image, display
+
 #--------------------- Configuraciones de Encoder ---------------------
 sys.stdin.reconfigure(encoding='utf-8')
 sys.stdout.reconfigure(encoding='utf-8')
@@ -45,7 +47,7 @@ print(identified_estimand)
 #=============================================================
 print("========================== PASO 3 ==========================")
 estimate = model.estimate_effect(identified_estimand,
-                                 method_name="backdoor.propensity_score_matching")
+                                method_name="backdoor.linear_regression")    
 print(estimate)
 #========================== PASO 4 ==========================
 # Refutar la estimación obtenida
@@ -57,4 +59,3 @@ print("========================== PASO 4 ==========================")
 refute_results = model.refute_estimate(identified_estimand, estimate,
                                        method_name="random_common_cause")
 print(refute_results)
-
