@@ -12,4 +12,5 @@ X = np.array([Z0, Z1, W0, W1, V0])
 Y = np.array(outcome)
 model.fit(X, Y) # Fit the model
 predictions = model.predict(X) # Make predictions on the train set
-#out_of_sample_predictions = model.predict(X_test) # Make predictions 
+out_of_sample_predictions = model.predict(X) # Make predictions 
+print(out_of_sample_predictions)
