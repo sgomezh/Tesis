@@ -161,6 +161,7 @@ class SklearnModel(BaseEstimator, RegressorMixin):
         return Data(deepcopy(X), deepcopy(y), normalize=True)
 
     def _construct_model(self, X: np.ndarray, y: np.ndarray) -> Model:
+        
         if len(X) == 0 or X.shape[1] == 0:
             raise ValueError("Empty covariate matrix passed")
         self.data = self._convert_covariates_to_data(X, y)

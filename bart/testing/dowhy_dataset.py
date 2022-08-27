@@ -52,7 +52,7 @@ def obtener_dataset():
     '''
     dataset = data['df']  
     ate = data['ate']
-    print("ATE: ", ate)  
+    '''print("ATE: ", ate)  '''
     dataset_dict = {}
     X= []
     Y= []
@@ -91,10 +91,10 @@ def obtener_dataset():
     X_testing = np.array(X_testing)
     Y_testing = np.array(Y_testing)
 
-    print("X_training: ", X_training)
+    '''print("X_training: ", X_training)
     print("Y_training: ", Y_training)
     print("X_testing: ", X_testing)
-    print("Y_testing: ", Y_testing)
+    print("Y_testing: ", Y_testing)'''
     
     return X_training, Y_training, X_testing, Y_testing
 
@@ -110,17 +110,21 @@ def convert_to_binary(value):
     return v0value
 
 def split_training_data(X, Y, split):
+    X_training = [] 
+    Y_training = []
     for i in range(len(X)):
-        X_training = X[i][0:split]
+        X_training.append(X[i][0:split])
     for j in range(len(Y)):
-        Y_training = Y[j][0:split]
+        Y_training.append(Y[j][0:split])
     return X_training, Y_training
 
 def split_test_data(X, Y, split, end):
+    X_testing = []
+    Y_testing = []
     for i in range(len(X)):
-        X_testing = X[i][split:end]
+        X_testing.append(X[i][split:end])
     for j in range(len(Y)):
-        Y_testing = Y[j][split:end]
+        Y_testing.append(Y[j][split:end])
     return X_testing, Y_testing
 
 obtener_dataset()
