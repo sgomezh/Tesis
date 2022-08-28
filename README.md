@@ -31,4 +31,10 @@ Importante leer este documento antes de correr el código. Este repositorio cons
 ### CONFIGURACIÓN DEL DATASET
 La configuración del dataset generado por DoWhy (que ocuparemos para tanto para DoWhy, EconML y BART) no necesita una configuración especial para DoWhy y EconML. <br />
 **Sin embargo**, si existirán problemas si no se utiliza una configuración especial para correr **BART**. <br />
-Para esto
+Para esto:
+> 1. Acceder a la carpeta "tesis"
+> 2. Acceder a la carpeta "testing"
+> 3. Entrar al archivo "dowhy_dataset.py"
+> 4. Entre las lineas 26 y 32 se encontrarán los parámetros que crearán el dataset
+> 5. La suma entre el parámetro **NUM_COMMON_CAUSES** y **NUM_INSTRUMENTS** deben **SUMAR** **(NUM_SAMPLES - 1)**
+> Ejemplo: si **NUM_SAMPLES** es 10, entonces la suma entre **NUM_COMMON_CAUSES** y **NUM_INSTRUMENTS** deben sumar: 10 - 1 = 9 (cualquier número sirve mientras cumpla la regla de la suma)
