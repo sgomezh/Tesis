@@ -4,7 +4,7 @@ Importante leer este documento antes de correr el código. Este repositorio cons
 > 2. Archivo para correr el método de EconML
 > 3. Archivo para correr BART
 > 4. Archivo para correr BART y DoWhy en un mismo bloque de código (y con un mismo dataset) (falta por implementar**)
->>### PARA CORRER **DoWhy y BART**: (falta por implementar**)
+>>#### PARA CORRER **DoWhy y BART**: (falta por implementar**)
 >>> 1. Ir a carpeta **"tesis"**                  
 >>> 2. Correr:
   >>>> - main.py (falta por implementar**)
