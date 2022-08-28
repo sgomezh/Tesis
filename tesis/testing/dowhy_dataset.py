@@ -25,11 +25,11 @@ def obtener_dataset():
     # Value of the coefficient [BETA] (real effect)
     BETA = 10
     # Number of Common Causes
-    NUM_COMMON_CAUSES = 4
+    NUM_COMMON_CAUSES = 500
     # Number of Instruments
-    NUM_INSTRUMENTS = 3
+    NUM_INSTRUMENTS = 499
     # Number of Samples
-    NUM_SAMPLES = 6
+    NUM_SAMPLES = 1000
     # Treatment is Binary
     TREATMENT_IS_BINARY = True
     data = dowhy.datasets.linear_dataset(
@@ -77,26 +77,27 @@ def obtener_dataset():
     split = int(NUM_SAMPLES/2)
     end = int(len(dataset_dict))
 
-    '''X = np.array(X)
-    Y = np.array(Y)'''
+    X = np.array(X)
+    Y = np.array(Y)
 
     '''print("X: ", X)
     print("Y: ", Y)'''
     
-    X_training, Y_training = split_training_data(X, Y, split)
+    ''' X_training, Y_training = split_training_data(X, Y, split)
     X_testing, Y_testing = split_test_data(X, Y, split, end)
 
     X_training = np.array(X_training)
     Y_training = np.array(Y_training)
     X_testing = np.array(X_testing)
-    Y_testing = np.array(Y_testing)
+    Y_testing = np.array(Y_testing)'''
 
     '''print("X_training: ", X_training)
     print("Y_training: ", Y_training)
     print("X_testing: ", X_testing)
     print("Y_testing: ", Y_testing)'''
     
-    return X_training, Y_training, X_testing, Y_testing
+    '''return X_training, Y_training, X_testing, Y_testing'''
+    return X, Y
 
 def convert_to_binary(value):
     list_value=np.array(value)
@@ -108,7 +109,7 @@ def convert_to_binary(value):
         if list_value[j] == False:
             v0value.append(0.0)
     return v0value
-
+'''
 def split_training_data(X, Y, split):
     X_training = [] 
     Y_training = []
@@ -125,7 +126,7 @@ def split_test_data(X, Y, split, end):
         X_testing.append(X[i][split:end])
     for j in range(len(Y)):
         Y_testing.append(Y[j][split:end])
-    return X_testing, Y_testing
+    return X_testing, Y_testing'''
 
 obtener_dataset()
                                 

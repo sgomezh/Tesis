@@ -1,4 +1,3 @@
-from ctypes.wintypes import WIN32_FIND_DATAA
 from bartpy.sklearnmodel import SklearnModel
 import numpy as np
 model = SklearnModel() # Use default parameters
@@ -10,7 +9,9 @@ V0 = [1, 1, 1, 1, 1]
 outcome = [5.650407, 4.014683, 0.235048, 6.945162, 5.104259]
 X = np.array([Z0, Z1, W0, W1, V0])
 Y = np.array(outcome)
-model.fit(X, Y) # Fit the model
+print("X: ", X)
+print("Y: ", Y)
+'''model.fit(X, Y) # Fit the model
 predictions = model.predict(X) # Make predictions on the train set
 out_of_sample_predictions = model.predict(X) # Make predictions 
-print(out_of_sample_predictions)
+print(out_of_sample_predictions)'''
