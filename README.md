@@ -1,20 +1,25 @@
 # **Tesis**
+### PARA CORRER **Dowhy y BART**:
+1. Ir a carpeta **"tesis"**                  
+3. Correr:
+  > - main.py
 ### PARA CORRER **Dowhy**:
-1. Ir a carpeta **"bart"**
+1. Ir a carpeta **"tesis"**
 2. Ir a carpeta **"testing"**                      
 3. Correr:
-  > - dowhy_dataset, dowhy_linear_regression, dowhy_score_matching o dowhy_score_weighting
+  > - dowhy_dataset.py, dowhy_linear_regression.py, dowhy_score_matching.py o dowhy_score_weighting.py
 
 ### PARA CORRER **EconML**:
-1. Ir a carpeta **"bart"**
+1. Ir a carpeta **"tesis"**
 2. Ir a carpeta **"testing"**
 3. Correr:
-  > - econml_dml
+  > - econml_dml.py
 
 ### PARA CORRER **BART**
-1. Ir a carpeta **"bart"**
+1. Ir a carpeta **"tesis"**
 2. Correr:
-  > - bart_testing
+  > - bart_testing.py
 
 ### CONFIGURACIÓN DEL DATASET
-La configuración del dataset generado por DoWhy (que ocuparemos para)
+La configuración del dataset generado por DoWhy (que ocuparemos para tanto para DoWhy, EconML y BART) no necesita una configuración especial para DoWhy y EconML.
+**Sin embargo**, si existirán problemas 
