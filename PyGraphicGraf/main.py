@@ -22,24 +22,24 @@ def main():
 
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_w]:
-            n_manipulator.camera.drag(0, 9)
+            n_manipulator.camera.drag(0, 1)
         if pressed[pygame.K_s]:
-            n_manipulator.camera.drag(0, -9)
+            n_manipulator.camera.drag(0, -1)
         if pressed[pygame.K_d]:
-            n_manipulator.camera.drag(-9, 0)
+            n_manipulator.camera.drag(-1, 0)
         if pressed[pygame.K_a]:
-            n_manipulator.camera.drag(9, 0)
+            n_manipulator.camera.drag(1, 0)
         if pressed[pygame.K_z]:
-            n_manipulator.camera.anchura -= 1
+            n_manipulator.camera.anchura -= 0.25
             n_manipulator.update_position()
         if pressed[pygame.K_x]:
-            n_manipulator.camera.anchura += 1
+            n_manipulator.camera.anchura += 0.25
             n_manipulator.update_position()
-        if pressed[pygame.K_f]:
-            n_manipulator.camera.altura -= 1
+        if pressed[pygame.K_q]:
+            n_manipulator.camera.altura -= 0.25
             n_manipulator.update_position()
-        if pressed[pygame.K_r]:
-            n_manipulator.camera.altura += 1
+        if pressed[pygame.K_e]:
+            n_manipulator.camera.altura += 0.25
             n_manipulator.update_position()
 
         n_manipulator.update()
