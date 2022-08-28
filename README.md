@@ -17,3 +17,4 @@
   > - bart_testing
 
 ### CONFIGURACIÓN DEL DATASET
+La configuración del dataset generado por DoWhy (que ocuparemos para)
