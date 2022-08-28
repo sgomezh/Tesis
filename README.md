@@ -25,7 +25,7 @@ Importante leer este documento antes de correr el código. Este repositorio cons
 >>#### PARA CORRER **DoWhy y BART**: (falta por implementar**)
 >>> 1. Ir a carpeta **"tesis"**                  
 >>> 2. Correr:
-  >>>> - main.py (falta por implementar**)
+  >>>> - DoWhy_BART.py (falta por implementar**)
 
 
 ### CONFIGURACIÓN DEL DATASET
