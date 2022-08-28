@@ -25,11 +25,7 @@ Importante leer este documento antes de correr el código. Este repositorio cons
 >>#### PARA CORRER **DoWhy y BART**: (falta por implementar**)
 >>> 1. Ir a carpeta **"tesis"**                  
 >>> 2. Correr:
-<<<<<<< HEAD
-  >>>> - DoWhy_BART.py (falta por implementar**)
-=======
   >>>> - main.py (falta por implementar**)
->>>>>>> 29ce7f21f61a6079e3f9c73ab5bb5ff32524cff4
 
 
 ### CONFIGURACIÓN DEL DATASET
@@ -41,8 +37,4 @@ Para esto:
 > 3. Entrar al archivo "dowhy_dataset.py"
 > 4. Entre las lineas 26 y 32 se encontrarán los parámetros que crearán el dataset
 > 5. La suma entre el parámetro **NUM_COMMON_CAUSES** y **NUM_INSTRUMENTS** deben **SUMAR** **(NUM_SAMPLES - 1)**
-<<<<<<< HEAD
 > Ejemplo: si **NUM_SAMPLES** es 10, entonces la suma entre **NUM_COMMON_CAUSES** y **NUM_INSTRUMENTS** deben sumar: 10 - 1 = 9 (cualquier número sirve mientras cumpla la regla de la suma). Esto es para no tener problemas de la cuadratura de dimensiones de los arreglos para correr **BART.**
-=======
-> Ejemplo: si **NUM_SAMPLES** es 10, entonces la suma entre **NUM_COMMON_CAUSES** y **NUM_INSTRUMENTS** deben sumar: 10 - 1 = 9 (cualquier número sirve mientras cumpla la regla de la suma). Esto es para no tener problemas de la cuadratura de dimensiones de los arreglos para correr **BART.**
->>>>>>> 29ce7f21f61a6079e3f9c73ab5bb5ff32524cff4
