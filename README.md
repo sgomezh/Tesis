@@ -29,5 +29,6 @@ Importante leer este documento antes de correr el código. Este repositorio cons
 
 
 ### CONFIGURACIÓN DEL DATASET
-La configuración del dataset generado por DoWhy (que ocuparemos para tanto para DoWhy, EconML y BART) no necesita una configuración especial para DoWhy y EconML.
-**Sin embargo**, si existirán problemas 
+La configuración del dataset generado por DoWhy (que ocuparemos para tanto para DoWhy, EconML y BART) no necesita una configuración especial para DoWhy y EconML. \n
+**Sin embargo**, si existirán problemas si no se utiliza una configuración especial para correr **BART**. \n
+Para esto
