@@ -36,11 +36,13 @@ class ModelSampler(Sampler):
                 store_in_sample_predictions: bool=True,
                 store_acceptance: bool=True) -> Chain:
         print("Starting burn")
-
+    
         trace_logger = self.trace_logger_class()
 
         for _ in tqdm(range(n_burn)):
+            
             self.step(model, trace_logger)
+            
         trace = []
         model_trace = []
         acceptance_trace = []
