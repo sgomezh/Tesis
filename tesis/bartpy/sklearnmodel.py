@@ -89,8 +89,8 @@ class SklearnModel(BaseEstimator, RegressorMixin):
                  n_chains: int = 4,
                  sigma_a: float = 0.001,
                  sigma_b: float = 0.001,
-                 n_samples: int = 200,
-                 n_burn: int = 200,
+                 n_samples: int = 200,# TODO: Buscar en los papers
+                 n_burn: int = 200, # 
                  thin: float = 0.1,
                  alpha: float = 0.95,
                  beta: float = 2.,

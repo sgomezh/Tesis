@@ -19,6 +19,8 @@ class Tree:
     ----------
     nodes: List[Node]
         All nodes contained in the tree, i.e. decision and leaf nodes
+
+    Los nodos hoja almacenan los valores de mu asignados por una funcion g(xVar; Tree, Mu's)
     """
 
     def __init__(self, nodes: List[TreeNode]):

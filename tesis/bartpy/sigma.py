@@ -14,7 +14,7 @@ class Sigma:
     alpha - the shape of the prior
     beta - the scale of the prior
     scaling_factor - the range of the original distribution
-                     needed to rescale the variance into the original scale rather than on (-0.5, 0.5)
+                     needed to rescale the variance into the original scale rather than on (-0.5, 0.5) # TODO: Revisar esto en el paper
 
     """
 
