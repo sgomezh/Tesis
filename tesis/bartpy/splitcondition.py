@@ -6,6 +6,7 @@ import numpy as np
 
 class SplitCondition(object):
     """
+    Las reglas de bifucracion son splits binarios de forma {x <= c}
     A representation of a split in feature space.
     The two main components are:
 
@@ -16,8 +17,8 @@ class SplitCondition(object):
     """
 
     def __init__(self, 
-                 splitting_variable: int, 
-                 splitting_value: float, 
+                 splitting_variable: int, # x
+                 splitting_value: float,  # c
                  operator: Callable[[float, float], bool], 
                  condition=None,
                  carry_y_sum=None,
