@@ -27,6 +27,8 @@ data = dowhy.datasets.linear_dataset(
     num_instruments=2,
     num_samples=10000,
     treatment_is_binary=True)
+ate = data['ate']
+'''print("ATE: ", ate) '''
 # Crear el modelo causal
 model = CausalModel(
     data=data["df"],
@@ -41,14 +43,14 @@ display(Image(filename="causal_model.png"))
 #=============================================================
 print("========================== PASO 2 ==========================")
 identified_estimand= model.identify_effect(proceed_when_unidentifiable=True)
-print(identified_estimand)
+'''print(identified_estimand)'''
 #========================== PASO 3 ==========================
 # Estimar la estimación objetivo usando un método estadistico
 #=============================================================
 print("========================== PASO 3 ==========================")
 estimate = model.estimate_effect(identified_estimand,
                                 method_name="backdoor.linear_regression")    
-print(estimate)
+'''print(estimate)'''
 #========================== PASO 4 ==========================
 # Refutar la estimación obtenida
 #=============================================================
@@ -58,4 +60,4 @@ print("========================== PASO 4 ==========================")
 #=============================================================
 refute_results = model.refute_estimate(identified_estimand, estimate,
                                        method_name="random_common_cause")
-print(refute_results)
+'''print(refute_results)'''
