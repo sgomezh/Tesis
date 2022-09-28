@@ -19,7 +19,7 @@ main_page.state('zoomed')
 #set window background color
 main_page.configure(background='#08013D')
 #obtain screen width and height
-'''altura = main_page.winfo_reqheight()
+'''altura = main_page.winfo _reqheight()
 anchura = main_page.winfo_reqwidth()'''
 #obtain screen resolution
 anchura = main_page.winfo_screenwidth()
