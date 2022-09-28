@@ -37,7 +37,7 @@ label.image = logo
 label.place(x=anchura/3, y=10)
 #label BART
 bart_label = tk.Label(main_page, text="BART", font=label_font, bg='#08013D', fg='#FFFFFF')
-bart_label.place(x=50, y=50)
+bart_label.place(x=60, y=50)
 #label DoWhy
 dowhy_label = tk.Label(main_page, text="DoWhy", font=label_font, bg='#08013D', fg='#FFFFFF')
 dowhy_label.place(x=anchura-180, y=50)
