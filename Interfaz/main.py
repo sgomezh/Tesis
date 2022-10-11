@@ -3,7 +3,10 @@ from ast import main
 from tkinter import *
 from tkinter.font import Font
 from PIL import Image, ImageTk
+from matplotlib.pyplot import text
 from rpy2.robjects import r
+global dowhyDataset
+global bartDataset
 # ----------------------- FUNCTIONS ----------------------
 def build():
     newWindow = generateNewWindow(500, 500)
@@ -12,9 +15,34 @@ def build():
     # library(bartMachine)
     # print('12345')
     # ''')
+    
+def filePickerDowhy():
+    from tkinter import filedialog
+    file_path = filedialog.askopenfilename()
+    dowhyDataset = file_path
+    print(dowhyDataset)
+    return file_path
+
+def filePickerBart():
+    from tkinter import filedialog
+    file_path = filedialog.askopenfilename()
+
+    return file_path
 
 def buildCausalModel():
-    pass
+    newWindow = generateNewWindow(800, 500)
+
+    build_causal_model_label = Label(newWindow, text="Build Causal Model", font=tittle_font, bg='#08013D', fg='#FFFFFF')
+    build_causal_model_label.place(x=250, y=20)
+
+    dataset_label= Label(newWindow, text="Dataset path (csv, txt):", font=label_font, bg='#08013D', fg='#FFFFFF')
+    dataset_label.place(x=10, y=70)
+
+    dataset_entry = Entry(newWindow, width=70, text=dowhyDataset, font=label_font, bg='#FFFFFF', fg='#000000')
+    dataset_entry.place(x=10, y=100)
+
+    search_button = Button(newWindow, text="Search", font=button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= filePickerDowhy)
+    search_button.place(x=450, y=92)
 def predict():
     r('''
     library(bartMachine)
@@ -108,6 +136,7 @@ def generateNewWindow(width, height):
     newWindow.wm_iconphoto(False, photo)
     newWindow.minsize(width, height)
     newWindow.maxsize(width, height)
+    newWindow.configure(bg='#08013D')
     return newWindow
 # ----------------------- SETTINGS ----------------------
 #create GUI Tk() variable
@@ -131,7 +160,8 @@ main_page.configure(background='#08013D')
 
 # -------------------------------------
 #set fonts
-label_font = Font(family="Arabic Transparent", size=25, weight="bold")
+tittle_font = Font(family="Arabic Transparent", size=25, weight="bold")
+label_font = Font(family="Arabic Transparent", size=12, weight="bold")
 button_font = Font(family="Arabic Transparent", size=12, weight="bold")
 result_font = Font(family="Arabic Transparent", size=12, weight="bold")
 # ---------------------- INTERFACE ----------------------
@@ -154,12 +184,12 @@ canvas.create_image(0,0, anchor=NW, image=new_image)
 # -------------------------------------
 #label BART
 
-bart_label = Label(main_page, text="BART", font=label_font, bg='#08013D', fg='#FFFFFF')
+bart_label = Label(main_page, text="BART", font=tittle_font, bg='#08013D', fg='#FFFFFF')
 bart_label.place(x=75, y=80)
 # -------------------------------------
 
 #label DoWhy
-dowhy_label = Label(main_page, text="DoWhy", font=label_font, bg='#08013D', fg='#FFFFFF')
+dowhy_label = Label(main_page, text="DoWhy", font=tittle_font, bg='#08013D', fg='#FFFFFF')
 dowhy_label.place(x=1010, y=80)
 
 # -------------------------------------
