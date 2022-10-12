@@ -54,10 +54,10 @@ class MainWin(Tk):
         dowhy_label.place(x=1010, y=80)
 
         # --- Botones BART ---
-        button1 = Button(self, text="Build Bart", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.buildBartModel(self))
+        button1 = Button(self, text="Build Bart", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.buildBartModelView(self))
         button1.place(x=20, y= 150)
 
-        button2 = Button(self, text="Predict", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
+        button2 = Button(self, text="Predict", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.predictWindow(self))
         button2.place(x=20, y= 230)
 
         button3 = Button(self, text="Display variable \nimportance graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
