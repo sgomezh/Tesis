@@ -132,11 +132,47 @@ def buildCausalModel(master):
     search_button = Button(newWindow, text="Search", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: filePickerDowhy(newWindow))
     search_button.place(x=670, y=95)
 
-    dataset_label= Label(newWindow, text="Efect estimation method:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    dataset_label= Label(newWindow, text="Effect estimation method:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
     dataset_label.place(x=10, y=150)
 
-    linear_regression_checkbox = Checkbutton(newWindow, text="Linear Regression", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
-    linear_regression_checkbox.place(x=10, y=180)
+    estimation_option = IntVar()
+
+    linear_regression_option = Radiobutton(newWindow, text="Linear Regression", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF',padx = 20, variable=estimation_option, value=0, selectcolor="black")
+    linear_regression_option.place(x=0, y=180)
+
+    score_matching_option = Radiobutton(newWindow, text="Score Matching", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', variable=estimation_option, value=1, selectcolor="black")
+    score_matching_option.place(x=200, y=180)
+
+    score_weighting_option = Radiobutton(newWindow, text="Score Weighting", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', variable=estimation_option, value=2, selectcolor="black")
+    score_weighting_option.place(x=400, y=180)
+
+    DML_option = Radiobutton(newWindow, text="DML", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', variable=estimation_option, value=3, selectcolor="black")
+    DML_option.place(x=600, y=180)
+
+
+    treatment_column_label= Label(newWindow, text="Treatment column:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    treatment_column_label.place(x=10, y=250)
+
+    treatment_column_entry = Entry(newWindow, font=newWindow.label_font, bg='#FFFFFF', fg='#000000', width=20, justify='left')
+    treatment_column_entry.place(x=200, y=250)
+
+    outcome_column_label= Label(newWindow, text="Outcome column:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    outcome_column_label.place(x=10, y=300)
+
+    outcome_column_entry = Entry(newWindow, font=newWindow.label_font, bg='#FFFFFF', fg='#000000', width=20, justify='left')
+    outcome_column_entry.place(x=200, y=300)
+
+    intrumental_variables_label= Label(newWindow, text="Instrumental Variables:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    intrumental_variables_label.place(x=10, y=350)
+
+    intrumental_variables_entry = Entry(newWindow, font=newWindow.label_font, bg='#FFFFFF', fg='#000000', width=20, justify='left')
+    intrumental_variables_entry.place(x=200, y=350)
+
+    save_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: [saveSettingsDowhy(treatment_column_entry.get(), outcome_column_entry.get(), intrumental_variables_entry.get(), estimation_option.get()), newWindow.destroy()])
+    save_button.place(x=350, y=450)
+
+
+
 def predictWindow(master):
     newWindow = vc.PopupWin(master, 800, 200)
     build_causal_model_label = Label(newWindow, text="Predict", font=newWindow.tittle_font, bg='#08013D', fg='#FFFFFF')
@@ -151,8 +187,8 @@ def predictWindow(master):
     search_button = Button(newWindow, text="Search", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: filePickerPredict(newWindow))
     search_button.place(x=670, y=95)
 
-    search_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1)
-    search_button.place(x=350, y=150)
+    predict_button = Button(newWindow, text="Predict", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1)
+    predict_button.place(x=350, y=150)
 
 def filePickerDowhy(newWindow):
     file_path = filedialog.askopenfilename()
@@ -176,4 +212,15 @@ def filePickerBart(newWindow):
     path_label.place(x=5, y=100)
     f = open ('bart_dataset.txt','w')
     f.write(file_path)
+    f.close()
+
+def saveSettingsDowhy(treatment_column, outcome_column, instrumental_variables, estimation_option):
+    f = open ('dowhy_settings.txt','w')
+    f.write(str(estimation_option))
+    f.write("\n")
+    f.write(treatment_column)
+    f.write("\n")
+    f.write(outcome_column)
+    f.write("\n")
+    f.write(instrumental_variables)
     f.close()
