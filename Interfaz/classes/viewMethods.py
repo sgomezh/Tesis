@@ -90,8 +90,8 @@ def predictWindow(master):
     search_button = Button(newWindow, text="Search", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: filePickerPredict(newWindow))
     search_button.place(x=670, y=95)
 
-    save_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1)
-    save_button.place(x=350, y=150)
+    predict_button = Button(newWindow, text="Predict", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1)
+    predict_button.place(x=350, y=150)
 
 def filePickerDowhy(newWindow):
     file_path = filedialog.askopenfilename()
