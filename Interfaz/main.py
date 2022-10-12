@@ -1,9 +1,6 @@
 #import statement
 from classes.viewClass import MainWin
 from tkinter import *
-from tkinter import filedialog
-from tkinter.font import Font
-from PIL import Image, ImageTk
 from matplotlib.pyplot import text
 from rpy2.robjects import r
 global dowhyDataset
