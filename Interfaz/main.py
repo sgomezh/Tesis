@@ -16,6 +16,9 @@ def predict():
 def RMSE():
     pass
 
+def R2():
+    pass
+
 def variableImportance():
     pass
 
@@ -36,6 +39,39 @@ def estimate():
 
 def refute():
     pass
+
+def getDowhyDataset():
+    file = open ('dowhy_dataset.txt','r')
+    path = file.read()
+    file.close()
+    return path
+    
+def getBartDataset():
+    file = open ('bart_dataset.txt','r')
+    path = file.read()
+    file.close()
+    return path
+
+def getDowhySettinngs(): 
+    settings = [] 
+    file = open ('dowhy_settings.txt','r')
+    for line in file:
+        c = '\n'
+        new_line = line.replace(c,"")
+        settings.append(new_line)
+    print(settings)
+    return settings
+
+def getBartSettings():
+    settings = [] 
+    file = open ('bart_settings.txt','r')
+    for line in file:
+        c = '\n'
+        new_line = line.replace(c,"")
+        settings.append(new_line)
+    print(settings)
+    return settings
+
 
 # ----------------------- SETTINGS ----------------------
 main_page = MainWin()
