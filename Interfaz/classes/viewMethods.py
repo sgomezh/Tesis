@@ -3,10 +3,15 @@ from bartMethods.buildBart import buildBartView
 import classes.viewClass as vc
 from tkinter import *
 from tkinter import filedialog
+from tkinter.font import Font
 
 # Agrega los métodos de la clase a la interfaz gráfica
-def buildBartModelView(master):
-    newWindow = vc.PopupWin(master, 800, 600)
+def buildBartModelView(newWindow):
+    mcmc_coordinates = {"x": 60, "y": 180}
+    prior_coordinates = {"x": 60, "y": 360}
+    mh_coordinates = {"x": 450, "y": 180}
+
+    config_font = Font(family="Arabic Transparent", size=15, weight="bold", underline=1)
     
     build_bart_model_label = Label(newWindow, text="Build BART Model", font=newWindow.tittle_font, bg='#08013D', fg='#FFFFFF')
     build_bart_model_label.place(x=250, y=20)
@@ -20,105 +25,184 @@ def buildBartModelView(master):
     search_button = Button(newWindow, text="Search", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: filePickerBart(newWindow))
     search_button.place(x=670, y=95)
 
-    # Checkbox for cross validation
-    cross_validation_checkbox = Checkbutton(newWindow, text="Cross Validation", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', selectcolor="black")
-    cross_validation_checkbox.place(x=10, y=130)
-
     # MCMC configuration
     # TODO: Agregar una fuente con subrayado
-    mcmc_label = Label(newWindow, text="MCMC Configuration", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', underline=1)
-    mcmc_label.place(x=20, y=180)
+    mcmc_label = Label(newWindow, text="MCMC Configuration", font=config_font, bg='#08013D', fg='#FFFFFF', underline=1)
+    mcmc_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"])
     
     # Number of Trees
     number_of_trees_label = Label(newWindow, text="Number of Trees:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
-    number_of_trees_label.place(x=20, y=220)
+    number_of_trees_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+40)
 
     number_of_trees_entry = Entry(newWindow, width=10)
-    number_of_trees_entry.place(x=170, y=220)
+    number_of_trees_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+40)
 
     # Number of Burn-in
     number_of_burn_in_label = Label(newWindow, text="Number of \nBurn-in iterations:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', anchor="center")
-    number_of_burn_in_label.place(x=20, y=250)
+    number_of_burn_in_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+70)
 
     number_of_burn_in_entry = Entry(newWindow, width=10)
-    number_of_burn_in_entry.place(x=170, y=270)
+    number_of_burn_in_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+90)
 
     # Number of iterations after burn-in
     number_of_iterations_after_burn_in_label = Label(newWindow, text="Number of iterations \nafter burn-in:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', anchor="center")
-    number_of_iterations_after_burn_in_label.place(x=20, y=300)
+    number_of_iterations_after_burn_in_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+120)
 
     number_of_iterations_after_burn_in_entry = Entry(newWindow, width=10)
-    number_of_iterations_after_burn_in_entry.place(x=170, y=320)
+    number_of_iterations_after_burn_in_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+140)
 
-    # Prior configuration
-    prior_label = Label(newWindow, text="Prior Configuration", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', underline=1)
-    prior_label.place(x=20, y=360)
+    # --- Prior configuration ---
+    prior_label = Label(newWindow, text="Prior Configuration", font=config_font, bg='#08013D', fg='#FFFFFF', underline=1)
+    prior_label.place(x=prior_coordinates["x"], y=prior_coordinates["y"])
 
     # Alpha
     alpha_label = Label(newWindow, text="Alpha:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', anchor="center")
-    alpha_label.place(x=65, y=400)
+    alpha_label.place(x=prior_coordinates["x"]+40, y=prior_coordinates["y"]+40)
 
     alpha_entry = Entry(newWindow, width=10)
-    alpha_entry.place(x=170, y=400)
+    alpha_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+40)
 
     # Beta
     beta_label = Label(newWindow, text="Beta:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
-    beta_label.place(x=65, y=430)
+    beta_label.place(x=prior_coordinates["x"]+47, y=prior_coordinates["y"]+70)
 
     beta_entry = Entry(newWindow, width=10)
-    beta_entry.place(x=170, y=430)
+    beta_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+70)
 
     # K
     k_label = Label(newWindow, text="K:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
-    k_label.place(x=75, y=460)
+    k_label.place(x=prior_coordinates["x"]+58, y=prior_coordinates["y"]+100)
 
     k_entry = Entry(newWindow, width=10)
-    k_entry.place(x=170, y=460)
+    k_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+100)
 
-    # # Q
-    # q_label = Label(newWindow, text="Q:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
-    # q_label.place(x=10, y=400)
+    # Q
+    q_label = Label(newWindow, text="Q:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    q_label.place(x=prior_coordinates["x"]+58, y=prior_coordinates["y"]+130)
 
-    # q_entry = Entry(newWindow, width=10)
-    # q_entry.place(x=150, y=400)
+    q_entry = Entry(newWindow, width=10)
+    q_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+130)
 
-    # # nu
-    # nu_label = Label(newWindow, text="nu:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
-    # nu_label.place(x=10, y=430)
+    # nu
+    nu_label = Label(newWindow, text="nu:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    nu_label.place(x=prior_coordinates["x"]+55, y=prior_coordinates["y"]+160)
 
-    # nu_entry = Entry(newWindow, width=10)
-    # nu_entry.place(x=150, y=430)
+    nu_entry = Entry(newWindow, width=10)
+    nu_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+160)
 
-    # # Metropolis Hastings configuration
-    # metropolis_hastings_label = Label(newWindow, text="Metropolis Hastings Configuration", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', underline=1)
-    # metropolis_hastings_label.place(x=10, y=460)
+    # Metropolis Hastings configuration
+    metropolis_hastings_label = Label(newWindow, text="Metropolis Hastings Configuration", font=config_font, bg='#08013D', fg='#FFFFFF', underline=1)
+    metropolis_hastings_label.place(x=mh_coordinates["x"], y=mh_coordinates["y"])
 
-    # # Grow percentage:
-    # grow_percentage_label = Label(newWindow, text="Grow percentage:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
-    # grow_percentage_label.place(x=10, y=490)
+    # Grow percentage:
+    grow_percentage_label = Label(newWindow, text="Grow percentage:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    grow_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+40)
 
-    # grow_percentage_entry = Entry(newWindow, width=10)
-    # grow_percentage_entry.place(x=150, y=490)
+    grow_percentage_entry = Entry(newWindow, width=10)
+    grow_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+40)
 
-    # # Prune percentage:
-    # prune_percentage_label = Label(newWindow, text="Prune percentage:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
-    # prune_percentage_label.place(x=10, y=520)
+    # Prune percentage:
+    prune_percentage_label = Label(newWindow, text="Prune percentage:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    prune_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+70)
 
-    # prune_percentage_entry = Entry(newWindow, width=10)
-    # prune_percentage_entry.place(x=150, y=520)
+    prune_percentage_entry = Entry(newWindow, width=10)
+    prune_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+70)
 
-    # # Change percentage:
-    # change_percentage_label = Label(newWindow, text="Change percentage:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
-    # change_percentage_label.place(x=10, y=550)
+    # Change percentage:
+    change_percentage_label = Label(newWindow, text="Change percentage:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    change_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+100)
 
-    # change_percentage_entry = Entry(newWindow, width=10)
-    # change_percentage_entry.place(x=150, y=550)
+    change_percentage_entry = Entry(newWindow, width=10)
+    change_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+100)
 
-    # # Save button
-    # save_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: saveConfiguration(newWindow))
-    # save_button.place(x=10, y=580)
+    # Checkbox for cross validation
+    cross_validation = IntVar()
+
+    def activate_cross_validation():
+        print(cross_validation.get())
+        if (cross_validation.get() == 1):
+            # Block all entrys except for k and nu
+            number_of_burn_in_entry.config(state=DISABLED, disabledbackground='grey')
+            number_of_iterations_after_burn_in_entry.config(state=DISABLED, disabledbackground='grey')
+            change_percentage_entry.config(state=DISABLED, disabledbackground='grey')
+            grow_percentage_entry.config(state=DISABLED, disabledbackground='grey')
+            prune_percentage_entry.config(state=DISABLED, disabledbackground='grey')
+            alpha_entry.config(state=DISABLED, disabledbackground='grey')
+            beta_entry.config(state=DISABLED, disabledbackground='grey')
+            q_entry.config(state=DISABLED, disabledbackground='grey')
+            k_entry.config(state=NORMAL, disabledbackground='grey')
+            nu_entry.config(state=NORMAL, disabledbackground='grey')
+        else:
+            # Else unblock all entrys
+            number_of_burn_in_entry.config(state=NORMAL)
+            number_of_iterations_after_burn_in_entry.config(state=NORMAL)
+            change_percentage_entry.config(state=NORMAL)
+            grow_percentage_entry.config(state=NORMAL)
+            prune_percentage_entry.config(state=NORMAL)
+            alpha_entry.config(state=NORMAL)
+            beta_entry.config(state=NORMAL)
+            q_entry.config(state=NORMAL)
+            k_entry.config(state=NORMAL)
+            nu_entry.config(state=NORMAL)
+
+    cross_validation_checkbox = Checkbutton(newWindow, text="Cross Validation", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', selectcolor="black", variable = cross_validation, command=activate_cross_validation)
+    cross_validation_checkbox.place(x=10, y=130)
+
+    # Save button
+    save_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command=lambda: [
+        saveBartConfig(cross_validation.get(),
+                        number_of_trees_entry.get(), 
+                        number_of_burn_in_entry.get(),
+                        number_of_iterations_after_burn_in_entry.get(),
+                        alpha_entry.get(),
+                        beta_entry.get(),
+                        k_entry.get(),
+                        q_entry.get(),
+                        nu_entry.get(),
+                        grow_percentage_entry.get(),
+                        prune_percentage_entry.get(),
+                        change_percentage_entry.get()
+                        ), newWindow.destroy()])
+    save_button.place(x=330, y=550)
 
 
+def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfIterationsAfterBurnIn, alpha, beta, k, q, nu, growPercentage, prunePercentage, changePercentage):
+    f = open ('dowhy_settings.txt','w')
+    if (crossValidation == 1):
+        f.write(str(crossValidation))
+        f.write("\n")
+        f.write(str(numberOfTrees))
+        f.write("\n")
+        f.write(str(k))
+        f.write("\n")
+        f.write(str(nu))
+        f.write("\n")
+    if (crossValidation == 0):
+        f.write(str(crossValidation))
+        f.write("\n")
+        f.write(str(numberOfTrees))
+        f.write("\n")
+        f.write(str(numberOfBurnIn))
+        f.write("\n")
+        f.write(str(numberOfIterationsAfterBurnIn))
+        f.write("\n")
+        f.write(str(alpha))
+        f.write("\n")
+        f.write(str(beta))
+        f.write("\n")
+        f.write(str(k))
+        f.write("\n")
+        f.write(str(q))
+        f.write("\n")
+        f.write(str(nu))
+        f.write("\n")
+        f.write(str(growPercentage))
+        f.write("\n")
+        f.write(str(prunePercentage))
+        f.write("\n")
+        f.write(str(changePercentage))
+        f.write("\n")
+    f.close()
 
 def buildCausalModel(master):
     newWindow = vc.PopupWin(master, 800, 500)
@@ -173,7 +257,6 @@ def buildCausalModel(master):
 
     save_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: [saveSettingsDowhy(treatment_column_entry.get(), outcome_column_entry.get(), intrumental_variables_entry.get(), estimation_option.get()), newWindow.destroy()])
     save_button.place(x=350, y=450)
-
 
 
 def predictWindow(master):
