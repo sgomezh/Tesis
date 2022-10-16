@@ -171,7 +171,13 @@ def buildCausalModel(master):
     intrumental_variables_entry = Entry(newWindow, font=newWindow.label_font, bg='#FFFFFF', fg='#000000', width=20, justify='left')
     intrumental_variables_entry.place(x=200, y=350)
 
-    save_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: [saveSettingsDowhy(treatment_column_entry.get(), outcome_column_entry.get(), intrumental_variables_entry.get(), estimation_option.get()), newWindow.destroy()])
+    intrumental_variables_label= Label(newWindow, text="Common Causes:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    intrumental_variables_label.place(x=10, y=400)
+
+    common_causes_entry = Entry(newWindow, font=newWindow.label_font, bg='#FFFFFF', fg='#000000', width=20, justify='left')
+    common_causes_entry.place(x=200, y=400)
+
+    save_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: [saveSettingsDowhy(treatment_column_entry.get(), outcome_column_entry.get(), intrumental_variables_entry.get(),  common_causes_entry.get(), estimation_option.get()), newWindow.destroy()])
     save_button.place(x=350, y=450)
 
 
@@ -217,7 +223,7 @@ def filePickerBart(newWindow):
     f.write(file_path)
     f.close()
 
-def saveSettingsDowhy(treatment_column, outcome_column, instrumental_variables, estimation_option):
+def saveSettingsDowhy(treatment_column, outcome_column, instrumental_variables, common_causes, estimation_option):
     f = open ('dowhy_settings.txt','w')
     f.write(str(estimation_option))
     f.write("\n")
@@ -226,4 +232,14 @@ def saveSettingsDowhy(treatment_column, outcome_column, instrumental_variables, 
     f.write(outcome_column)
     f.write("\n")
     f.write(instrumental_variables)
+    f.write("\n")
+    f.write(common_causes)
     f.close()
+
+def exitApp():
+    from os import remove
+    remove("bart_ predict_dataset.txt")
+    remove("bart_dataset.txt")
+    remove("dowhy_dataset.txt")
+    remove("dowhy_settings.txt")
+    #remove("bart_settings.txt")

@@ -1,4 +1,5 @@
 #import statement
+from ast import main
 from classes.viewClass import MainWin
 from tkinter import *
 from matplotlib.pyplot import text
@@ -28,9 +29,28 @@ def ATE():
 def showVariableImportance():
     pass
 
-def causalGraph():
+def showCausalGraph():
     pass
-    
+
+def createCausalGRaph():
+    from dowhy import CausalModel
+    import pandas as pd
+
+    path = getDowhyDataset()
+    data= pd.read_csv(path, header = None)
+    settings = getDowhySettinngs()
+
+    model=CausalModel(
+        data = data,
+        treatment=settings['treatment'],
+        outcome=settings['y'],
+        instruments=settings['instrument_variables'],
+        common_causes=['common_causes']
+        )
+    model.view_model()
+    from IPython.display import Image, display
+    display(Image(filename="causal_model.png")) 
+
 def showCausalGraph():
     pass
 
@@ -53,17 +73,29 @@ def getBartDataset():
     return path
 
 def getDowhySettinngs(): 
-    settings = [] 
+    settings = {} 
+    settings_list = []
     file = open ('dowhy_settings.txt','r')
     for line in file:
         c = '\n'
         new_line = line.replace(c,"")
-        settings.append(new_line)
+        settings_list.append(new_line)
+    for i in range(len(settings_list)):
+        if i == 0:
+            settings['estimation_option'] = settings_list[i]
+        elif i == 1:
+            settings['treatment_column'] = settings_list[i]
+        elif i == 2:
+            settings['outcome_column'] = settings_list[i]
+        elif i == 3:
+            settings['instrumental_variables'] = settings_list[i]
+        elif i == 4:
+            settings['common_causes'] = settings_list[i]
     print(settings)
     return settings
 
 def getBartSettings():
-    settings = [] 
+    settings = {} 
     file = open ('bart_settings.txt','r')
     for line in file:
         c = '\n'
