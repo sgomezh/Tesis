@@ -165,45 +165,6 @@ def buildBartModelView(newWindow):
                         ), newWindow.destroy()])
     save_button.place(x=330, y=550)
 
-
-def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfIterationsAfterBurnIn, alpha, beta, k, q, nu, growPercentage, prunePercentage, changePercentage):
-    f = open ('dowhy_settings.txt','w')
-    if (crossValidation == 1):
-        f.write(str(crossValidation))
-        f.write("\n")
-        f.write(str(numberOfTrees))
-        f.write("\n")
-        f.write(str(k))
-        f.write("\n")
-        f.write(str(nu))
-        f.write("\n")
-    if (crossValidation == 0):
-        f.write(str(crossValidation))
-        f.write("\n")
-        f.write(str(numberOfTrees))
-        f.write("\n")
-        f.write(str(numberOfBurnIn))
-        f.write("\n")
-        f.write(str(numberOfIterationsAfterBurnIn))
-        f.write("\n")
-        f.write(str(alpha))
-        f.write("\n")
-        f.write(str(beta))
-        f.write("\n")
-        f.write(str(k))
-        f.write("\n")
-        f.write(str(q))
-        f.write("\n")
-        f.write(str(nu))
-        f.write("\n")
-        f.write(str(growPercentage))
-        f.write("\n")
-        f.write(str(prunePercentage))
-        f.write("\n")
-        f.write(str(changePercentage))
-        f.write("\n")
-    f.close()
-
 def buildCausalModel(master):
     newWindow = vc.PopupWin(master, 800, 500)
 
@@ -318,11 +279,53 @@ def saveSettingsDowhy(treatment_column, outcome_column, instrumental_variables, 
     f.write("\n")
     f.write(common_causes)
     f.close()
+def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfIterationsAfterBurnIn, alpha, beta, k, q, nu, growPercentage, prunePercentage, changePercentage):
+    f = open ('bart_settings.txt','w')
+    if (crossValidation == 1):
+        f.write(str(crossValidation))
+        f.write("\n")
+        f.write(str(numberOfTrees))
+        f.write("\n")
+        f.write(str(k))
+        f.write("\n")
+        f.write(str(nu))
+        f.write("\n")
+    if (crossValidation == 0):
+        f.write(str(crossValidation))
+        f.write("\n")
+        f.write(str(numberOfTrees))
+        f.write("\n")
+        f.write(str(numberOfBurnIn))
+        f.write("\n")
+        f.write(str(numberOfIterationsAfterBurnIn))
+        f.write("\n")
+        f.write(str(alpha))
+        f.write("\n")
+        f.write(str(beta))
+        f.write("\n")
+        f.write(str(k))
+        f.write("\n")
+        f.write(str(q))
+        f.write("\n")
+        f.write(str(nu))
+        f.write("\n")
+        f.write(str(growPercentage))
+        f.write("\n")
+        f.write(str(prunePercentage))
+        f.write("\n")
+        f.write(str(changePercentage))
+        f.write("\n")
+        f.close()
 
-def exitApp():
-    from os import remove
-    remove("bart_ predict_dataset.txt")
-    remove("bart_dataset.txt")
-    remove("dowhy_dataset.txt")
-    remove("dowhy_settings.txt")
-    #remove("bart_settings.txt")
+def resetApp():
+    import os
+    if(os.path.exists('bart_predict_dataset.txt')):
+        os.remove('bart_predict_dataset.txt')
+    if(os.path.exists('bart_dataset.txt')):
+        os.remove('bart_dataset.txt')
+    if(os.path.exists('dowhy_dataset.txt')):
+        os.remove('dowhy_dataset.txt')
+    if(os.path.exists('dowhy_settings.txt')):
+        os.remove('dowhy_settings.txt')
+    if(os.path.exists('bart_settings.txt')):
+        os.remove('bart_settings.txt')
