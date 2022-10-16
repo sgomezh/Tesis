@@ -31,7 +31,9 @@ test <- subset(data, split == FALSE)
 # Train model
 bart <- build_bart_machine(train[, 1:ncol(train)-1], train$y_factual, num_trees = 200)
 
-summary(bart)
+sumario <- capture.output(summary(bart))
+
+print(sumario)
 
 
 pred <- predict(bart, test[, 1:ncol(test)-1])
@@ -42,5 +44,4 @@ r_squared <- function(y, y_hat) {
 }
 
 print(r_squared(test$y_factual, pred))
-
 plot(pred, test$y_factual)

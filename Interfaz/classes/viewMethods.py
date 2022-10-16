@@ -1,12 +1,11 @@
 from select import select
-from bartMethods.buildBart import buildBartView
 import classes.viewClass as vc
 from tkinter import *
 from tkinter import filedialog
 from tkinter.font import Font
 
 # Agrega los métodos de la clase a la interfaz gráfica
-def buildBartModelView(newWindow):
+def buildBartModelView(newWindow, center_canvas):
     mcmc_coordinates = {"x": 60, "y": 180}
     prior_coordinates = {"x": 60, "y": 360}
     mh_coordinates = {"x": 450, "y": 180}
@@ -19,8 +18,8 @@ def buildBartModelView(newWindow):
     dataset_label= Label(newWindow, text="Dataset path (csv, txt):", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
     dataset_label.place(x=10, y=70)
 
-    path_label = Label(newWindow, text="", font=newWindow.label_font, bg='#FFFFFF', fg='#000000', width=65, height=1)
-    path_label.place(x=5, y=100)
+    path_label = Label(newWindow, text="", font=newWindow.label_font, bg='#FFFFFF', fg='#000000', width=60, height=1)
+    path_label.place(x=10, y=100)
 
     search_button = Button(newWindow, text="Search", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: filePickerBart(newWindow))
     search_button.place(x=670, y=95)

@@ -9,6 +9,9 @@ class MainWin(Tk):
     label_font = None
     button_font = None
     result_font = None
+    bart_config = None
+    dowhy_config = None
+    center_canvas = None
 
     def __init__(self):
         super().__init__()
@@ -19,7 +22,7 @@ class MainWin(Tk):
         icon = Image.open('Interfaz/icon.png')
         photo = ImageTk.PhotoImage(icon)
         self.iconphoto(False, photo)
-        # --- Tamagno ---
+        # --- Tamagno --- 
         self.geometry("1200x600")
         self.minsize(1200, 600)
         self.maxsize(1200, 600)
@@ -32,8 +35,8 @@ class MainWin(Tk):
         # ---------------------- INTERFACE ----------------------
         image = Image.open('Interfaz/causal_tool.png')
         #Create a canvas
-        canvas = Canvas(self, width= 290, height= 60)
-        canvas.pack()
+        self.center_canvas = Canvas(self, width= 290, height= 60)
+        self.center_canvas.pack()
 
         #Load an image in the script
         img = (Image.open("Interfaz/causal_tool.png"))
@@ -43,7 +46,7 @@ class MainWin(Tk):
         self.appLogo = ImageTk.PhotoImage(resized_image)
 
         #Add image to the Canvas Items
-        canvas.create_image(0,0, anchor='nw', image=self.appLogo)
+        self.center_canvas.create_image(0,0, anchor='nw', image=self.appLogo)
 
         # --- Label BART ---
         bart_label = Label(self, text="BART", font=self.tittle_font, bg='#08013D', fg='#FFFFFF')
@@ -108,8 +111,16 @@ class PopupWin(Toplevel):
 class BartWindow(PopupWin):
     config_font = None
     bart_params = {}
+    col_dropdown = None
     def __init__(self, master):
         super(BartWindow, self).__init__(master, 800, 600)
         self.config_font = Font(family="Arabic Transparent", size=15, weight="bold", underline=1)
-        vm.buildBartModelView(self)
-        
+        vm.buildBartModelView(self, master.center_canvas)
+    
+class alertWindow(PopupWin):
+    def __init__(self, master, message):
+        super(alertWindow, self).__init__(master, 300, 200)
+        label = Label(self, text=message, font=self.label_font, bg='#08013D', fg='#FFFFFF')
+        label.pack()
+        button = Button(self, text="OK", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command=self.destroy)
+        button.pack()
