@@ -85,6 +85,9 @@ class MainWin(Tk):
         button8 = Button(self, text="Refute estimation", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
         button8.place(x=970, y=390)
 
+        buttton9 = Button(self, text="Exit", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=1, command= lambda: [vm.exitApp(), self.destroy()])
+        buttton9.place(x=500, y=560)
+
 
 class PopupWin(Toplevel):
     tittle_font = None
