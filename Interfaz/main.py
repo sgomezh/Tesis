@@ -50,10 +50,6 @@ def getBartDataset():
     file.close()
     return path
 
-
-
-
-
 def getBartSettings():
     settings = {} 
     file = open ('bart_settings.txt','r')
