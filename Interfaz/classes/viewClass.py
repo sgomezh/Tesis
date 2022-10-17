@@ -76,7 +76,7 @@ class MainWin(Tk):
         button5 = Button(self, text="Build causal model", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.buildCausalModel(self))
         button5.place(x=970, y=150)
 
-        button6 = Button(self, text="Display causal graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
+        button6 = Button(self, text="Display causal graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.createCausalGraph())
         button6.place(x=970, y=230)
 
         button7 = Button(self, text="Estimate effect", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)

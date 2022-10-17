@@ -1,4 +1,5 @@
 from select import select
+from urllib import response
 import classes.viewClass as vc
 from tkinter import *
 from tkinter import filedialog
@@ -278,7 +279,7 @@ def saveSettingsDowhy(treatment_column, outcome_column, instrumental_variables, 
     f.write("\n")
     f.write(common_causes)
     f.close()
-def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfIterationsAfterBurnIn, alpha, beta, k, q, nu, growPercentage, prunePercentage, changePercentage):
+def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfIterationsAfterBurnIn, alpha, beta, k, q, nu, growPercentage, prunePercentage, changePercentage, responseVar):
     f = open ('bart_settings.txt','w')
     if (crossValidation == 1):
         f.write(str(crossValidation))
@@ -289,6 +290,7 @@ def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfItera
         f.write("\n")
         f.write(str(nu))
         f.write("\n")
+        f.write(str(responseVar))
     if (crossValidation == 0):
         f.write(str(crossValidation))
         f.write("\n")
@@ -314,6 +316,7 @@ def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfItera
         f.write("\n")
         f.write(str(changePercentage))
         f.write("\n")
+        f.write(str(responseVar))
         f.close()
 
 def resetApp():
@@ -328,3 +331,56 @@ def resetApp():
         os.remove('dowhy_settings.txt')
     if(os.path.exists('bart_settings.txt')):
         os.remove('bart_settings.txt')
+
+def createCausalGraph():
+    from dowhy import CausalModel
+    import pandas as pd
+
+    path = getDowhyDataset()
+    data= pd.read_csv(path, header = None)
+    settings = getDowhySettinngs()
+
+    model=CausalModel(
+        data = data,
+        treatment=settings['treatment_column'],
+        outcome=settings['outcome_column'],
+        instruments=settings['instrumental_variables'],
+        common_causes= settings['common_causes']
+        )
+    model.view_model()
+    from IPython.display import Image, display
+    display(Image(filename="causal_model.png")) 
+
+def getDowhyDataset():
+    file = open ('dowhy_dataset.txt','r')
+    path = file.read()
+    file.close()
+    return path
+
+def getDowhySettinngs(): 
+    settings = {} 
+    setting_list = []
+    file = open ('dowhy_settings.txt','r')
+    for line in file:
+        c = '\n'
+        new_line = line.replace(c,"")
+        setting_list.append(new_line)
+    for i in range(len(setting_list)):
+        if i == 0:
+            settings['estimation_option'] = splitVariables(setting_list[i])
+        elif i == 1:
+            settings['treatment_column'] = splitVariables(setting_list[i])
+        elif i == 2:
+            settings['outcome_column'] = splitVariables(setting_list[i])
+        elif i == 3:
+            settings['instrumental_variables'] = splitVariables(setting_list[i])
+        elif i == 4:
+            settings['common_causes'] = splitVariables(setting_list[i])
+    print(settings)
+    return settings
+
+def splitVariables(setting_list):
+    setting_list = setting_list.split(",")
+    if len(setting_list) == 1:
+        setting_list = setting_list[0]
+    return setting_list

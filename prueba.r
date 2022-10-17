@@ -15,7 +15,7 @@ for (i in 1:25) {
 }
 
 colnames(data) <- names
-
+write.csv2(data, "ihdp.csv")
 # Remove y_cfactual and mu
 data <- data[, c(1, 2, 4:30)]
 
