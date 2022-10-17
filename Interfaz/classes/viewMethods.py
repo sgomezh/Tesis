@@ -360,7 +360,18 @@ def createCausalGraph():
         )
     model.view_model()
     from IPython.display import Image, display
-    display(Image(filename="causal_model.png")) 
+    display(Image(filename="causal_model.png"))
+
+    showCausalGraph() 
+
+def showCausalGraph(result_canvas):
+    from PIL import Image, ImageTk
+    from tkinter import Canvas
+
+    causal_graph_canvas = Canvas(width= 500, height= 400, bg='#FFFFFF')
+    causal_graph_canvas.place(x=970, y=150)
+    causal_graph = Image.open("causal_model.png")
+    causal_graph.create_image(0, 0, anchor=NW, image=causal_graph)
 
 def getDowhyDataset():
     file = open ('dowhy_dataset.txt','r')
