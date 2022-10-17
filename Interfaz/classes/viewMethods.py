@@ -364,15 +364,18 @@ def createCausalGraph():
 
     showCausalGraph() 
 
-def showCausalGraph(result_canvas):
+def showCausalGraph():
     from PIL import Image, ImageTk
     from tkinter import Canvas
 
-    causal_graph_canvas = Canvas(width= 500, height= 400, bg='#FFFFFF')
-    causal_graph_canvas.place(x=970, y=150)
-    causal_graph = Image.open("causal_model.png")
-    causal_graph.create_image(0, 0, anchor=NW, image=causal_graph)
-
+    img = Image.open("causal_model.png")
+    causal_graph_canvas = Canvas(width= 500, height= 400)
+    causal_graph_canvas.place(x=350, y=150)
+    img = Image.open("causal_model.png")
+    resize_img = img.resize((500, 400), Image.ANTIALIAS)
+    causal_graph = ImageTk.PhotoImage(resize_img)
+    causal_graph_canvas.create_image(0, 0, anchor='nw', image=causal_graph)
+    causal_graph_canvas.image = causal_graph
 def getDowhyDataset():
     file = open ('dowhy_dataset.txt','r')
     path = file.read()
