@@ -7,8 +7,9 @@ library(dplyr)
 #dataUrl <- "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/master/datasets/IHDP/csv/ihdp_npci_1.csv"
 
 data(automobile)
+automobile <- na.omit(automobile)
 
-write.csv(automobile, file = "automobile.csv", row.names = FALSE,)
+write.csv(automobile, file = "automobile.csv", row.names = FALSE)
 
 
 data <- read.csv(dataUrl, header = FALSE, sep = ",")

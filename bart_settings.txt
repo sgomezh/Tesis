@@ -1,8 +1,8 @@
-0
-log_price
+1
 200
 500
 1000
+log_price
 0.95
 2
 2

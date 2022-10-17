@@ -1,24 +1,36 @@
-from asyncio import subprocess
+import subprocess
 from tkinter import filedialog, Label, Entry, Button, Text
 from tkinter.font import Font
 from tkinter import filedialog
 from rpy2.robjects import r
 from rpy2.robjects.packages import importr
-import pandas as pd
+
 
 # Configuracion de la ventana para construir el BART
 def buildBartModel(dataset, settings):
     config = getBartSettings()
-    
-    if config['cross_validation'] == '1':
-        subprocess.call("bartMethods/buildBartScript.r -f " 
-                            + dataset + " -n " + config['number_of_trees'] +
-                            " -k " + config['k'] + " -nu " + config['nu'] + 
-                            " -r " + config['responseVar'] + "-q " + config['q'] + " - burn " 
-                            + config['burn_in'] + " -pburn " + config['iter_after_burn_in'] +, 
-                            shell=True)
 
-
+    print("Corriendo subprocess")
+    if(config['cross_validation'] == '0'):
+        subprocess.call("Rscript.exe D:\\Escritorio\\Codigo\\Tesis\\Interfaz\\bartMethods\\buildBartScript.r -f " 
+                                + dataset + " -n " + config['number_of_trees'] +
+                                " -v " + config['cross_validation'] +  
+                                " --burnIn " + config['burn_in_iter'] +
+                                " --postBurnIn " + config['iter_after_burn_in'] + 
+                                " -a " + config['alpha'] +
+                                " -b " + config['beta'] +
+                                " -k " + config['k'] + 
+                                " -q " + config['q'] +
+                                " -u " + config['nu'] + 
+                                " -r " + config['responseVar'] + 
+                                " -g " + config['grow'] +
+                                " -p " + config['prune'] +
+                                " -c " + config['change']
+        )
+    else:
+        subprocess.call("Rscript.exe D:\\Escritorio\\Codigo\\Tesis\\Interfaz\\bartMethods\\buildBartScript.r -f " 
+                                + dataset + " -r " + config['responseVar'])
+    print("Subprocess terminado")
 
 def getBartSettings():
     setting_list = []
