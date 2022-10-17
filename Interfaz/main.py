@@ -43,9 +43,9 @@ def createCausalGRaph():
     model=CausalModel(
         data = data,
         treatment=settings['treatment'],
-        outcome=settings['y'],
+        outcome=settings['outcome_column'],
         instruments=settings['instrument_variables'],
-        common_causes=['common_causes']
+        common_causes=settings['common_causes']
         )
     model.view_model()
     from IPython.display import Image, display
@@ -91,16 +91,6 @@ def getDowhySettinngs():
             settings['instrumental_variables'] = settings_list[i]
         elif i == 4:
             settings['common_causes'] = settings_list[i]
-    print(settings)
-    return settings
-
-def getBartSettings():
-    settings = {} 
-    file = open ('bart_settings.txt','r')
-    for line in file:
-        c = '\n'
-        new_line = line.replace(c,"")
-        settings.append(new_line)
     print(settings)
     return settings
 

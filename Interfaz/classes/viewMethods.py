@@ -3,6 +3,7 @@ import classes.viewClass as vc
 from tkinter import *
 from tkinter import filedialog
 from tkinter.font import Font
+from bartMethods.buildBart import buildBartModel
 
 # Agrega los métodos de la clase a la interfaz gráfica
 def buildBartModelView(newWindow, center_canvas):
@@ -23,6 +24,13 @@ def buildBartModelView(newWindow, center_canvas):
 
     search_button = Button(newWindow, text="Search", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: filePickerBart(newWindow))
     search_button.place(x=670, y=95)
+
+    # Response variable
+    response_label = Label(newWindow, text="Response variable:", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF')
+    response_label.place(x=200, y=132)
+    
+    response_entry = Entry(newWindow, font=newWindow.label_font, width=10)
+    response_entry.place(x=360, y=130)
 
     # MCMC configuration
     # TODO: Agregar una fuente con subrayado
@@ -150,18 +158,20 @@ def buildBartModelView(newWindow, center_canvas):
     # Save button
     save_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command=lambda: [
         saveBartConfig(cross_validation.get(),
-                        number_of_trees_entry.get(), 
-                        number_of_burn_in_entry.get(),
-                        number_of_iterations_after_burn_in_entry.get(),
-                        alpha_entry.get(),
-                        beta_entry.get(),
-                        k_entry.get(),
-                        q_entry.get(),
-                        nu_entry.get(),
-                        grow_percentage_entry.get(),
-                        prune_percentage_entry.get(),
-                        change_percentage_entry.get()
-                        ), newWindow.destroy()])
+                            response_entry.get(),
+                            number_of_trees_entry.get(), 
+                            number_of_burn_in_entry.get(),
+                            number_of_iterations_after_burn_in_entry.get(),
+                            alpha_entry.get(),
+                            beta_entry.get(),
+                            k_entry.get(),
+                            q_entry.get(),
+                            nu_entry.get(),
+                            grow_percentage_entry.get(),
+                            prune_percentage_entry.get(),
+                            change_percentage_entry.get()),
+                        buildBartModel(),
+                        newWindow.destroy()])
     save_button.place(x=330, y=550)
 
 def buildCausalModel(master):
@@ -278,7 +288,8 @@ def saveSettingsDowhy(treatment_column, outcome_column, instrumental_variables, 
     f.write("\n")
     f.write(common_causes)
     f.close()
-def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfIterationsAfterBurnIn, alpha, beta, k, q, nu, growPercentage, prunePercentage, changePercentage):
+    
+def saveBartConfig(crossValidation, responseVar, numberOfTrees, numberOfBurnIn, numberOfIterationsAfterBurnIn, alpha, beta, k, q, nu, growPercentage, prunePercentage, changePercentage):
     f = open ('bart_settings.txt','w')
     if (crossValidation == 1):
         f.write(str(crossValidation))
@@ -289,7 +300,8 @@ def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfItera
         f.write("\n")
         f.write(str(nu))
         f.write("\n")
-    if (crossValidation == 0):
+        f.write(str(responseVar))
+    elif (crossValidation == 0):
         f.write(str(crossValidation))
         f.write("\n")
         f.write(str(numberOfTrees))
@@ -314,7 +326,8 @@ def saveBartConfig(crossValidation, numberOfTrees, numberOfBurnIn, numberOfItera
         f.write("\n")
         f.write(str(changePercentage))
         f.write("\n")
-        f.close()
+        f.write(str(responseVar))
+    f.close()
 
 def resetApp():
     import os
