@@ -4,7 +4,13 @@ library(caTools)
 library(dplyr)
 
 # Load data
-dataUrl <- "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/master/datasets/IHDP/csv/ihdp_npci_1.csv"
+#dataUrl <- "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/master/datasets/IHDP/csv/ihdp_npci_1.csv"
+
+data(automobile)
+automobile <- na.omit(automobile)
+
+write.csv(automobile, file = "automobile.csv", row.names = FALSE)
+
 
 data <- read.csv(dataUrl, header = FALSE, sep = ",")
 
@@ -15,7 +21,10 @@ for (i in 1:25) {
 }
 
 colnames(data) <- names
-write.csv2(data, "ihdp.csv")
+
+# store data as csv
+write.csv(data, "ihdp_npci_1.csv", row.names = FALSE)
+
 # Remove y_cfactual and mu
 data <- data[, c(1, 2, 4:30)]
 

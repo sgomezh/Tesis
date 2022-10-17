@@ -1,0 +1,27 @@
+[1] "log_price"
+bartMachine initializing with 200 trees...
+bartMachine vars checked...
+bartMachine java init...
+bartMachine factors created...
+bartMachine before preprocess...
+bartMachine after preprocess... 41 total features...
+bartMachine sigsq estimated...
+bartMachine training data finalized...
+Now building bartMachine for regression...Covariate importance prior ON. 
+evaluating in sample data...done
+bartMachine v1.3 for regression
+
+training data size: n = 128 and p = 41 
+built in 1 secs on 1 core, 200 trees, 100 burn-in and 100 post. samples
+
+sigsq est for y beforehand: 0.01 
+avg sigsq estimate after burn-in: 0.00023 
+
+in-sample statistics:
+ L1 = 6.67 
+ L2 = 0.53 
+ rmse = 0.06 
+ Pseudo-Rsq = 0.9754
+p-val for shapiro-wilk test of normality of residuals: 0.52213 
+p-val for zero-mean noise: 0.67185 
+
