@@ -4,10 +4,11 @@ import classes.viewClass as vc
 from tkinter import *
 from tkinter import filedialog
 from tkinter.font import Font
-from bartMethods.buildBart import buildBartModel
+import bartMethods.buildBart as bb
 
 # Agrega los métodos de la clase a la interfaz gráfica
 def buildBartModelView(newWindow, center_canvas):
+    # Coordenadas de los elementos
     mcmc_coordinates = {"x": 60, "y": 180}
     prior_coordinates = {"x": 60, "y": 360}
     mh_coordinates = {"x": 450, "y": 180}
@@ -171,7 +172,7 @@ def buildBartModelView(newWindow, center_canvas):
                             grow_percentage_entry.get(),
                             prune_percentage_entry.get(),
                             change_percentage_entry.get()),
-                        buildBartModel(),
+                        bb.buildBartModel(),
                         newWindow.destroy()])
     save_button.place(x=330, y=550)
 
@@ -234,7 +235,6 @@ def buildCausalModel(master):
 
     save_button = Button(newWindow, text="Save", font=newWindow.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: [saveSettingsDowhy(treatment_column_entry.get(), outcome_column_entry.get(), intrumental_variables_entry.get(),  common_causes_entry.get(), estimation_option.get()), newWindow.destroy()])
     save_button.place(x=350, y=450)
-
 
 def predictWindow(master):
     newWindow = vc.PopupWin(master, 800, 200)
@@ -395,3 +395,13 @@ def splitVariables(setting_list):
     if len(setting_list) == 1:
         setting_list = setting_list[0]
     return setting_list
+
+def processDataset(path, master):
+    import pandas as pd
+    try:    
+        data = pd.read_csv(path)
+        return(data.columns)
+    except:
+        vc.alertWindow(master, "Error", "No se pudo abrir el dataset. Verifique que el archivo no esté abierto en otro programa.")
+    
+    

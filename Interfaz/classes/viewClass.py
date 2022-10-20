@@ -1,18 +1,13 @@
-from tkinter import Toplevel, Tk, Canvas, Label, Button
+from tkinter import Toplevel, Tk, Canvas, Label, Button, StringVar, Entry, filedialog, OptionMenu
 from tkinter.font import Font
 from PIL import Image, ImageTk
 import classes.viewMethods as vm
+import classes.bartModel as bm
+import classes.bartView as bv
+import classes.bartController as bc
+
 
 class MainWin(Tk):
-    appLogo = None
-    tittle_font = None
-    label_font = None
-    button_font = None
-    result_font = None
-    bart_config = None
-    dowhy_config = None
-    center_canvas = None
-
     def __init__(self):
         super().__init__()
         self.update()
@@ -57,7 +52,7 @@ class MainWin(Tk):
         dowhy_label.place(x=1010, y=80)
 
         # --- Botones BART ---
-        button1 = Button(self, text="Build Bart", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: BartWindow(self))
+        button1 = Button(self, text="Build Bart", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command = lambda: BartApp(self))
         button1.place(x=20, y= 150)
 
         button2 = Button(self, text="Predict", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.predictWindow(self))
@@ -88,42 +83,44 @@ class MainWin(Tk):
         button9 = Button(self, text="Reset", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=1, command= lambda: vm.resetApp())
         button9.place(x=500, y=560)
 
+class BartApp():
+    def __init__(self, parent):
+        super().__init__()
+        # Coordenadas de los widgets
+        view = bv.BartView(parent, 800, 600)
+        model = bm.bartModel()
+        controller = bc.bartController(model, view)
 
-class PopupWin(Toplevel):
-    tittle_font = None
-    label_font = None
-    button_font = None
-    result_font = None
-    def __init__(self, master, width, height):
-        super(PopupWin, self).__init__(master)
-        self.transient(master)
-        self.title("Causal Tool")
-        self.geometry(str(width) + "x" + str(height))
-        icon = Image.open('Interfaz/icon.png')
-        photo = ImageTk.PhotoImage(icon)
-        self.wm_iconphoto(False, photo)
-        self.minsize(width, height)
-        self.maxsize(width, height)
-        self.configure(bg='#08013D')
-        self.tittle_font = Font(family="Arabic Transparent", size=25, weight="bold")
-        self.label_font = Font(family="Arabic Transparent", size=12, weight="bold")
-        self.button_font = Font(family="Arabic Transparent", size=12, weight="bold")
-        self.result_font = Font(family="Arabic Transparent", size=12, weight="bold")
+        view.set_controller(controller)
 
 
-class BartWindow(PopupWin):
-    config_font = None
-    bart_params = {}
-    col_dropdown = None
-    def __init__(self, master):
-        super(BartWindow, self).__init__(master, 800, 600)
-        self.config_font = Font(family="Arabic Transparent", size=15, weight="bold", underline=1)
-        vm.buildBartModelView(self, master.center_canvas)
+# class PopupWin(Toplevel):
+#     def __init__(self, master, width, height):
+#         super(PopupWin, self).__init__(master)
+#         self.transient(master)
+#         self.title("Causal Tool")
+#         self.geometry(str(width) + "x" + str(height))
+#         icon = Image.open('Interfaz/icon.png')
+#         photo = ImageTk.PhotoImage(icon)
+#         self.wm_iconphoto(False, photo)
+#         self.minsize(width, height)
+#         self.maxsize(width, height)
+#         self.configure(bg='#08013D')
+#         self.tittle_font = Font(family="Arabic Transparent", size=25, weight="bold")
+#         self.label_font = Font(family="Arabic Transparent", size=12, weight="bold")
+#         self.button_font = Font(family="Arabic Transparent", size=12, weight="bold")
+#         self.result_font = Font(family="Arabic Transparent", size=12, weight="bold")
+
+
+
     
-class alertWindow(PopupWin):
-    def __init__(self, master, message):
-        super(alertWindow, self).__init__(master, 300, 200)
-        label = Label(self, text=message, font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        label.pack()
-        button = Button(self, text="OK", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command=self.destroy)
-        button.pack()
+# class alertWindow(PopupWin):
+#     def __init__(self, master, title, message):
+#         super(alertWindow, self).__init__(master, 300, 200)
+#         self.title(title)
+#         label = Label(self, text=message, font=vm.label_font, bg='#08013D', fg='#FFFFFF')
+#         label.place(x=20, y=20)
+#         button = Button(self, text="OK", bg="#B7B5C8", fg="black", font=vm.button_font, width=10, height=1, command= lambda: self.destroy())
+#         button.place(x=100, y=100)
+        
+        

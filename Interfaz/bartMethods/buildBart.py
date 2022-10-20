@@ -84,7 +84,14 @@ def getBartSettings():
                 settings['responseVar'] = setting_list[12]
 
     return settings
-    
-    
 
-buildBartModel("D:\Escritorio\Codigo\Tesis\\automobile.csv", "D:\Escritorio\Codigo\Tesis\\bart_settings.txt")
+def buildBartModelV2(settings):
+    import rpy2.robjects as robjects
+    from rpy2.robjects.packages import importr
+
+    bPackage = importr('bartMachine')
+    
+    data = robjects.r['read.csv'](settings['file_path'])
+
+    if settings['cross_validation'] == '0':
+        pass

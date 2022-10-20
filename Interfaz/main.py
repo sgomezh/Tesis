@@ -41,7 +41,6 @@ def estimate():
 def refute():
     pass
 
-    
 def getBartDataset():
     file = open ('bart_dataset.txt','r')
     path = file.read()
