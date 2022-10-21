@@ -9,7 +9,6 @@ import classes.viewClass as vc
 class BartView(Toplevel):
     def __init__(self, parent, width, height):
         super(BartView, self).__init__(parent)
-        
         self.controller = None
         # --- Configuracion de la ventana ---
         self.transient(parent)
@@ -64,7 +63,6 @@ class BartView(Toplevel):
 
         # --- Widget: Cross-validation checkbox ---
         self.settings['cv'] = tk.BooleanVar()
-        print("Estado inicial: ", self.settings['cv'].get())
         self.cv_label = Label(self, text="Cross-validation:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.cv_label.place(x=cv_coordinates['x'], y=cv_coordinates['y'])
         self.cv_checkbox = tk.Checkbutton(self, bg='#08013D', variable=self.settings['cv'], command=lambda: self.checkbox_clicked())
@@ -78,16 +76,16 @@ class BartView(Toplevel):
         self.number_of_trees_label = Label(self, text="Number of Trees:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.number_of_trees_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+40)
 
-        self.settings['number_of_trees_var'] = StringVar()
-        self.number_of_trees_entry = Entry(self, textvariable=self.settings['number_of_trees_var'], width=10, disabledbackground='grey')
+        self.settings['number_of_trees'] = StringVar()
+        self.number_of_trees_entry = Entry(self, textvariable=self.settings['number_of_trees'], width=10, disabledbackground='grey')
         self.number_of_trees_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+40)
 
         # --- Widget: Numero de iteraciones para el burn-in ---
         self.number_of_burn_in_label = Label(self, text="Number of \nBurn-in iterations:", font=self.label_font, bg='#08013D', fg='#FFFFFF', anchor="center")
         self.number_of_burn_in_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+70)
 
-        self.settings['n_burn_in_var'] = StringVar()
-        self.number_of_burn_in_entry = Entry(self, textvariable=self.settings['n_burn_in_var'], width=10, disabledbackground='grey')
+        self.settings['n_burn_in'] = StringVar()
+        self.number_of_burn_in_entry = Entry(self, textvariable=self.settings['n_burn_in'], width=10, disabledbackground='grey')
         self.number_of_burn_in_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+90)
 
         # --- Widget: Numero de iteraciones post burn-in ---
@@ -171,9 +169,12 @@ class BartView(Toplevel):
         self.change_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+100)
 
         # --- Widget: Build button ---
-        self.build_button = Button(self, text="Build", font=self.button_font, bg='#FFFFFF', fg='#000000', command=self.build_button_clicked())
+        self.build_button = Button(self, text="Build", font=self.button_font, bg='#FFFFFF', fg='#000000', command= lambda: self.build_button_clicked())
         self.build_button.place(x=300, y=550)
 
+    def set_controller(self, controller):
+        self.controller = controller
+        print("Controller seteado: ", self.controller)
 
     def checkbox_clicked(self):
         if self.settings['cv'].get():
@@ -201,16 +202,12 @@ class BartView(Toplevel):
             self.change_percentage_entry.config(state='normal')
             self.prune_percentage_entry.config(state='normal')
 
-    def set_controller(self, controller):
-        self.controller = controller
-
     def get_settings(self):
         return self.settings
     
     # FilePicker
     def search_button_clicked(self):
         file_path = filedialog.askopenfilename()
-        print(file_path)
         if file_path:
             self.settings['file_path'] = file_path
             self.path_label.config(text=self.settings['file_path'])
@@ -219,11 +216,11 @@ class BartView(Toplevel):
             menu = self.response_option['menu']
             menu.delete(0, 'end')
             for name in col_names:
-                menu.add_command(label=name, command=lambda value=name: [self.settings['response_var'].set(value), print(self.settings['response_var'].get())])
+                menu.add_command(label=name, command=lambda value=name: self.settings['response_var'].set(value))
         else:
             raise Exception("No se selecciono ningun archivo")
 
 
     def build_button_clicked(self):
         if self.controller is not None:
-            self.controller.buildBart(self.settings)
+            self.controller.buildBart()
