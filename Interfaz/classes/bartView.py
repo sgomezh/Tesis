@@ -10,6 +10,7 @@ class BartView(Toplevel):
     def __init__(self, parent, width, height):
         super(BartView, self).__init__(parent)
         
+        self.controller = None
         # --- Configuracion de la ventana ---
         self.transient(parent)
         self.title("Causal Tool")
@@ -24,6 +25,7 @@ class BartView(Toplevel):
         # --- Fuentes ---
         self.title_font = Font(family="Arabic Transparent", size=25, weight="bold")
         self.label_font = Font(family="Arabic Transparent", size=12, weight="bold")
+        self.response_font = Font(family="Arabic Transparent", size=10, weight="bold")
         self.button_font = Font(family="Arabic Transparent", size=12, weight="bold")
         self.result_font = Font(family="Arabic Transparent", size=12, weight="bold")
         self.config_font = Font(family="Arabic Transparent", size=12, weight="bold")
@@ -32,6 +34,7 @@ class BartView(Toplevel):
         mcmc_coordinates = {"x": 60, "y": 180}
         prior_coordinates = {"x": 60, "y": 360}
         mh_coordinates = {"x": 450, "y": 180}
+        cv_coordinates = {"x": 20, "y": 132}
 
         self.settings = {}
         self.col_names = []
@@ -55,10 +58,17 @@ class BartView(Toplevel):
         self.response_label.place(x=200, y=132)
         
         self.settings['response_var'] = StringVar()
-        # self.response_entry = Entry(self, font=self.label_font, textvariable=self.settings['response_var'], width=10)
-        # self.response_entry.place(x=360, y=130)
-        self.response_option = OptionMenu(self, self.settings['response_var'],  *self.col_names)
+        self.response_option = OptionMenu(self, self.settings['response_var'], self.col_names)
         self.response_option.place(x=360, y=130)
+        self.response_option.config(font=self.response_font, bg='#FFFFFF', fg='#000000', width=13, height=1)
+
+        # --- Widget: Cross-validation checkbox ---
+        self.settings['cv'] = tk.BooleanVar()
+        print("Estado inicial: ", self.settings['cv'].get())
+        self.cv_label = Label(self, text="Cross-validation:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
+        self.cv_label.place(x=cv_coordinates['x'], y=cv_coordinates['y'])
+        self.cv_checkbox = tk.Checkbutton(self, bg='#08013D', variable=self.settings['cv'], command=lambda: self.checkbox_clicked())
+        self.cv_checkbox.place(x=cv_coordinates['x']+135, y=cv_coordinates['y'])
 
         # --- Titulo: Configuracion MCMC ---
         self.mcmc_label = Label(self, text="MCMC Configuration", font=self.config_font, bg='#08013D', fg='#FFFFFF', underline=1)
@@ -69,7 +79,7 @@ class BartView(Toplevel):
         self.number_of_trees_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+40)
 
         self.settings['number_of_trees_var'] = StringVar()
-        self.number_of_trees_entry = Entry(self, textvariable=self.settings['number_of_trees_var'], width=10)
+        self.number_of_trees_entry = Entry(self, textvariable=self.settings['number_of_trees_var'], width=10, disabledbackground='grey')
         self.number_of_trees_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+40)
 
         # --- Widget: Numero de iteraciones para el burn-in ---
@@ -77,7 +87,7 @@ class BartView(Toplevel):
         self.number_of_burn_in_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+70)
 
         self.settings['n_burn_in_var'] = StringVar()
-        self.number_of_burn_in_entry = Entry(self, textvariable=self.settings['n_burn_in_var'], width=10)
+        self.number_of_burn_in_entry = Entry(self, textvariable=self.settings['n_burn_in_var'], width=10, disabledbackground='grey')
         self.number_of_burn_in_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+90)
 
         # --- Widget: Numero de iteraciones post burn-in ---
@@ -85,7 +95,7 @@ class BartView(Toplevel):
         self.number_of_iterations_after_burn_in_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+120)
 
         self.settings['n_after_burn_in'] = StringVar()
-        self.number_of_iterations_after_burn_in_entry = Entry(self, textvariable=self.settings['n_after_burn_in'], width=10)
+        self.number_of_iterations_after_burn_in_entry = Entry(self, textvariable=self.settings['n_after_burn_in'], width=10, disabledbackground='grey')
         self.number_of_iterations_after_burn_in_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+140)
 
         # --- Titulo: Configuracion de probabilidades priori ---
@@ -97,7 +107,7 @@ class BartView(Toplevel):
         self.alpha_label.place(x=prior_coordinates["x"]+40, y=prior_coordinates["y"]+40)
 
         self.settings['alpha_var'] = StringVar()
-        self.alpha_entry = Entry(self,textvariable=self.settings['alpha_var'], width=10)
+        self.alpha_entry = Entry(self,textvariable=self.settings['alpha_var'], width=10, disabledbackground='grey')
         self.alpha_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+40)
 
         # --- Widget: Hiperparametro beta ---
@@ -105,7 +115,7 @@ class BartView(Toplevel):
         self.beta_label.place(x=prior_coordinates["x"]+47, y=prior_coordinates["y"]+70)
 
         self.settings['beta_var'] = StringVar()
-        self.beta_entry = Entry(self, textvariable=self.settings['beta_var'], width=10)
+        self.beta_entry = Entry(self, textvariable=self.settings['beta_var'], width=10, disabledbackground='grey')
         self.beta_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+70)
 
         # --- Widget: Hiperparametro K ---
@@ -113,7 +123,7 @@ class BartView(Toplevel):
         self.k_label.place(x=prior_coordinates["x"]+58, y=prior_coordinates["y"]+100)
 
         self.settings['k_var'] = StringVar()
-        self.k_entry = Entry(self, textvariable=self.settings['k_var'], width=10)
+        self.k_entry = Entry(self, textvariable=self.settings['k_var'], width=10, disabledbackground='grey')
         self.k_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+100)
 
         # --- Widget: Hiperparametro q ---
@@ -121,7 +131,7 @@ class BartView(Toplevel):
         self.q_label.place(x=prior_coordinates["x"]+58, y=prior_coordinates["y"]+130)
 
         self.settings['q_var'] = StringVar()
-        self.q_entry = Entry(self, textvariable=self.settings['q_var'], width=10)
+        self.q_entry = Entry(self, textvariable=self.settings['q_var'], width=10, disabledbackground='grey')
         self.q_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+130)
 
         # --- Widget: Hiperparametro nu ---
@@ -129,7 +139,7 @@ class BartView(Toplevel):
         self.nu_label.place(x=prior_coordinates["x"]+55, y=prior_coordinates["y"]+160)
 
         self.settings['nu_var'] = StringVar()
-        self.nu_entry = Entry(self, textvariable=self.settings['nu_var'], width=10)
+        self.nu_entry = Entry(self, textvariable=self.settings['nu_var'], width=10, disabledbackground='grey')
         self.nu_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+160)
 
         # --- Titulo: Configuracion Metropolis Hastings ---
@@ -141,7 +151,7 @@ class BartView(Toplevel):
         self.grow_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+40)
 
         self.settings['grow_var'] = StringVar()
-        self.grow_percentage_entry = Entry(self, textvariable=self.settings['grow_var'], width=10)
+        self.grow_percentage_entry = Entry(self, textvariable=self.settings['grow_var'], width=10, disabledbackground='grey')
         self.grow_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+40)
 
         # --- Widget: Prune percentage ---
@@ -149,7 +159,7 @@ class BartView(Toplevel):
         self.prune_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+70)
 
         self.settings['prune_var'] = StringVar()
-        self.prune_percentage_entry = Entry(self, textvariable=self.settings['prune_var'], width=10)
+        self.prune_percentage_entry = Entry(self, textvariable=self.settings['prune_var'], width=10, disabledbackground='grey')
         self.prune_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+70)
 
         # --- Widget: Change percentage ---
@@ -157,9 +167,39 @@ class BartView(Toplevel):
         self.change_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+100)
 
         self.settings['change_var'] = StringVar()
-        self.change_percentage_entry = Entry(self, textvariable=self.settings['change_var'], width=10)
+        self.change_percentage_entry = Entry(self, textvariable=self.settings['change_var'], width=10, disabledbackground='grey')
         self.change_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+100)
-    
+
+        # --- Widget: Build button ---
+        self.build_button = Button(self, text="Build", font=self.button_font, bg='#FFFFFF', fg='#000000', command=self.build_button_clicked())
+        self.build_button.place(x=300, y=550)
+
+
+    def checkbox_clicked(self):
+        if self.settings['cv'].get():
+            self.number_of_trees_entry.config(state='disabled')
+            self.number_of_burn_in_entry.config(state='disabled')
+            self.number_of_iterations_after_burn_in_entry.config(state='disabled')
+            self.alpha_entry.config(state='disabled')
+            self.beta_entry.config(state='disabled')
+            self.k_entry.config(state='disabled')
+            self.q_entry.config(state='disabled')
+            self.nu_entry.config(state='disabled')
+            self.grow_percentage_entry.config(state='disabled')
+            self.change_percentage_entry.config(state='disabled')
+            self.prune_percentage_entry.config(state='disabled')
+        else:
+            self.number_of_trees_entry.config(state='normal')
+            self.number_of_burn_in_entry.config(state='normal')
+            self.number_of_iterations_after_burn_in_entry.config(state='normal')
+            self.alpha_entry.config(state='normal')
+            self.beta_entry.config(state='normal')
+            self.k_entry.config(state='normal')
+            self.q_entry.config(state='normal')
+            self.nu_entry.config(state='normal')
+            self.grow_percentage_entry.config(state='normal')
+            self.change_percentage_entry.config(state='normal')
+            self.prune_percentage_entry.config(state='normal')
 
     def set_controller(self, controller):
         self.controller = controller
@@ -169,12 +209,21 @@ class BartView(Toplevel):
     
     # FilePicker
     def search_button_clicked(self):
-        self.settings['file_path'] = filedialog.askopenfilename()
-        self.path_label.config(text=self.settings['file_path'])
-        self.options = self.controller.get_options(self.settings['file_path'])
-        print(self.options)
+        file_path = filedialog.askopenfilename()
+        print(file_path)
+        if file_path:
+            self.settings['file_path'] = file_path
+            self.path_label.config(text=self.settings['file_path'])
+            col_names = self.controller.get_col_names(self.settings['file_path'])
+            # Update response variable optionmenu
+            menu = self.response_option['menu']
+            menu.delete(0, 'end')
+            for name in col_names:
+                menu.add_command(label=name, command=lambda value=name: [self.settings['response_var'].set(value), print(self.settings['response_var'].get())])
+        else:
+            raise Exception("No se selecciono ningun archivo")
 
 
-    def save_button_clicked(self):
+    def build_button_clicked(self):
         if self.controller is not None:
             self.controller.buildBart(self.settings)

@@ -11,8 +11,7 @@ class bartController:
         self.bart = bb.buildBartModelV2(self.model.settings)
 
     # Obtiene las columnas del dataset
-    def get_options(self, path):
+    def get_col_names(self, path):
         import pandas as pd
         dataset = pd.read_csv(path)
-        #print(list(dataset.columns))
         return list(dataset.columns)

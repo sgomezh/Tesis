@@ -93,5 +93,4 @@ def buildBartModelV2(settings):
     
     data = robjects.r['read.csv'](settings['file_path'])
 
-    if settings['cross_validation'] == '0':
-        pass
+    print(data)
