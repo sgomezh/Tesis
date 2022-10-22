@@ -1,13 +1,22 @@
 # En este archivo se encuentra el modelo de los datos necesarios para correr el BART
 
+import tkinter
+
+
 class bartModel:
     def __init__(self):
         self._datasetPath = None
         self._settingsPath = None
-        self._settings = None
         # Dataset y settings se guarda como un dataframe de pandas
         self._dataset = None
         self._bart = None
+        self._settings = {
+            'cv': tkinter.BooleanVar().set(False),
+            'number_of_trees': tkinter.StringVar().set(200),
+            'n_burn_in': tkinter.StringVar().set(250),
+            'n_after_burn_in': tkinter.StringVar().set(1000),
+            'alpha': tkinter.StringVar().set(0.95),
+        }
 
     @property
     def datasetPath(self):

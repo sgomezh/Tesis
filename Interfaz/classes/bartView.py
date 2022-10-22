@@ -9,7 +9,6 @@ import classes.viewClass as vc
 class BartView(Toplevel):
     def __init__(self, parent, width, height):
         super(BartView, self).__init__(parent)
-        
         self.controller = None
         # --- Configuracion de la ventana ---
         self.transient(parent)
@@ -64,7 +63,6 @@ class BartView(Toplevel):
 
         # --- Widget: Cross-validation checkbox ---
         self.settings['cv'] = tk.BooleanVar()
-        print("Estado inicial: ", self.settings['cv'].get())
         self.cv_label = Label(self, text="Cross-validation:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.cv_label.place(x=cv_coordinates['x'], y=cv_coordinates['y'])
         self.cv_checkbox = tk.Checkbutton(self, bg='#08013D', variable=self.settings['cv'], command=lambda: self.checkbox_clicked())
@@ -171,9 +169,12 @@ class BartView(Toplevel):
         self.change_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+100)
 
         # --- Widget: Build button ---
-        self.build_button = Button(self, text="Build", font=self.button_font,  bg='#FFFFFF', fg='#000000', command=self.build_button_clicked())
+        self.build_button = Button(self, text="Build", font=self.button_font, bg='#FFFFFF', fg='#000000', command= lambda: self.build_button_clicked())
         self.build_button.place(x=300, y=550)
 
+    def set_controller(self, controller):
+        self.controller = controller
+        print("Controller seteado: ", self.controller)
 
     def checkbox_clicked(self):
         if self.settings['cv'].get():
@@ -215,7 +216,6 @@ class BartView(Toplevel):
     # FilePicker
     def search_button_clicked(self):
         file_path = filedialog.askopenfilename()
-        print(file_path)
         if file_path:
             self.settings['file_path'] = file_path
             self.path_label.config(text=self.settings['file_path'])
@@ -231,4 +231,4 @@ class BartView(Toplevel):
 
     def build_button_clicked(self):
         if self.controller is not None:
-            self.controller.buildBart(self.settings)
+            self.controller.buildBart()

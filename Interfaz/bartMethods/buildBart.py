@@ -86,11 +86,26 @@ def getBartSettings():
     return settings
 
 def buildBartModelV2(settings):
-    import rpy2.robjects as robjects
+    # Se utilizara 0.8 de los datos para entrenamiento y 0.2 para test
+    import pandas as pd
+    from numpy.random import rand
+    from rpy2.robjects import pandas2ri
     from rpy2.robjects.packages import importr
+    from rpy2.robjects import r 
+
+    pandas2ri.activate()
+    df = pd.read_csv(settings['file_path'])
+    msk = rand(len(df)) < 0.8
+    # Split data into train and test
+    train = df[msk]
+    test = df[~msk]
 
     bPackage = importr('bartMachine')
+    if settings['cv'].get():
+        bart = bPackage.build_bart_machine_cv(X = df.loc[: , df.columns != settings['response_var'].get()],
+                                            y = df.loc[:, settings['response_var'].get()])
+    else:
+        bart = bPackage.build_bart_machine(X = df.loc[: , df.columns != settings['response_var'].get()],
+                                            y = df.loc[:, settings['response_var'].get()])
+    return bart
     
-    data = robjects.r['read.csv'](settings['file_path'])
-
-    print(data)
