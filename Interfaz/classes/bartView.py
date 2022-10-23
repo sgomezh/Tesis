@@ -1,6 +1,6 @@
 # Este archivo contiene todas las vistas relacionadas a BART
 import tkinter as tk
-from tkinter import Label, Button, Entry, Toplevel, filedialog, StringVar, OptionMenu
+from tkinter import DoubleVar, IntVar, Label, Button, Entry, Toplevel, filedialog, StringVar, OptionMenu, Scale
 from tkinter.font import Font
 from PIL import Image, ImageTk
 
@@ -76,7 +76,7 @@ class BartView(Toplevel):
         self.number_of_trees_label = Label(self, text="Number of Trees:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.number_of_trees_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+40)
 
-        self.settings['n_trees'] = StringVar()
+        self.settings['n_trees'] = IntVar()
         self.number_of_trees_entry = Entry(self, textvariable=self.settings['n_trees'], width=10, disabledbackground='grey')
         self.number_of_trees_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+40)
 
@@ -84,7 +84,7 @@ class BartView(Toplevel):
         self.number_of_burn_in_label = Label(self, text="Number of \nBurn-in iterations:", font=self.label_font, bg='#08013D', fg='#FFFFFF', anchor="center")
         self.number_of_burn_in_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+70)
 
-        self.settings['burn_in_iter'] = StringVar()
+        self.settings['burn_in_iter'] = IntVar()
         self.number_of_burn_in_entry = Entry(self, textvariable=self.settings['burn_in_iter'], width=10, disabledbackground='grey')
         self.number_of_burn_in_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+90)
 
@@ -104,7 +104,7 @@ class BartView(Toplevel):
         self.alpha_label = Label(self, text="Alpha:", font=self.label_font, bg='#08013D', fg='#FFFFFF', anchor="center")
         self.alpha_label.place(x=prior_coordinates["x"]+40, y=prior_coordinates["y"]+40)
 
-        self.settings['alpha'] = StringVar()
+        self.settings['alpha'] = DoubleVar()
         self.alpha_entry = Entry(self,textvariable=self.settings['alpha'], width=10, disabledbackground='grey')
         self.alpha_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+40)
 
@@ -112,7 +112,7 @@ class BartView(Toplevel):
         self.beta_label = Label(self, text="Beta:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.beta_label.place(x=prior_coordinates["x"]+47, y=prior_coordinates["y"]+70)
 
-        self.settings['beta'] = StringVar()
+        self.settings['beta'] = IntVar()
         self.beta_entry = Entry(self, textvariable=self.settings['beta'], width=10, disabledbackground='grey')
         self.beta_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+70)
 
@@ -165,16 +165,22 @@ class BartView(Toplevel):
         self.change_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+100)
 
         self.settings['change'] = StringVar()
-        self.change_percentage_entry = Entry(self, textvariable=self.settings['change   '], width=10, disabledbackground='grey')
+        self.change_percentage_entry = Entry(self, textvariable=self.settings['change'], width=10, disabledbackground='grey')
         self.change_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+100)
+
+        # Testing: Scale for probability
+
+        self.grow_scale = Scale(self, from_=0, to=100, length=200, bg='#08013D', fg='#FFFFFF')
+        self.grow_scale.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+40)
+        self.prune_scale = Scale(self, from_=0, to=100, length=200, bg='#08013D', fg='#FFFFFF')
+        self.prune_scale.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+70)
+        self.change_scale = Scale(self, from_=0, to=100, length=200, bg='#08013D', fg='#FFFFFF')
+        self.change_scale.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+100)
+
 
         # --- Widget: Build button ---
         self.build_button = Button(self, text="Build", font=self.button_font, bg='#FFFFFF', fg='#000000', command= lambda: self.build_button_clicked())
         self.build_button.place(x=300, y=550)
-
-    def set_controller(self, controller):
-        self.controller = controller
-        print("Controller seteado: ", self.controller)
 
     def checkbox_clicked(self):
         if self.settings['cv'].get():
@@ -205,6 +211,11 @@ class BartView(Toplevel):
     def set_controller(self, controller):
         self.controller = controller
 
+    # Actualiza el controlador
+    def set_controller(self, controller):
+        self.controller = controller
+
+    # Almacena la configuracion en el controlador
     def store_settings(self):
         # Create a dictionary with the settings
         settings = {}
@@ -231,4 +242,5 @@ class BartView(Toplevel):
 
     def build_button_clicked(self):
         if self.controller is not None:
+            self.controller.store_settings(self.settings)
             self.controller.buildBart()

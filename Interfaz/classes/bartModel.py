@@ -11,11 +11,20 @@ class bartModel:
         self._dataset = None
         self._bart = None
         self._settings = {
-            'cv': tkinter.BooleanVar().set(False),
-            'number_of_trees': tkinter.StringVar().set(200),
-            'n_burn_in': tkinter.StringVar().set(250),
-            'n_after_burn_in': tkinter.StringVar().set(1000),
-            'alpha': tkinter.StringVar().set(0.95),
+            "response": "",
+            "cv": False,
+            "n_trees": 200,
+            "burn_in_iter": 250,
+            "after_burn_in_iter": 1000,
+            "alpha": 0.95,
+            "beta": 2,
+            "k": 2,
+            "q": 0.9,
+            "nu": 3,
+            "grow": 0,
+            "prune": 0,
+            "change": 0
+
         }
 
     @property
