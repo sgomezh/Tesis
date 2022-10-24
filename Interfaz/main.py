@@ -47,6 +47,16 @@ def getBartDataset():
     file.close()
     return path
 
+def getBartSettings():
+    settings = {} 
+    file = open ('bart_settings.txt','r')
+    for line in file:
+        c = '\n'
+        new_line = line.replace(c,"")
+        settings.append(new_line)
+    print(settings)
+    return settings
+
 
 # ----------------------- SETTINGS ----------------------
 main_page = MainWin()

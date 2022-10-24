@@ -8,7 +8,7 @@ from rpy2.robjects.packages import importr
 
 # Configuracion de la ventana para construir el BART
 def buildBartModel(dataset, settings):
-    config = getBartSettings()
+    '''config = getBartSettings()
 
     print("Corriendo subprocess")
     if(config['cross_validation'] == '0'):
@@ -30,10 +30,11 @@ def buildBartModel(dataset, settings):
     else:
         subprocess.call("Rscript.exe D:\\Escritorio\\Codigo\\Tesis\\Interfaz\\bartMethods\\buildBartScript.r -f " 
                                 + dataset + " -r " + config['responseVar'])
-    print("Subprocess terminado")
+    print("Subprocess terminado")'''
+    pass
 
 def getBartSettings():
-    setting_list = []
+    '''setting_list = []
     settings = {}
     file = open ('D:\Escritorio\Codigo\Tesis\\bart_settings.txt','r')
     for line in file:
@@ -83,6 +84,7 @@ def getBartSettings():
             elif i == 12:
                 settings['responseVar'] = setting_list[12]
 
+<<<<<<< HEAD
     return settings
 
 def buildBartModelV2(settings):
@@ -95,3 +97,11 @@ def buildBartModelV2(settings):
 
     if settings['cross_validation'] == '0':
         pass
+=======
+    return settings'''
+    pass
+    
+    
+
+#buildBartModel("D:\Escritorio\Codigo\Tesis\\automobile.csv", "D:\Escritorio\Codigo\Tesis\\bart_settings.txt")
+>>>>>>> 04623b6b5fe8f5ce43fc090776fc53a69692202b
