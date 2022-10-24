@@ -1,13 +1,11 @@
 # Este archivo contiene todas las vistas relacionadas a BART
 import tkinter as tk
-from tkinter import DoubleVar, IntVar, Label, Button, Entry, Toplevel, filedialog, StringVar, OptionMenu, Scale
+from tkinter import BooleanVar, DoubleVar, IntVar, Label, Button, Entry, Toplevel, filedialog, StringVar, OptionMenu, Scale, HORIZONTAL
 from tkinter.font import Font
 from PIL import Image, ImageTk
 
-import classes.viewClass as vc
-
 class BartView(Toplevel):
-    def __init__(self, parent, width, height):
+    def __init__(self, parent, defaultSettings, width, height):
         super(BartView, self).__init__(parent)
         self.controller = None
         # --- Configuracion de la ventana ---
@@ -56,13 +54,13 @@ class BartView(Toplevel):
         self.response_label = Label(self, text="Response variable:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.response_label.place(x=200, y=132)
         
-        self.settings['response'] = StringVar()
+        self.settings['response'] = StringVar(value=defaultSettings['response'])
         self.response_option = OptionMenu(self, self.settings['response'], self.col_names)
         self.response_option.place(x=360, y=130)
         self.response_option.config(font=self.response_font, bg='#FFFFFF', fg='#000000', width=13, height=1)
 
         # --- Widget: Cross-validation checkbox ---
-        self.settings['cv'] = tk.BooleanVar()
+        self.settings['cv'] = BooleanVar()
         self.cv_label = Label(self, text="Cross-validation:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.cv_label.place(x=cv_coordinates['x'], y=cv_coordinates['y'])
         self.cv_checkbox = tk.Checkbutton(self, bg='#08013D', variable=self.settings['cv'], command=lambda: self.checkbox_clicked())
@@ -76,7 +74,7 @@ class BartView(Toplevel):
         self.number_of_trees_label = Label(self, text="Number of Trees:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.number_of_trees_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+40)
 
-        self.settings['n_trees'] = IntVar()
+        self.settings['n_trees'] = IntVar(value=defaultSettings['n_trees'])
         self.number_of_trees_entry = Entry(self, textvariable=self.settings['n_trees'], width=10, disabledbackground='grey')
         self.number_of_trees_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+40)
 
@@ -84,7 +82,7 @@ class BartView(Toplevel):
         self.number_of_burn_in_label = Label(self, text="Number of \nBurn-in iterations:", font=self.label_font, bg='#08013D', fg='#FFFFFF', anchor="center")
         self.number_of_burn_in_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+70)
 
-        self.settings['burn_in_iter'] = IntVar()
+        self.settings['burn_in_iter'] = IntVar(value=defaultSettings['burn_in_iter'])
         self.number_of_burn_in_entry = Entry(self, textvariable=self.settings['burn_in_iter'], width=10, disabledbackground='grey')
         self.number_of_burn_in_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+90)
 
@@ -92,7 +90,7 @@ class BartView(Toplevel):
         self.number_of_iterations_after_burn_in_label = Label(self, text="Number of iterations \nafter burn-in:", font=self.label_font, bg='#08013D', fg='#FFFFFF', anchor="center")
         self.number_of_iterations_after_burn_in_label.place(x=mcmc_coordinates["x"], y=mcmc_coordinates["y"]+120)
 
-        self.settings['after_burn_in_iter'] = StringVar()
+        self.settings['after_burn_in_iter'] = IntVar(value=defaultSettings['after_burn_in_iter'])
         self.number_of_iterations_after_burn_in_entry = Entry(self, textvariable=self.settings['after_burn_in_iter'], width=10, disabledbackground='grey')
         self.number_of_iterations_after_burn_in_entry.place(x=mcmc_coordinates["x"]+150, y=mcmc_coordinates["y"]+140)
 
@@ -104,7 +102,7 @@ class BartView(Toplevel):
         self.alpha_label = Label(self, text="Alpha:", font=self.label_font, bg='#08013D', fg='#FFFFFF', anchor="center")
         self.alpha_label.place(x=prior_coordinates["x"]+40, y=prior_coordinates["y"]+40)
 
-        self.settings['alpha'] = DoubleVar()
+        self.settings['alpha'] = DoubleVar(value=defaultSettings['alpha'])
         self.alpha_entry = Entry(self,textvariable=self.settings['alpha'], width=10, disabledbackground='grey')
         self.alpha_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+40)
 
@@ -112,7 +110,7 @@ class BartView(Toplevel):
         self.beta_label = Label(self, text="Beta:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.beta_label.place(x=prior_coordinates["x"]+47, y=prior_coordinates["y"]+70)
 
-        self.settings['beta'] = IntVar()
+        self.settings['beta'] = IntVar(value=defaultSettings['beta'])
         self.beta_entry = Entry(self, textvariable=self.settings['beta'], width=10, disabledbackground='grey')
         self.beta_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+70)
 
@@ -120,7 +118,7 @@ class BartView(Toplevel):
         self.k_label = Label(self, text="K:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.k_label.place(x=prior_coordinates["x"]+58, y=prior_coordinates["y"]+100)
 
-        self.settings['k'] = StringVar()
+        self.settings['k'] = IntVar(value=defaultSettings['k'])
         self.k_entry = Entry(self, textvariable=self.settings['k'], width=10, disabledbackground='grey')
         self.k_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+100)
 
@@ -128,7 +126,7 @@ class BartView(Toplevel):
         self.q_label = Label(self, text="Q:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.q_label.place(x=prior_coordinates["x"]+58, y=prior_coordinates["y"]+130)
 
-        self.settings['q'] = StringVar()
+        self.settings['q'] = DoubleVar(value=defaultSettings['q'])
         self.q_entry = Entry(self, textvariable=self.settings['q'], width=10, disabledbackground='grey')
         self.q_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+130)
 
@@ -136,7 +134,7 @@ class BartView(Toplevel):
         self.nu_label = Label(self, text="nu:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.nu_label.place(x=prior_coordinates["x"]+55, y=prior_coordinates["y"]+160)
 
-        self.settings['nu'] = StringVar()
+        self.settings['nu'] = IntVar(value=defaultSettings['nu'])
         self.nu_entry = Entry(self, textvariable=self.settings['nu'], width=10, disabledbackground='grey')
         self.nu_entry.place(x=prior_coordinates["x"]+150, y=prior_coordinates["y"]+160)
 
@@ -145,38 +143,28 @@ class BartView(Toplevel):
         self.metropolis_hastings_label.place(x=mh_coordinates["x"], y=mh_coordinates["y"])
 
         # --- Widget: Grow percentage ---
-        self.grow_percentage_label = Label(self, text="Grow percentage:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
+        self.grow_percentage_label = Label(self, text="Grow weight:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
         self.grow_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+40)
 
-        self.settings['grow'] = StringVar()
-        self.grow_percentage_entry = Entry(self, textvariable=self.settings['grow'], width=10, disabledbackground='grey')
-        self.grow_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+40)
+        self.settings['grow'] = IntVar(value=defaultSettings['grow'])
+        self.grow_scale = Scale(self, from_=0, to=100, length=200, bg='#08013D', fg='#FFFFFF', orient = HORIZONTAL, variable=self.settings['grow'])
+        self.grow_scale.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+65)
 
         # --- Widget: Prune percentage ---
-        self.prune_percentage_label = Label(self, text="Prune percentage:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.prune_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+70)
+        self.prune_percentage_label = Label(self, text="Prune weight:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
+        self.prune_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+120)
 
-        self.settings['prune'] = StringVar()
-        self.prune_percentage_entry = Entry(self, textvariable=self.settings['prune'], width=10, disabledbackground='grey')
-        self.prune_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+70)
+        self.settings['prune'] = IntVar(value=defaultSettings['prune'])
+        self.prune_scale = Scale(self, from_=0, to=100, length=200, bg='#08013D', fg='#FFFFFF', orient = HORIZONTAL, variable=self.settings['prune'])
+        self.prune_scale.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+145)
 
         # --- Widget: Change percentage ---
-        self.change_percentage_label = Label(self, text="Change percentage:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.change_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+100)
+        self.change_percentage_label = Label(self, text="Change weight:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
+        self.change_percentage_label.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+200)
 
-        self.settings['change'] = StringVar()
-        self.change_percentage_entry = Entry(self, textvariable=self.settings['change'], width=10, disabledbackground='grey')
-        self.change_percentage_entry.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+100)
-
-        # Testing: Scale for probability
-
-        self.grow_scale = Scale(self, from_=0, to=100, length=200, bg='#08013D', fg='#FFFFFF')
-        self.grow_scale.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+40)
-        self.prune_scale = Scale(self, from_=0, to=100, length=200, bg='#08013D', fg='#FFFFFF')
-        self.prune_scale.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+70)
-        self.change_scale = Scale(self, from_=0, to=100, length=200, bg='#08013D', fg='#FFFFFF')
-        self.change_scale.place(x=mh_coordinates["x"]+175, y=mh_coordinates["y"]+100)
-
+        self.settings['change'] = IntVar(value=defaultSettings['change'])
+        self.change_scale = Scale(self, from_=0, to=100, length=200, bg='#08013D', fg='#FFFFFF', orient = HORIZONTAL, variable=self.settings['change'])
+        self.change_scale.place(x=mh_coordinates["x"]+10, y=mh_coordinates["y"]+225)
 
         # --- Widget: Build button ---
         self.build_button = Button(self, text="Build", font=self.button_font, bg='#FFFFFF', fg='#000000', command= lambda: self.build_button_clicked())
@@ -192,9 +180,9 @@ class BartView(Toplevel):
             self.k_entry.config(state='disabled')
             self.q_entry.config(state='disabled')
             self.nu_entry.config(state='disabled')
-            self.grow_percentage_entry.config(state='disabled')
-            self.change_percentage_entry.config(state='disabled')
-            self.prune_percentage_entry.config(state='disabled')
+            self.grow_scale.config(state='disabled')
+            self.change_scale.config(state='disabled')
+            self.prune_scale.config(state='disabled')
         else:
             self.number_of_trees_entry.config(state='normal')
             self.number_of_burn_in_entry.config(state='normal')
@@ -204,9 +192,9 @@ class BartView(Toplevel):
             self.k_entry.config(state='normal')
             self.q_entry.config(state='normal')
             self.nu_entry.config(state='normal')
-            self.grow_percentage_entry.config(state='normal')
-            self.change_percentage_entry.config(state='normal')
-            self.prune_percentage_entry.config(state='normal')
+            self.grow_scale.config(state='normal')
+            self.grow_scale.config(state='normal')
+            self.grow_scale.config(state='normal')
 
     def set_controller(self, controller):
         self.controller = controller
@@ -244,3 +232,9 @@ class BartView(Toplevel):
         if self.controller is not None:
             self.controller.store_settings(self.settings)
             self.controller.buildBart()
+
+
+# class PredictView(Toplevel):
+#     def __init__(self, parent, width, height):
+#         super(PredictView, self).__init__(parent)
+        

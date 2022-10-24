@@ -2,9 +2,9 @@ from tkinter import Toplevel, Tk, Canvas, Label, Button, StringVar, Entry, filed
 from tkinter.font import Font
 from PIL import Image, ImageTk
 import classes.viewMethods as vm
-import classes.bartModel as bm
-import classes.bartView as bv
-import classes.bartController as bc
+import classes.BartApp.bartModel as bm
+import classes.BartApp.bartView as bv
+import classes.BartApp.bartController as bc
 
 
 class MainWin(Tk):
@@ -87,40 +87,13 @@ class BartApp():
     def __init__(self, parent):
         super().__init__()
         # Coordenadas de los widgets
-        view = bv.BartView(parent, 800, 600)
-        model = bm.bartModel()
-        controller = bc.bartController(model, view)
+        self.model = bm.bartModel()
+        self.view = bv.BartView(parent, self.model.settings, 800, 600)
+        self.controller = bc.bartController(self.model, self.view, parent)
 
-        view.set_controller(controller)
+        self.view.set_controller(self.controller)
 
-
-# class PopupWin(Toplevel):
-#     def __init__(self, master, width, height):
-#         super(PopupWin, self).__init__(master)
-#         self.transient(master)
-#         self.title("Causal Tool")
-#         self.geometry(str(width) + "x" + str(height))
-#         icon = Image.open('Interfaz/icon.png')
-#         photo = ImageTk.PhotoImage(icon)
-#         self.wm_iconphoto(False, photo)
-#         self.minsize(width, height)
-#         self.maxsize(width, height)
-#         self.configure(bg='#08013D')
-#         self.tittle_font = Font(family="Arabic Transparent", size=25, weight="bold")
-#         self.label_font = Font(family="Arabic Transparent", size=12, weight="bold")
-#         self.button_font = Font(family="Arabic Transparent", size=12, weight="bold")
-#         self.result_font = Font(family="Arabic Transparent", size=12, weight="bold")
+    def predictWindow(self):
+        self.view.predictWindow()
 
 
-
-    
-# class alertWindow(PopupWin):
-#     def __init__(self, master, title, message):
-#         super(alertWindow, self).__init__(master, 300, 200)
-#         self.title(title)
-#         label = Label(self, text=message, font=vm.label_font, bg='#08013D', fg='#FFFFFF')
-#         label.place(x=20, y=20)
-#         button = Button(self, text="OK", bg="#B7B5C8", fg="black", font=vm.button_font, width=10, height=1, command= lambda: self.destroy())
-#         button.place(x=100, y=100)
-        
-        

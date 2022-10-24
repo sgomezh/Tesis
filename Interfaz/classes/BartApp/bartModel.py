@@ -1,8 +1,5 @@
 # En este archivo se encuentra el modelo de los datos necesarios para correr el BART
 
-import tkinter
-
-
 class bartModel:
     def __init__(self):
         self._datasetPath = None
@@ -21,10 +18,9 @@ class bartModel:
             "k": 2,
             "q": 0.9,
             "nu": 3,
-            "grow": 0,
-            "prune": 0,
-            "change": 0
-
+            "grow": 30,
+            "prune": 30,
+            "change": 40
         }
 
     @property

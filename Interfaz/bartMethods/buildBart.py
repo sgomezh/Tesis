@@ -1,7 +1,5 @@
-import subprocess
 from tkinter import filedialog, Label, Entry, Button, Text
 from tkinter.font import Font
-from tkinter import filedialog
 from rpy2.robjects import r
 from rpy2.robjects.packages import importr
 
@@ -100,12 +98,39 @@ def buildBartModelV2(settings):
     train = df[msk]
     test = df[~msk]
 
+    mh_values = normalizeValues(settings['grow'], settings['prune'], settings['change'])
+
     bPackage = importr('bartMachine')
-    if settings['cv'].get():
-        bart = bPackage.build_bart_machine_cv(X = df.loc[: , df.columns != settings['response_var'].get()],
-                                            y = df.loc[:, settings['response_var'].get()])
+    if settings['cv']:
+        bart = bPackage.build_bart_machine_cv(X = df.loc[: , df.columns != settings['response_var']],
+                                                y = df.loc[:, settings['response_var']])
     else:
-        bart = bPackage.build_bart_machine(X = df.loc[: , df.columns != settings['response_var'].get()],
-                                            y = df.loc[:, settings['response_var'].get()])
+        bart = bPackage.build_bart_machine(X = df.loc[: , df.columns != settings['response_var']],
+                                            y = df.loc[:, settings['response_var']],
+                                            num_trees = settings['num_trees'],
+                                            num_burn_in = settings['num_burn_in'],
+                                            num_iterations_after_burn_in = settings['num_iterations_after_burn_in'],
+                                            alpha = settings['alpha'],
+                                            beta = settings['beta'],
+                                            k = settings['k'],
+                                            q = settings['q'],
+                                            nu = settings['nu'],
+                                            mh_prob_steps = mh_values)
     return bart
+    
+
+# Convierte los valores de los porcentajes a valores entre 0 y 1
+def normalizeValues(grow, prune, change):
+    # Creamos una constante normalizadora
+    #mh_values = {}
+    normalizer = 1 / (grow + prune + change)
+    # Normalizamos los valores
+    # mh_values['grow'] = grow * normalizer
+    # mh_values['prune'] = prune * normalizer
+    # mh_values['change'] = change * normalizer
+    grow = grow * normalizer
+    prune = prune * normalizer
+    change = change * normalizer
+    return [grow, prune, change]
+    #return mh_values
     
