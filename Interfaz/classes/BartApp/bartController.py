@@ -9,13 +9,19 @@ class bartController:
     # Construye el modelo de BART
     def buildBart(self):
         import bartMethods.buildBart as bb
-        self.model.settings = self.view.settings
+
         self.model.bart = bb.buildBartModelV2(self.model.settings)
 
     # Almacena la confirugarion en el modelo
     def store_settings(self, settings):
-        for key in settings:
-            self.model.settings[key] = settings[key]
+        # Iterate over settings map
+        for key, value in settings.items():
+            if(type(value) == str):
+                self.model.settings[key] = value
+            else:
+                self.model.settings[key] = value.get()
+            
+
 
     # Obtiene las columnas del dataset
     def get_col_names(self, path):

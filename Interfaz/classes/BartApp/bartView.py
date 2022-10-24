@@ -210,6 +210,7 @@ class BartView(Toplevel):
         for key in self.settings:
             settings[key] = self.settings[key].get()
 
+        print(settings)
         self.controller.store_settings(settings)
     
     # FilePicker
@@ -223,7 +224,7 @@ class BartView(Toplevel):
             menu = self.response_option['menu']
             menu.delete(0, 'end')
             for name in col_names:
-                menu.add_command(label=name, command=lambda value=name: [self.settings['response'].set(value), print(self.settings['response'].get())])
+                menu.add_command(label=name, command=lambda value=name: self.settings['response'].set(value))
         else:
             raise Exception("No se selecciono ningun archivo")
 
