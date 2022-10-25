@@ -246,7 +246,6 @@ class PredictView(Toplevel):
         self.maxsize(800, 200)
         self.configure(bg='#08013D')
 
-        # TODO: Terminar de implementar la vista de prediccion
         self.build_causal_model_label = Label(self, text="Predict", font=self.title_font, bg='#08013D', fg='#FFFFFF')
         self.build_causal_model_label.place(x=340, y=20)
 
@@ -256,10 +255,21 @@ class PredictView(Toplevel):
         self.path_label = Label(self, text="", font=self.label_font, bg='#FFFFFF', fg='#000000', width=65, height=1)
         self.path_label.place(x=5, y=100)
 
-        self.search_button = Button(self, text="Search", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: filePickerPredict(self))
+        self.search_button = Button(self, text="Search", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: self.filePickerPredict())
         self.search_button.place(x=670, y=95)
 
-        self.predict_button = Button(self, text="Predict", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1)
+        self.predict_button = Button(self, text="Predict", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: self.predict_button_clicked())
         self.predict_button.place(x=350, y=150)
 
+    def predict_button_clicked(self):
+        if self.controller is not None:
+            self.controller.predictBart(self.file_path)
+
+
+    def filePickerPredict(self):
+        self.file_path = filedialog.askopenfilename()
+        if self.file_path:
+            self.path_label.config(text=self.file_path)
+        else:
+            raise Exception("No se selecciono ningun archivo")
 

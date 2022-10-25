@@ -58,4 +58,13 @@ def normalizeValues(grow, prune, change):
     change = change * normalizer
     return [grow, prune, change]
     #return mh_values
+
+def predict_with_bart(bart, df):
+    from rpy2.robjects import pandas2ri
+    from rpy2.robjects import r
+    pandas2ri.activate()
+    bPackage = importr('bartMachine')
+    pred = bPackage.predict_bart_machine(bart, df)
+
+    r['summary'](pred)
     

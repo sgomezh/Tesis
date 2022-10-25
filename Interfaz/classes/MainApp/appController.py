@@ -83,4 +83,7 @@ class appController:
         dataset = pd.read_csv(path)
         return list(dataset.columns)
     
+    def predictBart(self, data):
+        from bartMethods import predict_with_bart
+        predict_with_bart(self.model.bartInstance, data)
     
