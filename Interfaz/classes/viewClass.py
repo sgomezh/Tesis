@@ -1,15 +1,13 @@
-from tkinter import Toplevel, Tk, Canvas, Label, Button
+from tkinter import Toplevel, Tk, Canvas, Label, Button, StringVar, Entry, filedialog, OptionMenu
 from tkinter.font import Font
 from PIL import Image, ImageTk
 import classes.viewMethods as vm
+import classes.BartApp.bartModel as bm
+import classes.BartApp.bartView as bv
+import classes.BartApp.bartController as bc
+
 
 class MainWin(Tk):
-    appLogo = None
-    tittle_font = None
-    label_font = None
-    button_font = None
-    result_font = None
-
     def __init__(self):
         super().__init__()
         self.update()
@@ -19,7 +17,7 @@ class MainWin(Tk):
         icon = Image.open('Interfaz/icon.png')
         photo = ImageTk.PhotoImage(icon)
         self.iconphoto(False, photo)
-        # --- Tamagno ---
+        # --- Tamagno --- 
         self.geometry("1200x600")
         self.minsize(1200, 600)
         self.maxsize(1200, 600)
@@ -32,8 +30,8 @@ class MainWin(Tk):
         # ---------------------- INTERFACE ----------------------
         image = Image.open('Interfaz/causal_tool.png')
         #Create a canvas
-        canvas = Canvas(self, width= 290, height= 60)
-        canvas.pack()
+        self.center_canvas = Canvas(self, width= 290, height= 60)
+        self.center_canvas.pack()
 
         #Load an image in the script
         img = (Image.open("Interfaz/causal_tool.png"))
@@ -43,7 +41,7 @@ class MainWin(Tk):
         self.appLogo = ImageTk.PhotoImage(resized_image)
 
         #Add image to the Canvas Items
-        canvas.create_image(0,0, anchor='nw', image=self.appLogo)
+        self.center_canvas.create_image(0,0, anchor='nw', image=self.appLogo)
 
         # --- Label BART ---
         bart_label = Label(self, text="BART", font=self.tittle_font, bg='#08013D', fg='#FFFFFF')
@@ -54,7 +52,7 @@ class MainWin(Tk):
         dowhy_label.place(x=1010, y=80)
 
         # --- Botones BART ---
-        button1 = Button(self, text="Build Bart", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.buildBartModelView(self))
+        button1 = Button(self, text="Build Bart", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command = lambda: BartApp(self))
         button1.place(x=20, y= 150)
 
         button2 = Button(self, text="Predict", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.predictWindow(self))
@@ -73,7 +71,7 @@ class MainWin(Tk):
         button5 = Button(self, text="Build causal model", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.buildCausalModel(self))
         button5.place(x=970, y=150)
 
-        button6 = Button(self, text="Display causal graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
+        button6 = Button(self, text="Display causal graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.createCausalGraph())
         button6.place(x=970, y=230)
 
         button7 = Button(self, text="Estimate effect", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
@@ -82,24 +80,20 @@ class MainWin(Tk):
         button8 = Button(self, text="Refute estimation", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
         button8.place(x=970, y=390)
 
+        button9 = Button(self, text="Reset", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=1, command= lambda: vm.resetApp())
+        button9.place(x=500, y=560)
 
-class PopupWin(Toplevel):
-    tittle_font = None
-    label_font = None
-    button_font = None
-    result_font = None
-    def __init__(self, master, width, height):
-        super(PopupWin, self).__init__(master)
-        self.transient(master)
-        self.title("Causal Tool")
-        self.geometry(str(width) + "x" + str(height))
-        icon = Image.open('Interfaz/icon.png')
-        photo = ImageTk.PhotoImage(icon)
-        self.wm_iconphoto(False, photo)
-        self.minsize(width, height)
-        self.maxsize(width, height)
-        self.configure(bg='#08013D')
-        self.tittle_font = Font(family="Arabic Transparent", size=25, weight="bold")
-        self.label_font = Font(family="Arabic Transparent", size=12, weight="bold")
-        self.button_font = Font(family="Arabic Transparent", size=12, weight="bold")
-        self.result_font = Font(family="Arabic Transparent", size=12, weight="bold")
+class BartApp():
+    def __init__(self, parent):
+        super().__init__()
+        # Coordenadas de los widgets
+        self.model = bm.bartModel()
+        self.view = bv.BartView(parent, self.model.settings, 800, 600)
+        self.controller = bc.bartController(self.model, self.view, parent)
+
+        self.view.set_controller(self.controller)
+
+    def predictWindow(self):
+        self.view.predictWindow()
+
+
