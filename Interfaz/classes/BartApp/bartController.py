@@ -9,7 +9,6 @@ class bartController:
     # Construye el modelo de BART
     def buildBart(self):
         import bartMethods.buildBart as bb
-
         self.model.bart = bb.buildBartModelV2(self.model.settings)
 
     # Almacena la confirugarion en el modelo
@@ -21,8 +20,6 @@ class bartController:
             else:
                 self.model.settings[key] = value.get()
             
-
-
     # Obtiene las columnas del dataset
     def get_col_names(self, path):
         import pandas as pd

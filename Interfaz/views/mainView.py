@@ -2,7 +2,7 @@ from tkinter import Tk, Canvas, Label, Button
 from tkinter.font import Font
 from PIL import Image, ImageTk
 import classes.viewMethods as vm
-from classes.viewClass import BartApp
+
 
 class mainView(Tk):
     def __init__(self):
@@ -50,7 +50,7 @@ class mainView(Tk):
         self.build_bart_button = Button(self, text="Build Bart", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command = lambda: self.build_bart_button_clicked())
         self.build_bart_button.place(x=20, y= 150)
 
-        self.predict_button = Button(self, text="Predict", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.predictWindow(self))
+        self.predict_button = Button(self, text="Predict", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: self.predict_button_clicked())
         self.predict_button.place(x=20, y= 230)
 
         self.variable_importance_button = Button(self, text="Display variable \nimportance graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
@@ -63,7 +63,7 @@ class mainView(Tk):
         self.result_canvas = Canvas(self, width= 500, height= 400, bg='#FFFFFF')
         self.result_canvas.place(x=350, y=150)
         # --- Botones DoWhy ---
-        self.causal_model_button = Button(self, text="Build causal model", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.buildCausalModel(self))
+        self.causal_model_button = Button(self, text="Build causal model", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: self.causal_model_button_clicked())
         self.causal_model_button.place(x=970, y=150)
 
         self.causal_graph_button = Button(self, text="Display causal graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.createCausalGraph())

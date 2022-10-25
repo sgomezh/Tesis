@@ -1,17 +1,15 @@
-from classes.MainApp.mainController import mainController
-from classes.MainApp.mainModel import mainModel
-from classes.MainApp.mainView import mainView
+from classes.MainApp.appController import appController
+from classes.MainApp.appModel import appModel
+from views.mainView import mainView
 
 # ----------------------- Inicializacion de la ventana principal ----------------------
 
 def main():
-    rootView = mainView()
-    rootModel = mainModel()
-    rootController = mainController(rootModel, rootView)
-
-    rootView.setController(rootController)
-    
-    rootView.mainloop()
+    view = mainView()
+    model = appModel()
+    controller = appController(model, view)
+    view.setController(controller)
+    view.mainloop()
 
 
 if __name__ == '__main__':

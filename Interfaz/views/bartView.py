@@ -1,4 +1,3 @@
-# Este archivo contiene todas las vistas relacionadas a BART
 import tkinter as tk
 from tkinter import BooleanVar, DoubleVar, IntVar, Label, Button, Entry, Toplevel, filedialog, StringVar, OptionMenu, Scale, HORIZONTAL
 from tkinter.font import Font
@@ -196,23 +195,10 @@ class BartView(Toplevel):
             self.grow_scale.config(state='normal')
             self.grow_scale.config(state='normal')
 
-    def set_controller(self, controller):
-        self.controller = controller
-
     # Actualiza el controlador
     def set_controller(self, controller):
         self.controller = controller
 
-    # Almacena la configuracion en el controlador
-    def store_settings(self):
-        # Create a dictionary with the settings
-        settings = {}
-        for key in self.settings:
-            settings[key] = self.settings[key].get()
-
-        print(settings)
-        self.controller.store_settings(settings)
-    
     # FilePicker
     def search_button_clicked(self):
         file_path = filedialog.askopenfilename()
@@ -228,14 +214,52 @@ class BartView(Toplevel):
         else:
             raise Exception("No se selecciono ningun archivo")
 
-
+    # Build button
     def build_button_clicked(self):
         if self.controller is not None:
             self.controller.store_settings(self.settings)
             self.controller.buildBart()
 
 
-# class PredictView(Toplevel):
-#     def __init__(self, parent, width, height):
-#         super(PredictView, self).__init__(parent)
+class PredictView(Toplevel):
+    def __init__(self, parent):
+        super(PredictView, self).__init__(parent)
+        self.controller = parent.controller
+        self.parent = parent
+
+        # --- Fuentes ---
+        self.title_font = Font(family="Arabic Transparent", size=25, weight="bold")
+        self.label_font = Font(family="Arabic Transparent", size=12, weight="bold")
+        self.response_font = Font(family="Arabic Transparent", size=10, weight="bold")
+        self.button_font = Font(family="Arabic Transparent", size=12, weight="bold")
+        self.result_font = Font(family="Arabic Transparent", size=12, weight="bold")
+        self.config_font = Font(family="Arabic Transparent", size=12, weight="bold")
         
+        # --- Configuracion de la ventana ---
+        self.transient(parent)
+        self.title("Causal Tool")
+        self.geometry("800x200")
+        icon = Image.open('Interfaz/icon.png')
+        photo = ImageTk.PhotoImage(icon)
+        self.wm_iconphoto(False, photo)
+        self.minsize(800, 200)
+        self.maxsize(800, 200)
+        self.configure(bg='#08013D')
+
+        # TODO: Terminar de implementar la vista de prediccion
+        self.build_causal_model_label = Label(self, text="Predict", font=self.title_font, bg='#08013D', fg='#FFFFFF')
+        self.build_causal_model_label.place(x=340, y=20)
+
+        self.dataset_label= Label(self, text="Dataset path (csv, txt):", font=self.label_font, bg='#08013D', fg='#FFFFFF')
+        self.dataset_label.place(x=10, y=70)
+
+        self.path_label = Label(self, text="", font=self.label_font, bg='#FFFFFF', fg='#000000', width=65, height=1)
+        self.path_label.place(x=5, y=100)
+
+        self.search_button = Button(self, text="Search", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: filePickerPredict(self))
+        self.search_button.place(x=670, y=95)
+
+        self.predict_button = Button(self, text="Predict", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1)
+        self.predict_button.place(x=350, y=150)
+
+
