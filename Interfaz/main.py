@@ -1,66 +1,18 @@
-#import statement
-from ast import main
-from classes.viewClass import MainWin
-from tkinter import *
-from rpy2.robjects import r
-global dowhyDataset
-global bartDataset
-# ----------------------- FUNCTIONS ----------------------
+from classes.MainApp.mainController import mainController
+from classes.MainApp.mainModel import mainModel
+from classes.MainApp.mainView import mainView
 
-def buildCausalModel():
-    pass
+# ----------------------- Inicializacion de la ventana principal ----------------------
 
-def predict():
-    pass
+def main():
+    rootView = mainView()
+    rootModel = mainModel()
+    rootController = mainController(rootModel, rootView)
 
-def RMSE():
-    pass
-
-def R2():
-    pass
-
-def variableImportance():
-    pass
-
-def ATE():
-    pass
-
-def showVariableImportance():
-    pass
-
-def showCausalGraph():
-    pass
-
-def showCausalGraph():
-    pass
-
-def estimate():
-    pass
-
-def refute():
-    pass
-
-def getBartDataset():
-    file = open ('bart_dataset.txt','r')
-    path = file.read()
-    file.close()
-    return path
-
-def getBartSettings():
-    settings = {} 
-    file = open ('bart_settings.txt','r')
-    for line in file:
-        c = '\n'
-        new_line = line.replace(c,"")
-        settings.append(new_line)
-    print(settings)
-    return settings
+    rootView.setController(rootController)
+    
+    rootView.mainloop()
 
 
-# ----------------------- SETTINGS ----------------------
-main_page = MainWin()
-
-# --- Main loop --- 
-main_page.mainloop() 
-
-
+if __name__ == '__main__':
+    main()
