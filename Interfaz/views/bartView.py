@@ -263,6 +263,7 @@ class PredictView(Toplevel):
         self.predict_button = Button(self, text="Predict", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: self.predict_button_clicked())
         self.predict_button.place(x=350, y=150)
 
+
     def predict_button_clicked(self):
         if self.controller is not None:
             self.controller.predictBart(self.file_path)

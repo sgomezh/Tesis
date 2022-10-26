@@ -10,6 +10,7 @@ def buildBartModelV2(settings):
     from rpy2.robjects import pandas2ri
     from rpy2.robjects.packages import importr
     from rpy2.robjects import r 
+    import numpy as np
 
     pandas2ri.activate()
     df = pd.read_csv(settings['file_path'])
@@ -44,14 +45,19 @@ def buildBartModelV2(settings):
 
         r('summ <- capture.output(summary(bart))')
 
-        summary = r['summ']
+        summary = np.array(r['summ'])
         oos_perf = bPackage.bart_predict_for_test_data(bart, test.loc[: , test.columns != settings['response']], test.loc[:, settings['response']])
 
-
-    
+        r.assign('oos_perf', oos_perf)
+        r('nameList <- names(oos_perf)')
         
-
-    return bart, [summary, oos_perf]
+        nameList = r('nameList')
+        
+        metricas_oos = {}
+        for i in range(len(oos_perf)):
+            metricas_oos[nameList[i]] = np.array(oos_perf[i])
+        
+    return bart, [summary, metricas_oos]
     
 
 # Convierte los valores de los porcentajes a valores entre 0 y 1
@@ -63,12 +69,15 @@ def normalizeValues(grow, prune, change):
     prune = prune * normalizer
     change = change * normalizer
     return [grow, prune, change]
-    #return mh_values
 
 def predict_with_bart(bart, df):
     from rpy2.robjects import pandas2ri
     from rpy2.robjects import r
+    import pandas as pd
     pandas2ri.activate()
+
+    df = pd.read_csv(df, header=True)
+
     bPackage = importr('bartMachine')
     pred = bPackage.predict_bart_machine(bart, df)
 
