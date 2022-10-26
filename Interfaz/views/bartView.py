@@ -218,7 +218,9 @@ class BartView(Toplevel):
     def build_button_clicked(self):
         if self.controller is not None:
             self.controller.store_settings(self.settings)
+            print("Click en el boton de construir")
             self.controller.buildBart()
+            
 
 
 class PredictView(Toplevel):

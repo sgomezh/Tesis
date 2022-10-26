@@ -66,7 +66,9 @@ class appController:
     # Construye el modelo de BART
     def buildBart(self):
         import bartMethods.buildBart as bb
-        self.model.bartInstance = bb.buildBartModelV2(self.model.bartSettings)
+        self.model.bartInstance, bartInfo = bb.buildBartModelV2(self.model.bartSettings)
+        print(bartInfo)
+        
 
     # Almacena la confirugarion en el modelo
     def store_settings(self, settings):

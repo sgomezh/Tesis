@@ -10,6 +10,7 @@ class bartController:
     def buildBart(self):
         import bartMethods.buildBart as bb
         self.model.bart = bb.buildBartModelV2(self.model.settings)
+        results = bb.getInfo(self.model.bart, self.model.settings)
 
     # Almacena la confirugarion en el modelo
     def store_settings(self, settings):

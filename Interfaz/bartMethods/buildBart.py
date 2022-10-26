@@ -24,11 +24,11 @@ def buildBartModelV2(settings):
 
     if settings['cv']:
         # TODO: Poner una pantalla de carga para esta funcion
-        bart = bPackage.build_bart_machine_cv(X = df.loc[: , df.columns != settings['response']],
-                                                y = df.loc[:, settings['response']])
+        bart = bPackage.build_bart_machine_cv(X = train.loc[: , train.columns != settings['response']],
+                                                y = train.loc[:, settings['response']])
     else:
-        bart = bPackage.build_bart_machine(X = df.loc[: , df.columns != settings['response']],
-                                            y = df.loc[:, settings['response']],
+        bart = bPackage.build_bart_machine(X = train.loc[: , train.columns != settings['response']],
+                                            y = train.loc[:, settings['response']],
                                             num_trees = settings['n_trees'],
                                             num_burn_in = settings['burn_in_iter'],
                                             num_iterations_after_burn_in = settings['after_burn_in_iter'],
@@ -39,9 +39,19 @@ def buildBartModelV2(settings):
                                             nu = float(settings['nu']),
                                             mh_prob_steps = FloatVector(mh_values)
                                             )
+
+        r.assign('bart', bart)
+
+        r('summ <- capture.output(summary(bart))')
+
+        summary = r['summ']
+        oos_perf = bPackage.bart_predict_for_test_data(bart, test.loc[: , test.columns != settings['response']], test.loc[:, settings['response']])
+
+
+    
         
 
-    return bart
+    return bart, [summary, oos_perf]
     
 
 # Convierte los valores de los porcentajes a valores entre 0 y 1
@@ -49,10 +59,6 @@ def normalizeValues(grow, prune, change):
     # Creamos una constante normalizadora
     #mh_values = {}
     normalizer = 1 / (grow + prune + change)
-    # Normalizamos los valores
-    # mh_values['grow'] = grow * normalizer
-    # mh_values['prune'] = prune * normalizer
-    # mh_values['change'] = change * normalizer
     grow = grow * normalizer
     prune = prune * normalizer
     change = change * normalizer
@@ -67,4 +73,6 @@ def predict_with_bart(bart, df):
     pred = bPackage.predict_bart_machine(bart, df)
 
     r['summary'](pred)
+
+
     
