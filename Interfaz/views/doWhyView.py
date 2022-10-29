@@ -13,7 +13,7 @@ class DoWhyView(Toplevel):
         self.transient(parent)
         self.title("Causal Tool")
         self.geometry(str(width) + "x" + str(height))
-        icon = Image.open('Interfaz/icon.png')
+        icon = Image.open('Interfaz/img/icon.png')
         photo = ImageTk.PhotoImage(icon)
         self.wm_iconphoto(False, photo)
         self.minsize(width, height)
