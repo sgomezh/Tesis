@@ -11,7 +11,7 @@ class mainView(Tk):
         # --- Titulo ---
         self.title("Causal Tool")
         # --- Icono ---
-        self.icon = Image.open('Interfaz/icon.png')
+        self.icon = Image.open('Interfaz/img/icon.png')
         self.photo = ImageTk.PhotoImage(self.icon)
         self.iconphoto(False, self.photo)
         # --- Tamagno --- 
@@ -25,13 +25,13 @@ class mainView(Tk):
         self.button_font = Font(family="Arabic Transparent", size=12, weight="bold")
         self.result_font = Font(family="Arabic Transparent", size=12, weight="bold")
         # ---------------------- INTERFACE ----------------------
-        self.image = Image.open('Interfaz/causal_tool.png')
+        self.image = Image.open('Interfaz/img/causal_tool.png')
         # --- Crea el canvas principal --- 
         self.center_canvas = Canvas(self, width= 290, height= 60)
         self.center_canvas.pack()
 
         # --- Carga la imagen de logo en la ventana principal --- 
-        self.img = (Image.open("Interfaz/causal_tool.png"))
+        self.img = (Image.open("Interfaz/img/causal_tool.png"))
 
         # --- Redimensiona la imagen --- 
         self.resized_image= self.img.resize((300,70), Image.ANTIALIAS)
