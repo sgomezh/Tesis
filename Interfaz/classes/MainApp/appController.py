@@ -27,7 +27,8 @@ class appController:
         self.bartApp = BartApp(self)
 
     def predict_button_clicked(self):
-        pred = PredictView(self.mainView)
+        self.pred = PredictView(self.mainView)
+        
 
     def variable_importance_button_clicked(self):
         pass
