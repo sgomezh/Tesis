@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import BooleanVar, DoubleVar, IntVar, Label, Button, Entry, Toplevel, filedialog, StringVar, OptionMenu, Scale, HORIZONTAL
+from tkinter import BooleanVar, DoubleVar, IntVar, Label, Button, Entry, Tk, Toplevel, filedialog, StringVar, OptionMenu, Scale, HORIZONTAL
 from tkinter.font import Font
 from PIL import Image, ImageTk
 
@@ -216,10 +216,10 @@ class BartView(Toplevel):
 
     # Build button
     def build_button_clicked(self):
-        if self.controller is not None:
-            self.controller.store_settings(self.settings)
-            print("Click en el boton de construir")
-            self.controller.buildBart()
+        self.controller.store_settings(self.settings)
+        self.controller.buildBart()
+        self.destroy()
+            
             
 
 
@@ -263,11 +263,14 @@ class PredictView(Toplevel):
         self.predict_button = Button(self, text="Predict", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: self.predict_button_clicked())
         self.predict_button.place(x=350, y=150)
 
+        self.controller = None
+
+
+    def set_controller(self, controller):
+        self.controller = controller
 
     def predict_button_clicked(self):
-        if self.controller is not None:
-            self.controller.predictBart(self.file_path)
-
+        self.controller.predictBart(self.file_path)
 
     def filePickerPredict(self):
         self.file_path = filedialog.askopenfilename()

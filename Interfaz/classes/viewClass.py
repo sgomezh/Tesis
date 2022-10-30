@@ -1,8 +1,4 @@
-from tkinter import Toplevel, Tk, Canvas, Label, Button, StringVar, Entry, filedialog, OptionMenu
-from tkinter.font import Font
-from PIL import Image, ImageTk
-import classes.viewMethods as vm
-from views.bartView import BartView
+from views.bartView import BartView, PredictView
 from views.doWhyView import DoWhyView
 
 class BartApp():
@@ -14,6 +10,24 @@ class BartApp():
         self.controller = parent.controller
 
         self.view.set_controller(self.controller)
+
+    def close(self):
+        self.view.destroy()
+
+
+class PredictApp():
+    def __init__(self, parent):
+        super().__init__()
+        self.model = parent.model
+        self.view = PredictView(parent.mainView)
+        self.controller = parent.controller
+
+        self.view.set_controller(self.controller)
+    
+    def close(self):
+        self.view.destroy()
+
+
 
 class DoWhyApp:
     def __init__(self, parent):
