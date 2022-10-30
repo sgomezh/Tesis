@@ -2,8 +2,6 @@ from tkinter import Toplevel, Tk, Canvas, Label, Button, StringVar, Entry, filed
 from tkinter.font import Font
 from PIL import Image, ImageTk
 import classes.viewMethods as vm
-import classes.BartApp.bartModel as bm
-import classes.BartApp.bartController as bc
 from views.bartView import BartView
 from views.doWhyView import DoWhyView
 

@@ -4,6 +4,7 @@ from tkinter import filedialog
 from tkinter.font import Font
 import bartMethods.buildBart as bb
 
+
 # Agrega los métodos de la clase a la interfaz gráfica
 def buildBartModelView(newWindow, center_canvas):
     # Coordenadas de los elementos
@@ -152,7 +153,7 @@ def buildBartModelView(newWindow, center_canvas):
             k_entry.config(state=NORMAL)
             nu_entry.config(state=NORMAL)
 
-    cross_validation_checkbox = Checkbutton(newWindow, text="Cross Validation", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', selectcolor="black", variable = cross_validation, command=activate_cross_validation)
+    cross_validation_checkbox = Checkbutton(newWindow, text="Cross Validation", font=newWindow.label_font, bg='#08013D', fg='#FFFFFF', selectcolor="black", variable = cross_validation, command= lambda: activate_cross_validation())
     cross_validation_checkbox.place(x=10, y=130)
 
     # Save button
