@@ -2,24 +2,29 @@ library(bartMachine)
 library(rlang)
 library(caTools)
 library(dplyr)
-
-# Load data
-#dataUrl <- "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/master/datasets/IHDP/csv/ihdp_npci_1.csv"
+library(gridGraphics)
 
 data(automobile)
 automobile <- na.omit(automobile)
 
 # Split data
-set.seed(123)
 split <- sample.split(automobile$log_price, SplitRatio = 0.8)
 train <- subset(automobile, split == TRUE)
 test <- subset(automobile, split == FALSE)
 
+png(filename = "D:/Escritorio/Codigo/Tesis/Predicciones/varimp.png")
 
-# Train model
-bart <- build_bart_machine(train[, 1:ncol(train)-1], train$log_price, num_trees = 200)
+bart = build_bart_machine(train[, -which(names(train) == 'log_price')], train$log_price, num_trees = 200)
 
-sumario <- capture.output(summary(bart))
+investigate_var_importance(bart)
 
-print(sumario)
+dev.off()
+
+
+# # Train model
+# bart <- build_bart_machine(train[, 1:ncol(train)-1], train$log_price, num_trees = 200)
+
+# sumario <- capture.output(summary(bart))
+
+# print(sumario)
 

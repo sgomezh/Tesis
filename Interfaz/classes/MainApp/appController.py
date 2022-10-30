@@ -1,5 +1,5 @@
 from views.bartView import PredictView
-from classes.viewClass import BartApp, DoWhyApp
+from classes.viewClass import BartApp, DoWhyApp, PredictApp
 
 # Este es el controlador principal de la aplicacion
 class appController:
@@ -27,11 +27,17 @@ class appController:
         self.bartApp = BartApp(self)
 
     def predict_button_clicked(self):
-        self.pred = PredictView(self.mainView)
+        if (self.model.bartInstance is not None):
+            self.predictApp = PredictApp(self)
+        else:
+            raise Exception("No se ha construido el modelo BART")
         
-
     def variable_importance_button_clicked(self):
-        pass
+        if (self.model.bartInstance is not None):
+            from bartMethods.buildBart import display_var_importance
+            display_var_importance(self.model.bartInstance)
+        else:
+            raise Exception("No se ha construido el modelo BART")
 
     def ate_button_clicked(self):
         pass
@@ -68,7 +74,6 @@ class appController:
     def buildBart(self):
         import bartMethods.buildBart as bb
         self.model.bartInstance, bartInfo = bb.buildBartModelV2(self.model.bartSettings)
-        print(bartInfo)
         
 
     # Almacena la confirugarion en el modelo
@@ -87,6 +92,6 @@ class appController:
         return list(dataset.columns)
     
     def predictBart(self, dataPath):
-        from bartMethods import predict_with_bart
+        from bartMethods.buildBart import predict_with_bart
         predict_with_bart(self.model.bartInstance, dataPath)
     
