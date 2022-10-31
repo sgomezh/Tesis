@@ -1,8 +1,6 @@
 from views.bartView import PredictView
 from classes.viewClass import BartApp, DoWhyApp, PredictApp
 from dowhyMethods.estimate import estimate_effect
-from dowhyMethods.refute import refute_effect
-from dowhyMethods.causalGraph import causalGraph
 
 
 # Este es el controlador principal de la aplicacion
@@ -56,7 +54,7 @@ class appController:
         pass
 
     def estimate_effect_button_clicked(self):
-        self.model.estimatedEffect = 
+        pass
 
     def refute_button_clicked(self):
         pass
@@ -106,5 +104,5 @@ class appController:
     
     
     def store_doWhySettings(self, settings):
-        
+        pass
     

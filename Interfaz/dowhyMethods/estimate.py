@@ -114,5 +114,3 @@ def splitVariables(setting_list):
     if len(setting_list) == 1:
         setting_list = setting_list[0]
     return setting_list
-
-estimate_effect()
