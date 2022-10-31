@@ -1,5 +1,9 @@
 from views.bartView import PredictView
 from classes.viewClass import BartApp, DoWhyApp, PredictApp
+from dowhyMethods.estimate import estimate_effect
+from dowhyMethods.refute import refute_effect
+from dowhyMethods.causalGraph import causalGraph
+
 
 # Este es el controlador principal de la aplicacion
 class appController:
@@ -23,6 +27,8 @@ class appController:
 
 # VISTAS
 # ---------------- Inicio: Botones del Main ------------------------------
+    
+# --------------------- BART ---------------------    
     def build_bart_button_clicked(self):
         self.bartApp = BartApp(self)
 
@@ -41,6 +47,7 @@ class appController:
 
     def ate_button_clicked(self):
         pass
+# --------------------- DOWHY ---------------------
 
     def causal_model_button_clicked(self):
         self.dowhyApp = DoWhyApp(self)
@@ -49,7 +56,7 @@ class appController:
         pass
 
     def estimate_effect_button_clicked(self):
-        pass
+        self.model.estimatedEffect = 
 
     def refute_button_clicked(self):
         pass
@@ -76,8 +83,8 @@ class appController:
         self.model.bartInstance, bartInfo = bb.buildBartModelV2(self.model.bartSettings)
         
 
-    # Almacena la confirugarion en el modelo
-    def store_settings(self, settings):
+    # Almacena la configuracion en el modelo
+    def store_bartSettings(self, settings):
         # Iterate over settings map
         for key, value in settings.items():
             if(type(value) == str):
@@ -85,13 +92,19 @@ class appController:
             else:
                 self.model.bartSettings[key] = value.get()
 
+
     # Obtiene las columnas del dataset
     def get_col_names(self, path):
         import pandas as pd
         dataset = pd.read_csv(path)
         return list(dataset.columns)
-    
+
+
     def predictBart(self, dataPath):
         from bartMethods.buildBart import predict_with_bart
         predict_with_bart(self.model.bartInstance, dataPath)
+    
+    
+    def store_doWhySettings(self, settings):
+        
     

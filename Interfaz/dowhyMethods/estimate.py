@@ -8,6 +8,7 @@ from sklearn.preprocessing import PolynomialFeatures
 import sys
 import warnings
 from sklearn.exceptions import DataConversionWarning
+import classes.MainApp.appModel as appmodel
 
 def estimate_effect():
 
@@ -70,12 +71,13 @@ def estimate_effect():
                                                               'featurizer':PolynomialFeatures(degree=1, include_bias=False)},
                                                "fit_params":{}})
         print('dml')
-                
-    #print(estimate
     print("Causal Estimate is " + str(estimate.value))
+    
     
 
     # Refute the obtained estimate using a placebo test
+    
+def refute(model, identified_estimand, estimate):
     refute_results=model.refute_estimate(identified_estimand, estimate,
             method_name="random_common_cause")
     print(refute_results)

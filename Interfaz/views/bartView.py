@@ -216,7 +216,7 @@ class BartView(Toplevel):
 
     # Build button
     def build_button_clicked(self):
-        self.controller.store_settings(self.settings)
+        self.controller.store_bartSettings(self.settings)
         self.controller.buildBart()
         self.destroy()
             

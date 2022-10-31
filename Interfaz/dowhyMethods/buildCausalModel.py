@@ -1,3 +1,6 @@
+from tkinter import filedialog
+from tkinter import *
+
 def saveSettingsDowhy(treatment_column, outcome_column, instrumental_variables, common_causes, estimation_option):
     f = open ('dowhy_settings.txt','w')
     f.write(str(estimation_option))

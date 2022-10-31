@@ -18,7 +18,9 @@ class appModel:
         }
         self._bartInstance = None
         self._doWhySettings = {}
-        self._doWhyInstance = None
+        self._doWhyModel = None
+        self._doWhyEstimate = None
+        self._doWhyRefute = None
 
     @property
     def bartSettings(self):
