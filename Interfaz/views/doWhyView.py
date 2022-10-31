@@ -132,13 +132,13 @@ class DoWhyView(Toplevel):
         self.controller.buildDoWhy()
         self.destroy()
 
-    def saveSettingsDowhy(self, doWhySettings):
-        settings = {}
-        for key, value in doWhySettings.items():
+    def saveSettingsDowhy(self, settings):
+        for key, value in settings.items():
             if type(value) == str:
-                doWhySettings[key] = value
+                self.doWhySettings[key] = value
             else:
-                doWhySettings[key] = value.get()
+                self.doWhySettings[key] = value.get()
         
-        print(doWhySettings)
+        print(self.doWhySettings)
+        
         
