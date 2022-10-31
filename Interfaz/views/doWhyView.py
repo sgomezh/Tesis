@@ -93,7 +93,7 @@ class DoWhyView(Toplevel):
         self.common_causes_entry.place(x=200, y=400)
 
         # --------- Save button ------------
-        self.save_button = Button(self, text="Save", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: [self.saveSettingsDowhy(self.doWhySettings), self.destroy()])
+        self.save_button = Button(self, text="Save", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: self.saveSettingsDowhy(self.doWhySettings))
         self.save_button.place(x=350, y=450)
         
         # --------- Controller ------------
@@ -127,7 +127,8 @@ class DoWhyView(Toplevel):
                 menu.add_command(label=name, command=lambda value=name: [self.doWhySettings['outcome_column'].set(value), print(self.doWhySettings['outcome_column'].get())])
         else:
             raise Exception("No se ha seleccionado ningun archivo.")
-        
+    
+    
     def save_button_clicked(self):
         self.controller.store_doWhySettings(self.doWhySettings)
         self.controller.buildDoWhy()
