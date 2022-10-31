@@ -18,6 +18,7 @@ class appModel:
         }
         self._bartInstance = None
         self._doWhySettings = {}
+        self._dowhyIdentifiedEstimand = None
         self._doWhyModel = None
         self._doWhyEstimate = None
         self._doWhyRefute = None
@@ -45,3 +46,27 @@ class appModel:
     @doWhySettings.setter
     def doWhySettings(self, settings):
         self._doWhySettings = settings  
+
+    def getDowhyModel(self):
+        return self._doWhyModel
+    
+    def setDowhyModel(self, model):
+        self._doWhyModel = model
+
+    def getDowhyIdentifiedEstimand(self):
+        return self._dowhyIdentifiedEstimand
+
+    def setDowhyIdentifiedEstimand(self, identified_estimand):
+        self._dowhyIdentifiedEstimand = identified_estimand
+
+    def getDowhyEstimate(self):
+        return self._doWhyEstimate
+    
+    def setDowhyEstimate(self, estimate):
+        self._doWhyEstimate = estimate
+    
+    def getDowhyRefute(self):
+        return self._doWhyRefute
+    
+    def setDowhyRefute(self, refute):
+        self._doWhyRefute = refute

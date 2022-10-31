@@ -1,4 +1,3 @@
-
 import classes.viewClass as vc
 from tkinter import *
 from tkinter import filedialog, OptionMenu
@@ -93,7 +92,7 @@ class DoWhyView(Toplevel):
         self.common_causes_entry.place(x=200, y=400)
 
         # --------- Save button ------------
-        self.save_button = Button(self, text="Save", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: [self.saveSettingsDowhy(self.treatment_column_entry.get(), self.outcome_column_entry.get(), self.intrumental_variables_entry.get(),  self.common_causes_entry.get(), self.estimation_option.get()), self.destroy()])
+        self.save_button = Button(self, text="Save", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: [self.saveSettingsDowhy(self.doWhySettings), self.destroy()])
         self.save_button.place(x=350, y=450)
         
         # --------- Controller ------------
@@ -132,3 +131,6 @@ class DoWhyView(Toplevel):
         self.controller.store_doWhySettings(self.doWhySettings)
         self.controller.buildDoWhy()
         self.destroy()
+
+    def saveSettingsDowhy(self, doWhySettings):
+        print(doWhySettings)

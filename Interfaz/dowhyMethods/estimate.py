@@ -1,14 +1,10 @@
-import dowhy
-from dowhy import CausalModel
-import pandas as pd
-import numpy as np
 from sklearn.linear_model import LassoCV
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.preprocessing import PolynomialFeatures
 import sys
 import warnings
 from sklearn.exceptions import DataConversionWarning
-import classes.MainApp.appModel as appmodel
+from classes.MainApp.appModel import appModel
 
 def estimate_effect():
 
@@ -19,28 +15,14 @@ def estimate_effect():
     warnings.filterwarnings(action='ignore', category=DataConversionWarning)
     warnings.filterwarnings(action='ignore', category=FutureWarning)
 
-    path = getDowhyDataset()
-    data= pd.read_csv(path, header = 0)
-    settings = getDowhySettinngs()
-
-    data = data.astype({"treatment":'bool'}, copy=False)
-
-
-    # Create a causal model from the data and given common causes.
-    model=CausalModel(
-            data = data,
-            treatment=settings['treatment_column'],
-            outcome=settings['outcome_column'],
-            common_causes=settings['common_causes'],
-            instrumental= settings['instrumental_variables']
-            )
-    model.view_model()
-    from IPython.display import Image, display
-    display(Image(filename="causal_model.png"))
-
+    model = appModel.getDowhyModel()
     #Identify the causal effect
   
     identified_estimand = model.identify_effect(proceed_when_unidentifiable=True)
+
+    appModel.setDowhyIdentifiedEstimand(identified_estimand)
+    settings = appModel.getDowhySettings()
+
     '''print(identified_estimand)'''
     if settings['estimation_option'] == '0':
         # Estimate the causal effect and compare it with Average Treatment Effect
@@ -73,14 +55,6 @@ def estimate_effect():
         print('dml')
     print("Causal Estimate is " + str(estimate.value))
     
-    
-
-    # Refute the obtained estimate using a placebo test
-    
-def refute(model, identified_estimand, estimate):
-    refute_results=model.refute_estimate(identified_estimand, estimate,
-            method_name="random_common_cause")
-    print(refute_results)
 
 def getDowhyDataset():
     file = open ('dowhy_dataset.txt','r')
