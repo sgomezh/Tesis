@@ -39,12 +39,10 @@ class appModel:
     def bartInstance(self, bart):
         self._bartInstance = bart
         
-    @property
-    def doWhySettings(self):
+    def getDoWhySettings(self):
         return self._doWhySettings
 
-    @doWhySettings.setter
-    def doWhySettings(self, settings):
+    def setDoWhySettings(self, settings):
         self._doWhySettings = settings  
 
     def getDowhyModel(self):

@@ -56,35 +56,3 @@ def estimate_effect():
     print("Causal Estimate is " + str(estimate.value))
     
 
-def getDowhyDataset():
-    file = open ('dowhy_dataset.txt','r')
-    path = file.read()
-    file.close()
-    return path
-
-def getDowhySettinngs(): 
-    settings = {} 
-    setting_list = []
-    file = open ('dowhy_settings.txt','r')
-    for line in file:
-        c = '\n'
-        new_line = line.replace(c,"")
-        setting_list.append(new_line)
-    for i in range(len(setting_list)):
-        if i == 0:
-            settings['estimation_option'] = splitVariables(setting_list[i])
-        elif i == 1:
-            settings['treatment_column'] = splitVariables(setting_list[i])
-        elif i == 2:
-            settings['outcome_column'] = splitVariables(setting_list[i])
-        elif i == 3:
-            settings['instrumental_variables'] = splitVariables(setting_list[i])
-        elif i == 4:
-            settings['common_causes'] = splitVariables(setting_list[i])
-    return settings
-
-def splitVariables(setting_list):
-    setting_list = setting_list.split(",")
-    if len(setting_list) == 1:
-        setting_list = setting_list[0]
-    return setting_list

@@ -4,6 +4,7 @@ from tkinter import filedialog, OptionMenu
 from tkinter.font import Font
 from PIL import Image, ImageTk
 from tkinter import Toplevel
+from classes.MainApp.appModel import appModel
 
 class DoWhyView(Toplevel):
     def __init__(self, parent, width, height):
@@ -138,7 +139,35 @@ class DoWhyView(Toplevel):
                 self.doWhySettings[key] = value
             else:
                 self.doWhySettings[key] = value.get()
-        
-        print(self.doWhySettings)
-        
+        dict = self.doWhySettings
+        appModel.setDoWhySettings(dict)
+
+    '''def splitVariables(setting_list):
+        setting_list = setting_list.split(",")
+        if len(setting_list) == 1:
+            setting_list = setting_list[0]
+        return setting_list
+    
+    def getDowhySettinngs(): 
+        settings = {} 
+        setting_list = []
+        file = open ('dowhy_settings.txt','r')
+        for line in file:
+            c = '\n'
+            new_line = line.replace(c,"")
+            setting_list.append(new_line)
+        for i in range(len(setting_list)):
+            if i == 0:
+                settings['estimation_option'] = splitVariables(setting_list[i])
+            elif i == 1:
+                settings['treatment_column'] = splitVariables(setting_list[i])
+            elif i == 2:
+                settings['outcome_column'] = splitVariables(setting_list[i])
+            elif i == 3:
+                settings['instrumental_variables'] = splitVariables(setting_list[i])
+            elif i == 4:
+                settings['common_causes'] = splitVariables(setting_list[i])
+        return settings
+'''
+    
         
