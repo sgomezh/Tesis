@@ -133,4 +133,12 @@ class DoWhyView(Toplevel):
         self.destroy()
 
     def saveSettingsDowhy(self, doWhySettings):
+        settings = {}
+        for key, value in doWhySettings.items():
+            if type(value) == str:
+                doWhySettings[key] = value
+            else:
+                doWhySettings[key] = value.get()
+        
         print(doWhySettings)
+        
