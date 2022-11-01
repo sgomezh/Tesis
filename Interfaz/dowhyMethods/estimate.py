@@ -49,6 +49,15 @@ def estimate_effect(model, doWhySettings):
                             "fit_params":{}})
         print('dml')
     print("Causal Estimate is " + str(estimate.value))
+
+    showEstimateResults(estimate)
     
     return identified_estimand, estimate
 
+def showEstimateResults(estimate):
+    from tkinter import Tk, Canvas, Label, Button
+    from tkinter.font import Font
+    from PIL import Image, ImageTk
+
+    result_canvas = Canvas( width= 500, height= 400, bg='red')
+    result_canvas.place(x=350, y=150)

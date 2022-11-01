@@ -16,7 +16,7 @@ def generateCausalModel(doWhySettings):
 
     # --------------------- Leer archivo de datos ---------------------
     data = pd.read_csv(doWhySettings['file_path'], header = 0)
-    data = data.astype({"treatment":'bool'}, copy=False)
+    #data = data.astype({"treatment":'bool'}, copy=False)
 
     # --------------------- Crea modelo causal ---------------------
     model=CausalModel(
