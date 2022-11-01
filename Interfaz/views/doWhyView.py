@@ -93,7 +93,7 @@ class DoWhyView(Toplevel):
         self.common_causes_entry.place(x=200, y=400)
 
         # --------- Save button ------------
-        self.save_button = Button(self, text="Save", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: self.saveSettingsDowhy(self.doWhySettings))
+        self.save_button = Button(self, text="Save", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: self.save_button_clicked())
         self.save_button.place(x=350, y=450)
         
         # --------- Controller ------------
@@ -109,17 +109,13 @@ class DoWhyView(Toplevel):
             self.path_label.place(x=5, y=100)
             # Guardado en memoria
             self.doWhySettings['file_path'] = file_path
-            # Guardado en txt
-            f = open ('dowhy_dataset.txt','w')
-            f.write(file_path)
-            f.close()
 
             col_names = self.controller.get_col_names(file_path)
             # Update treatment column menu
             menu = self.treatment_column_menu["menu"]
             menu.delete(0, "end")
             for name in col_names:
-                menu.add_command(label=name, command=lambda value=name: [self.doWhySettings['treatment_column'].set(value), print(self.doWhySettings['treatment_column'].get())])
+                menu.add_command(label=name, command=lambda value=name: self.doWhySettings['treatment_column'].set(value))
             # Update outcome column menu
             menu = self.outcome_column_menu["menu"]
             menu.delete(0, "end")
@@ -149,32 +145,5 @@ class DoWhyView(Toplevel):
         #appModel.setDoWhySettings(dict)
 
 
-    '''def splitVariables(setting_list):
-        setting_list = setting_list.split(",")
-        if len(setting_list) == 1:
-            setting_list = setting_list[0]
-        return setting_list
-    
-    def getDowhySettinngs(): 
-        settings = {} 
-        setting_list = []
-        file = open ('dowhy_settings.txt','r')
-        for line in file:
-            c = '\n'
-            new_line = line.replace(c,"")
-            setting_list.append(new_line)
-        for i in range(len(setting_list)):
-            if i == 0:
-                settings['estimation_option'] = splitVariables(setting_list[i])
-            elif i == 1:
-                settings['treatment_column'] = splitVariables(setting_list[i])
-            elif i == 2:
-                settings['outcome_column'] = splitVariables(setting_list[i])
-            elif i == 3:
-                settings['instrumental_variables'] = splitVariables(setting_list[i])
-            elif i == 4:
-                settings['common_causes'] = splitVariables(setting_list[i])
-        return settings
-'''
     
         

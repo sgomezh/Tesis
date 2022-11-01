@@ -66,13 +66,13 @@ class mainView(Tk):
         self.causal_model_button = Button(self, text="Build causal model", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: self.causal_model_button_clicked())
         self.causal_model_button.place(x=970, y=150)
 
-        self.causal_graph_button = Button(self, text="Display causal graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: vm.createCausalGraph())
+        self.causal_graph_button = Button(self, text="Display causal graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: self.causal_graph_button_clicked())
         self.causal_graph_button.place(x=970, y=230)
 
-        self.estimate_effect_button = Button(self, text="Estimate effect", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
+        self.estimate_effect_button = Button(self, text="Estimate effect", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command=lambda: self.estimate_effect_button_clicked())
         self.estimate_effect_button.place(x=970, y= 310)
 
-        self.refute_button = Button(self, text="Refute estimation", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
+        self.refute_button = Button(self, text="Refute estimation", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: self.refute_button_clicked())
         self.refute_button.place(x=970, y=390)
 
         self.reset_button = Button(self, text="Reset", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=1, command= lambda: vm.resetApp())
@@ -92,7 +92,6 @@ class mainView(Tk):
         self.controller.predict_button_clicked()
 
     def variable_importance_button_clicked(self):
-        print("variable_importance_button_clicked")
         self.controller.variable_importance_button_clicked()
 
     def ate_button_clicked(self):

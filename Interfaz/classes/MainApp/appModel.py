@@ -39,32 +39,50 @@ class appModel:
     def bartInstance(self, bart):
         self._bartInstance = bart
         
-    def getDoWhySettings(self):
+    @property
+    def doWhySettings(self):
         return self._doWhySettings
 
-    def setDoWhySettings(self, settings):
+    @doWhySettings.setter
+    def doWhySettings(self, settings):
         self._doWhySettings = settings  
 
-    def getDowhyModel(self):
+    @property
+    def dowhyModel(self):
         return self._doWhyModel
     
-    def setDowhyModel(self, model):
+    @dowhyModel.setter
+    def dowhyModel(self, model):
         self._doWhyModel = model
 
-    def getDowhyIdentifiedEstimand(self):
+    @property
+    def dowhyIdentifiedEstimand(self):
         return self._dowhyIdentifiedEstimand
 
-    def setDowhyIdentifiedEstimand(self, identified_estimand):
+    @dowhyIdentifiedEstimand.setter
+    def dowhyIdentifiedEstimand(self, identified_estimand):
         self._dowhyIdentifiedEstimand = identified_estimand
-
-    def getDowhyEstimate(self):
+    
+    @property
+    def dowhyEstimate(self):
         return self._doWhyEstimate
     
-    def setDowhyEstimate(self, estimate):
+    @dowhyEstimate.setter    
+    def dowhyEstimate(self, estimate):
         self._doWhyEstimate = estimate
     
-    def getDowhyRefute(self):
+    @property
+    def dowhyRefute(self):
         return self._doWhyRefute
     
-    def setDowhyRefute(self, refute):
+    @dowhyRefute.setter
+    def dowhyRefute(self, refute):
         self._doWhyRefute = refute
+
+    @property
+    def causalGraph(self):
+        return self._causalGraph
+
+    @causalGraph.setter
+    def causalGraph(self, graph):
+        self._causalGraph = graph

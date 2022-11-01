@@ -46,19 +46,23 @@ class appController:
     def ate_button_clicked(self):
         pass
 # --------------------- DOWHY ---------------------
-
     def causal_model_button_clicked(self):
         self.dowhyApp = DoWhyApp(self)
 
     def causal_graph_button_clicked(self):
-        pass
+        if (self.model.dowhyModel is not None):
+            from dowhyMethods.causalGraph import generateCausalGraph
+            generateCausalGraph(self.model.dowhyModel)
+        else:
+            raise Exception("No se ha construido el modelo de DoWhy")
 
     def estimate_effect_button_clicked(self):
-        pass
+        from dowhyMethods.estimate import estimate_effect
+        self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate = estimate_effect(self.model.dowhyModel, self.model.doWhySettings)
 
     def refute_button_clicked(self):
-        pass
-
+        from dowhyMethods.refute import refute
+        self.model.dowhyRefute = refute(self.model.dowhyModel, self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate)
 # ---------------- Termino: Botones del Main ------------------------------
 
 
@@ -80,6 +84,9 @@ class appController:
         import bartMethods.buildBart as bb
         self.model.bartInstance, bartInfo = bb.buildBartModelV2(self.model.bartSettings)
         
+    def buildDoWhy(self):
+        from dowhyMethods.buildCausalModel import generateCausalModel
+        self.model.dowhyModel = generateCausalModel(self.model.doWhySettings)
 
     # Almacena la configuracion en el modelo
     def store_bartSettings(self, settings):
@@ -104,5 +111,16 @@ class appController:
     
     
     def store_doWhySettings(self, settings):
-        self.model.doWhySettings = settings
+        for key, value in settings.items():
+            if type(value) == str:
+                self.model.doWhySettings[key] = value
+            else:
+                self.model.doWhySettings[key] = str(value.get()).split(",")
+                if len(self.model.doWhySettings[key]) == 1:
+                    self.model.doWhySettings[key] = self.model.doWhySettings[key][0]
+        print(self.model.doWhySettings)
+    
+    
+
+
     
