@@ -18,7 +18,6 @@ def estimate_effect(model, doWhySettings):
   
     identified_estimand = model.identify_effect(proceed_when_unidentifiable=True)
 
-    '''print(identified_estimand)'''
     if doWhySettings['estimation_option'] == '0':
         # Estimate the causal effect and compare it with Average Treatment Effect
         estimate = model.estimate_effect(identified_estimand,
@@ -55,9 +54,11 @@ def estimate_effect(model, doWhySettings):
     return identified_estimand, estimate
 
 def showEstimateResults(estimate):
-    from tkinter import Tk, Canvas, Label, Button
+    from tkinter import Canvas
     from tkinter.font import Font
-    from PIL import Image, ImageTk
 
-    result_canvas = Canvas( width= 500, height= 400, bg='red')
+    result_font = Font(family="Arabic Transparent", size=12, weight="bold")
+    result_canvas = Canvas( width= 500, height= 400, bg='#FFFFFF')
+    result_canvas.create_text(250, 50, text= str(estimate.value), font=result_font)
     result_canvas.place(x=350, y=150)
+

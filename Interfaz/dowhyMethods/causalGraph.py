@@ -1,8 +1,3 @@
-
-
-from tkinter import NW
-
-
 def generateCausalGraph(model):
     model.view_model()
     from IPython.display import Image, display
@@ -12,6 +7,7 @@ def generateCausalGraph(model):
 def showCausalGraph():
     from PIL import Image, ImageTk
     from tkinter import Canvas
+    from tkinter import NW
 
     img = Image.open("causal_model.png")
     causal_graph_canvas = Canvas(width= 500, height= 400)
