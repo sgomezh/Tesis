@@ -76,12 +76,26 @@ def predict_with_bart(bart, df):
     import pandas as pd
     pandas2ri.activate()
 
-    df = pd.read_csv(df, header=True)
+    df = pd.read_csv(df, header=0)
 
     bPackage = importr('bartMachine')
-    pred = bPackage.predict_bart_machine(bart, df)
+    pred = bPackage.predict_bartMachine(bart, df)
 
-    r['summary'](pred)
+    r.assign('pred', pred)
+    r('''
+        save_path <- 'Interfaz/predicciones.csv'
+        write.csv(pred, file = "Interfaz/predicciones.csv")
+    ''')
+    save_path = r('save_path')
+    print("Predicciones guardadas en: " + save_path[0])
+
+    # # Save file
+    # file = pd.DataFrame(file)
+    # file.to_csv('Interfaz/prediction.csv', index=False)
+
+    
+
+
 
 def display_var_importance(bart):
     from rpy2.robjects.packages import importr

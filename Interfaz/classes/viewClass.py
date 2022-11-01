@@ -24,9 +24,6 @@ class PredictApp():
 
         self.view.set_controller(self.controller)
     
-    def close(self):
-        self.view.destroy()
-
 
 
 class DoWhyApp:
