@@ -104,5 +104,5 @@ class appController:
     
     
     def store_doWhySettings(self, settings):
-        pass
+        self.model.doWhySettings = settings
     

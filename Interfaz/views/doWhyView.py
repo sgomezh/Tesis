@@ -130,18 +130,24 @@ class DoWhyView(Toplevel):
     
     
     def save_button_clicked(self):
+        # Se guarda la configuracion
         self.controller.store_doWhySettings(self.doWhySettings)
+        # Se crea el modelo de dowhy
         self.controller.buildDoWhy()
+        # Se cierra la ventana
         self.destroy()
 
+    # Guarda la configuracion de dowhy
     def saveSettingsDowhy(self, settings):
         for key, value in settings.items():
             if type(value) == str:
                 self.doWhySettings[key] = value
             else:
                 self.doWhySettings[key] = value.get()
-        dict = self.doWhySettings
-        appModel.setDoWhySettings(dict)
+                
+        #dict = self.doWhySettings
+        #appModel.setDoWhySettings(dict)
+
 
     '''def splitVariables(setting_list):
         setting_list = setting_list.split(",")
