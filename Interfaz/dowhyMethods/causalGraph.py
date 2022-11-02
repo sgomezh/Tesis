@@ -10,8 +10,8 @@ def showCausalGraph():
     from tkinter import NW
 
     img = Image.open("causal_model.png")
-    causal_graph_canvas = Canvas(width= 500, height= 400)
-    causal_graph_canvas.place(x=350, y=150)
+    causal_graph_canvas = Canvas(width= 550, height= 440)
+    causal_graph_canvas.place(x=300, y=100)
     img = Image.open("causal_model.png")
     resize_img = img.resize((500, 400), Image.ANTIALIAS)
     causal_graph = ImageTk.PhotoImage(resize_img)

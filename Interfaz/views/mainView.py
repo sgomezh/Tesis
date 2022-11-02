@@ -64,7 +64,7 @@ class mainView(Tk):
         # self.result_canvas.place(x=300, y=100)
 
         # --- Scrolledtext para el centro ---
-        self.text_area = scrolledtext.ScrolledText(self, width= 75, height= 25, bg='#FFFFFF')
+        self.text_area = scrolledtext.ScrolledText(self, width= 55, height= 20, bg='#FFFFFF', font = self.result_font)
         self.text_area.place(x=300, y=100)
 
         # --- Botones DoWhy ---

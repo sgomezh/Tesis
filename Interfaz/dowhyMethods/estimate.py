@@ -22,17 +22,17 @@ def estimate_effect(model, doWhySettings):
         # Estimate the causal effect and compare it with Average Treatment Effect
         estimate = model.estimate_effect(identified_estimand,
                 method_name="backdoor.linear_regression")
-        print('linear_regression')
+        #print('linear_regression')
             
     elif doWhySettings['estimation_option'] == '1':
         estimate = model.estimate_effect(identified_estimand,
                 method_name="backdoor.propensity_score_matching")
-        print('propensity_score_matching')
+        #print('propensity_score_matching')
         
     elif doWhySettings['estimation_option'] == '2':
         estimate = model.estimate_effect(identified_estimand,
                 method_name="backdoor.propensity_score_weighting")
-        print('propensity_score_weighting')
+        #print('propensity_score_weighting')
 
     elif doWhySettings['estimation_option'] == '3':
         estimate = model.estimate_effect(identified_estimand, 
@@ -46,19 +46,20 @@ def estimate_effect(model, doWhySettings):
                                             "model_final":LassoCV(fit_intercept=False), 
                                             'featurizer':PolynomialFeatures(degree=1, include_bias=False)},
                             "fit_params":{}})
-        print('dml')
-    print("Causal Estimate is " + str(estimate.value))
+        #print('dml')
+    # print("Causal Estimate is " + str(estimate.value))
 
     showEstimateResults(estimate)
     
     return identified_estimand, estimate
 
 def showEstimateResults(estimate):
-    from tkinter import Canvas
+    from tkinter import scrolledtext, INSERT
     from tkinter.font import Font
 
-    result_font = Font(family="Arabic Transparent", size=12, weight="bold")
-    result_canvas = Canvas( width= 500, height= 400, bg='#FFFFFF')
-    result_canvas.create_text(250, 50, text= str(estimate.value), font=result_font)
-    result_canvas.place(x=350, y=150)
+    result_font = Font(family="Arabic Transparent", size=14)
+    
+    text_area = scrolledtext.ScrolledText( width= 55, height= 20 ,bg='#FFFFFF', font = result_font)
+    text_area.insert(INSERT, estimate)
+    text_area.place(x=300, y=100)
 
