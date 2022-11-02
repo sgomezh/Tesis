@@ -41,7 +41,7 @@ class appController:
             from bartMethods.buildBart import display_var_importance
             display_var_importance(self.model.bartInstance)
             # AQUI VA EL CODIGO PARA MOSTRAR LA IMAGEN, LA RUTA ES Instance/var_importance.png
-            
+
         else:
             raise Exception("No se ha construido el modelo BART")
 
