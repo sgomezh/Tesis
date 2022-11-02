@@ -87,13 +87,7 @@ def predict_with_bart(bart, df):
         write.csv(pred, file = "Interfaz/predicciones.csv")
     ''')
     save_path = r('save_path')
-    print("Predicciones guardadas en: " + save_path[0])
-
-    # # Save file
-    # file = pd.DataFrame(file)
-    # file.to_csv('Interfaz/prediction.csv', index=False)
-
-    
+    print("Predicciones guardadas en: " + save_path[0])    
 
 
 

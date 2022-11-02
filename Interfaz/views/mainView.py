@@ -1,4 +1,4 @@
-from tkinter import Tk, Canvas, Label, Button
+from tkinter import Tk, Canvas, Label, Button, scrolledtext
 from tkinter.font import Font
 from PIL import Image, ImageTk
 import classes.viewMethods as vm
@@ -60,8 +60,13 @@ class mainView(Tk):
         self.ate_button.place(x=20, y= 390)
 
         # --- Canvas resultados ---
-        self.result_canvas = Canvas(self, width= 500, height= 400, bg='#FFFFFF')
-        self.result_canvas.place(x=350, y=150)
+        # self.result_canvas = Canvas(self, width= 600, height= 450, bg='#FFFFFF')
+        # self.result_canvas.place(x=300, y=100)
+
+        # --- Scrolledtext para el centro ---
+        self.text_area = scrolledtext.ScrolledText(self, width= 75, height= 25, bg='#FFFFFF')
+        self.text_area.place(x=300, y=100)
+
         # --- Botones DoWhy ---
         self.causal_model_button = Button(self, text="Build causal model", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: self.causal_model_button_clicked())
         self.causal_model_button.place(x=970, y=150)
