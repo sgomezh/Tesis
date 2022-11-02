@@ -41,6 +41,19 @@ class appController:
             from bartMethods.buildBart import display_var_importance
             display_var_importance(self.model.bartInstance)
             # AQUI VA EL CODIGO PARA MOSTRAR LA IMAGEN, LA RUTA ES Instance/var_importance.png
+
+            from PIL import Image, ImageTk
+            from tkinter import Canvas
+            from tkinter import NW
+
+            img = Image.open("Interfaz/var_importance.png")
+            causal_graph_canvas = Canvas(width= 600, height= 450)
+            causal_graph_canvas.place(x=300, y=100)
+            img = Image.open("Interfaz/var_importance.png")
+            resize_img = img.resize((600, 450), Image.ANTIALIAS)
+            causal_graph = ImageTk.PhotoImage(resize_img)
+            causal_graph_canvas.create_image(0, 0, anchor='nw', image=causal_graph)
+            causal_graph_canvas.image = causal_graph
             
         else:
             raise Exception("No se ha construido el modelo BART")
