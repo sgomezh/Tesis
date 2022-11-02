@@ -64,6 +64,11 @@ class mainView(Tk):
         self.text_area.insert(INSERT, "Bienvenido a Causal Tool 1.0")
         self.text_area.place(x=300, y=100)
 
+        # ---- Canvas para el centro ----
+        self.result_canvas = Canvas(self, width = 620, height = 440, bg ='#FFFFFF')
+        self.result_canvas.place(x= 300, y= 100)
+        self.result_canvas.destroy()
+
         # --- Botones DoWhy ---
         self.causal_model_button = Button(self, text="Build causal model", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: self.causal_model_button_clicked())
         self.causal_model_button.place(x=970, y=150)
@@ -112,7 +117,36 @@ class mainView(Tk):
         self.controller.refute_button_clicked()
 
     def update_text(self, text):
+        """
+        Actualiza el texto del text area
+        @param text: texto a mostrar
+        Importante: El texto debe ser una lista, en donde cada elemento es una linea
+        """
+        if(self.result_canvas.winfo_exists()):
+            self.result_canvas.destroy()
+
+        if(self.text_area.winfo_exists() == 0):    
+            self.text_area = scrolledtext.ScrolledText(self, width= 55, height= 20 ,bg='#FFFFFF', font = self.result_font)
+            self.text_area.place(x=300, y=100)
+        
         for line in text:
             self.text_area.insert(INSERT, "\n" + line)
+        
+        self.text_area.see("end")
+
+        
+
+    def update_image(self, image):
+        """
+        Actualiza la imagen del canvas
+        @param image: imagen a mostrar
+        Consulta: Deberia recibir la ruta de la imagen o la imagen en si?
+        """
+        if(self.text_area.winfo_exists()):
+            self.text_area.destroy()
+
+        self.result_canvas = Canvas(self, width = 620, height = 440, bg ='#FFFFFF')
+        self.result_canvas.create_image(0,0, anchor='nw', image=image)
+        self.result_canvas.place(x= 300, y= 100)
         
         
