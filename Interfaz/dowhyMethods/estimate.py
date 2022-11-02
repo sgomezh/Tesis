@@ -48,18 +48,7 @@ def estimate_effect(model, doWhySettings):
                             "fit_params":{}})
         #print('dml')
     # print("Causal Estimate is " + str(estimate.value))
-
-    showEstimateResults(estimate)
     
-    return identified_estimand, estimate
-
-def showEstimateResults(estimate):
-    from tkinter import scrolledtext, INSERT
-    from tkinter.font import Font
-
-    result_font = Font(family="Arabic Transparent", size=14)
+    text = str(estimate).split("\n")
     
-    text_area = scrolledtext.ScrolledText( width= 55, height= 20 ,bg='#FFFFFF', font = result_font)
-    text_area.insert(INSERT, estimate)
-    text_area.place(x=300, y=100)
-
+    return identified_estimand, estimate, text

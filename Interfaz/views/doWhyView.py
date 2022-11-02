@@ -120,7 +120,7 @@ class DoWhyView(Toplevel):
             menu = self.outcome_column_menu["menu"]
             menu.delete(0, "end")
             for name in col_names:
-                menu.add_command(label=name, command=lambda value=name: [self.doWhySettings['outcome_column'].set(value), print(self.doWhySettings['outcome_column'].get())])
+                menu.add_command(label=name, command=lambda value=name: [self.doWhySettings['outcome_column'].set(value)])
         else:
             raise Exception("No se ha seleccionado ningun archivo.")
     

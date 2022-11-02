@@ -89,7 +89,6 @@ def predict_with_bart(bart, df):
     ''')
     save_path = r('save_path')
     summary = r('summary(pred)')
-    print(summary)
 
     displayText = ["Predicciones guardadas en: " + save_path[0]]
     return displayText
@@ -99,9 +98,10 @@ def predict_with_bart(bart, df):
 def display_var_importance(bart):
     from rpy2.robjects.packages import importr
     bPackage = importr('bartMachine')
-
+    path = 'Interfaz/var_importance.png'
     # Use png() to save the plot to a file
-    r['png']('Interfaz/var_importance.png')
+    r['png'](path)
     bPackage.investigate_var_importance(bart)
     r['dev.off']()
+    return path
     

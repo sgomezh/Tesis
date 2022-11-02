@@ -39,22 +39,10 @@ class appController:
     def variable_importance_button_clicked(self):
         if (self.model.bartInstance is not None):
             from bartMethods.buildBart import display_var_importance
-            display_var_importance(self.model.bartInstance)
+            image_path = display_var_importance(self.model.bartInstance)
             # AQUI VA EL CODIGO PARA MOSTRAR LA IMAGEN, LA RUTA ES Instance/var_importance.png
+            self.mainView.update_image(image_path)
 
-            from PIL import Image, ImageTk
-            from tkinter import Canvas
-            from tkinter import NW
-
-            img = Image.open("Interfaz/var_importance.png")
-            causal_graph_canvas = Canvas(width= 625, height= 450)
-            causal_graph_canvas.place(x=300, y=100)
-            img = Image.open("Interfaz/var_importance.png")
-            resize_img = img.resize((625, 450), Image.ANTIALIAS)
-            causal_graph = ImageTk.PhotoImage(resize_img)
-            causal_graph_canvas.create_image(0, 0, anchor='nw', image=causal_graph)
-            causal_graph_canvas.image = causal_graph
-            
         else:
             raise Exception("No se ha construido el modelo BART")
 
@@ -67,27 +55,23 @@ class appController:
     def causal_graph_button_clicked(self):
         if (self.model.dowhyModel is not None):
             from dowhyMethods.causalGraph import generateCausalGraph
-            generateCausalGraph(self.model.dowhyModel)
+            img_path = generateCausalGraph(self.model.dowhyModel)
+            self.mainView.update_image(img_path)
         else:
             raise Exception("No se ha construido el modelo de DoWhy")
 
     def estimate_effect_button_clicked(self):
         from dowhyMethods.estimate import estimate_effect
-        self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate = estimate_effect(self.model.dowhyModel, self.model.doWhySettings)
+        self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate, displayText = estimate_effect(self.model.dowhyModel, self.model.doWhySettings)
+        self.mainView.update_text(displayText)
 
     def refute_button_clicked(self):
         from dowhyMethods.refute import refute
-        self.model.dowhyRefute = refute(self.model.dowhyModel, self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate)
+        displayText = refute(self.model.dowhyModel, self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate)
+        self.mainView.update_text(displayText)
+
 # ---------------- Termino: Botones del Main ------------------------------
 
-
-# ---------------- Inicio: Botones de la vista BART -----------------------
-
-# ---------------- Termino: Botones de la vista BART ----------------------
-
-# ---------------- Inicio: Botones de la vista DoWhy -----------------------
-
-# ---------------- Termino: Botones de la vista DoWhy ----------------------
 
 # --------------------------------------------------------------------------
 # --------------------------------------------------------------------------
@@ -100,9 +84,8 @@ class appController:
         self.model.bartInstance, bartInfo = bb.buildBartModelV2(self.model.bartSettings)
         # Formatea el texto a mostrar
         displayText = bartInfo[0].tolist()
-        #displayText = [i for i in displayText if i]
 
-        self.update_main_text(displayText)
+        self.mainView.update_text(displayText)
         
     def buildDoWhy(self):
         from dowhyMethods.buildCausalModel import generateCausalModel
@@ -128,7 +111,7 @@ class appController:
     def predictBart(self, dataPath):
         from bartMethods.buildBart import predict_with_bart
         text = predict_with_bart(self.model.bartInstance, dataPath)
-        self.update_main_text(text)
+        self.mainView.update_text(text)
     
     
     def store_doWhySettings(self, settings):
@@ -139,10 +122,3 @@ class appController:
                 self.model.doWhySettings[key] = str(value.get()).split(",")
                 if len(self.model.doWhySettings[key]) == 1:
                     self.model.doWhySettings[key] = self.model.doWhySettings[key][0]
-        #print(self.model.doWhySettings)
-    
-    def update_main_text(self, text):
-        self.mainView.update_text(text)
-
-
-    

@@ -125,7 +125,7 @@ class mainView(Tk):
         if(self.result_canvas.winfo_exists()):
             self.result_canvas.destroy()
 
-        if(self.text_area.winfo_exists() == 0):    
+        if(self.text_area.winfo_exists() == 0): 
             self.text_area = scrolledtext.ScrolledText(self, width= 55, height= 20 ,bg='#FFFFFF', font = self.result_font)
             self.text_area.place(x=300, y=100)
         
@@ -136,17 +136,26 @@ class mainView(Tk):
 
         
 
-    def update_image(self, image):
+    def update_image(self, image_path):
         """
         Actualiza la imagen del canvas
-        @param image: imagen a mostrar
-        Consulta: Deberia recibir la ruta de la imagen o la imagen en si?
+        @param image: ruta de la imagen a mostrar
+        
         """
         if(self.text_area.winfo_exists()):
             self.text_area.destroy()
 
+        from PIL import Image, ImageTk
+        from tkinter import Canvas
+        from tkinter import NW
+
+        img = Image.open(image_path)
+        resize_img = img.resize((625, 450), Image.ANTIALIAS)
+        image = ImageTk.PhotoImage(resize_img)
+
         self.result_canvas = Canvas(self, width = 620, height = 440, bg ='#FFFFFF')
         self.result_canvas.create_image(0,0, anchor='nw', image=image)
         self.result_canvas.place(x= 300, y= 100)
+        self.result_canvas.image = image
         
         

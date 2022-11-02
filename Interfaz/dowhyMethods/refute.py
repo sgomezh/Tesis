@@ -13,14 +13,6 @@ def refute(model, identified_estimand, estimate):
     #--------------------- Refutar resultados con causas comunes ---------------------        
     refute_results=model.refute_estimate(identified_estimand, estimate,
             method_name="random_common_cause")
-    showRefuteResults(refute_results)
+    text = str(refute_results).split("\n")
+    return text
 
-def showRefuteResults(refute_results):
-    from tkinter import scrolledtext, INSERT
-    from tkinter.font import Font
-
-    result_font = Font(family="Arabic Transparent", size=14)
-    
-    text_area = scrolledtext.ScrolledText( width= 55, height= 20 ,bg='#FFFFFF', font = result_font)
-    text_area.insert(INSERT, refute_results)
-    text_area.place(x=300, y=100)
