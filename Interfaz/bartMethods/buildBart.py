@@ -71,6 +71,7 @@ def normalizeValues(grow, prune, change):
     return [grow, prune, change]
 
 def predict_with_bart(bart, df):
+    # TODO: Revisar este metodo
     from rpy2.robjects import pandas2ri
     from rpy2.robjects import r
     import pandas as pd
@@ -87,7 +88,11 @@ def predict_with_bart(bart, df):
         write.csv(pred, file = "Interfaz/predicciones.csv")
     ''')
     save_path = r('save_path')
-    print("Predicciones guardadas en: " + save_path[0])    
+    summary = r('summary(pred)')
+    print(summary)
+
+    displayText = ["Predicciones guardadas en: " + save_path[0]]
+    return displayText
 
 
 

@@ -59,10 +59,6 @@ class mainView(Tk):
         self.ate_button = Button(self, text="Get ATE", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
         self.ate_button.place(x=20, y= 390)
 
-        # --- Canvas resultados ---
-        # self.result_canvas = Canvas(self, width= 600, height= 450, bg='#FFFFFF')
-        # self.result_canvas.place(x=300, y=100)
-
         # --- Scrolledtext para el centro ---
         self.text_area = scrolledtext.ScrolledText(self, width= 55, height= 20 ,bg='#FFFFFF', font = self.result_font)
         self.text_area.insert(INSERT, "Bienvenido a Causal Tool 1.0")
@@ -118,4 +114,5 @@ class mainView(Tk):
     def update_text(self, text):
         for line in text:
             self.text_area.insert(INSERT, "\n" + line)
+        
         
