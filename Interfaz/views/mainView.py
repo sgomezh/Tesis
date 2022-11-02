@@ -64,12 +64,8 @@ class mainView(Tk):
         # self.result_canvas.place(x=300, y=100)
 
         # --- Scrolledtext para el centro ---
-<<<<<<< HEAD
         self.text_area = scrolledtext.ScrolledText(self, width= 55, height= 20 ,bg='#FFFFFF', font = self.result_font)
         self.text_area.insert(INSERT, "Bienvenido a Causal Tool 1.0")
-=======
-        self.text_area = scrolledtext.ScrolledText(self, width= 55, height= 20, bg='#FFFFFF', font = self.result_font)
->>>>>>> 842e68b44171b11c71e8880c5557386ed9fb2a22
         self.text_area.place(x=300, y=100)
 
         # --- Botones DoWhy ---
