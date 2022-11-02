@@ -22,6 +22,7 @@ class appModel:
         self._doWhyModel = None
         self._doWhyEstimate = None
         self._doWhyRefute = None
+        self._appText = None
 
     @property
     def bartSettings(self):
@@ -86,3 +87,12 @@ class appModel:
     @causalGraph.setter
     def causalGraph(self, graph):
         self._causalGraph = graph
+
+    @property
+    def appText(self):
+        return self._appText
+    
+    @appText.setter
+    def appText(self, text):
+        self._appText = text
+    

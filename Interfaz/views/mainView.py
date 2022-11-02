@@ -1,4 +1,4 @@
-from tkinter import Tk, Canvas, Label, Button, scrolledtext
+from tkinter import Tk, Canvas, Label, Button, scrolledtext, INSERT
 from tkinter.font import Font
 from PIL import Image, ImageTk
 import classes.viewMethods as vm
@@ -23,7 +23,7 @@ class mainView(Tk):
         self.tittle_font = Font(family="Arabic Transparent", size=25, weight="bold")
         self.label_font = Font(family="Arabic Transparent", size=12, weight="bold")
         self.button_font = Font(family="Arabic Transparent", size=12, weight="bold")
-        self.result_font = Font(family="Arabic Transparent", size=12, weight="bold")
+        self.result_font = Font(family="Arabic Transparent", size=14)
         # ---------------------- INTERFACE ----------------------
         self.image = Image.open('Interfaz/img/causal_tool.png')
         # --- Crea el canvas principal --- 
@@ -64,7 +64,8 @@ class mainView(Tk):
         # self.result_canvas.place(x=300, y=100)
 
         # --- Scrolledtext para el centro ---
-        self.text_area = scrolledtext.ScrolledText(self, width= 75, height= 25, bg='#FFFFFF')
+        self.text_area = scrolledtext.ScrolledText(self, width= 55, height= 20 ,bg='#FFFFFF', font = self.result_font)
+        self.text_area.insert(INSERT, "Bienvenido a Causal Tool 1.0")
         self.text_area.place(x=300, y=100)
 
         # --- Botones DoWhy ---
@@ -113,3 +114,8 @@ class mainView(Tk):
 
     def refute_button_clicked(self):
         self.controller.refute_button_clicked()
+
+    def update_text(self, text):
+        for line in text:
+            self.text_area.insert(INSERT, "\n" + line)
+        

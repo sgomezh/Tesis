@@ -98,6 +98,11 @@ class appController:
     def buildBart(self):
         import bartMethods.buildBart as bb
         self.model.bartInstance, bartInfo = bb.buildBartModelV2(self.model.bartSettings)
+        # Formatea el texto a mostrar
+        displayText = bartInfo[0].tolist()
+        #displayText = [i for i in displayText if i]
+
+        self.update_main_text(displayText)
         
     def buildDoWhy(self):
         from dowhyMethods.buildCausalModel import generateCausalModel
@@ -133,9 +138,10 @@ class appController:
                 self.model.doWhySettings[key] = str(value.get()).split(",")
                 if len(self.model.doWhySettings[key]) == 1:
                     self.model.doWhySettings[key] = self.model.doWhySettings[key][0]
-        print(self.model.doWhySettings)
+        #print(self.model.doWhySettings)
     
-    
+    def update_main_text(self, text):
+        self.mainView.update_text(text)
 
 
     
