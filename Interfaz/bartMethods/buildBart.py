@@ -94,7 +94,7 @@ def predict_with_bart(bart, df):
 def display_var_importance(bart):
     from rpy2.robjects.packages import importr
     bPackage = importr('bartMachine')
-    
+
     # Use png() to save the plot to a file
     r['png']('Interfaz/var_importance.png')
     bPackage.investigate_var_importance(bart)
