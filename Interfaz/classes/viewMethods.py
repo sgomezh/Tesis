@@ -329,19 +329,6 @@ def saveBartConfig(crossValidation, responseVar, numberOfTrees, numberOfBurnIn, 
         f.write(str(responseVar))
     f.close()
 
-def resetApp():
-    import os
-    if(os.path.exists('bart_predict_dataset.txt')):
-        os.remove('bart_predict_dataset.txt')
-    if(os.path.exists('bart_dataset.txt')):
-        os.remove('bart_dataset.txt')
-    if(os.path.exists('dowhy_dataset.txt')):
-        os.remove('dowhy_dataset.txt')
-    if(os.path.exists('dowhy_settings.txt')):
-        os.remove('dowhy_settings.txt')
-    if(os.path.exists('bart_settings.txt')):
-        os.remove('bart_settings.txt')
-
 def createCausalGraph():
     from dowhy import CausalModel
     import pandas as pd

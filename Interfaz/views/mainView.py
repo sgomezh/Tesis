@@ -82,8 +82,6 @@ class mainView(Tk):
         self.refute_button = Button(self, text="Refute estimation", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: self.refute_button_clicked())
         self.refute_button.place(x=970, y=390)
 
-        self.reset_button = Button(self, text="Reset", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=1, command= lambda: vm.resetApp())
-        self.reset_button.place(x=500, y=560)
 
         # --- Controlador de la vista --- 
         self.controller = None
