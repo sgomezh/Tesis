@@ -96,3 +96,5 @@ class appModel:
     def appText(self, text):
         self._appText = text
     
+    # def on_closing(self):
+    #     pass

@@ -1,8 +1,6 @@
 def generateCausalGraph(model):
-    model.view_model()
-    from IPython.display import Image, display
-    img_path = "causal_model.png"
-    display(Image(filename=img_path))
-    
-    return img_path
+    img_path = "./Interfaz/img/causal_graph"
+    model.view_model(file_name = img_path)
+
+    return img_path + ".png"
     

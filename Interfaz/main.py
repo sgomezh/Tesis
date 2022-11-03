@@ -9,7 +9,7 @@ def main():
     model = appModel()
     controller = appController(model, view)
     view.setController(controller)
-    view.mainloop()
+    view.mainloop() 
 
 
 if __name__ == '__main__':

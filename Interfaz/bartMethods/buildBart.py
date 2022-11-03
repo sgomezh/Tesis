@@ -63,7 +63,6 @@ def buildBartModelV2(settings):
 # Convierte los valores de los porcentajes a valores entre 0 y 1
 def normalizeValues(grow, prune, change):
     # Creamos una constante normalizadora
-    #mh_values = {}
     normalizer = 1 / (grow + prune + change)
     grow = grow * normalizer
     prune = prune * normalizer
@@ -84,8 +83,8 @@ def predict_with_bart(bart, df):
 
     r.assign('pred', pred)
     r('''
-        save_path <- 'Interfaz/predicciones.csv'
-        write.csv(pred, file = "Interfaz/predicciones.csv")
+        save_path <- './Predicciones/predicciones.csv'
+        write.csv(pred, file = save_path)
     ''')
     save_path = r('save_path')
     summary = r('summary(pred)')
@@ -98,7 +97,7 @@ def predict_with_bart(bart, df):
 def display_var_importance(bart):
     from rpy2.robjects.packages import importr
     bPackage = importr('bartMachine')
-    path = 'Interfaz/var_importance.png'
+    path = './img/var_importance.png'
     # Use png() to save the plot to a file
     r['png'](path)
     bPackage.investigate_var_importance(bart)

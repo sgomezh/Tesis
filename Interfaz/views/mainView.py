@@ -10,6 +10,7 @@ class mainView(Tk):
         self.update()
         # --- Titulo ---
         self.title("Causal Tool")
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
         # --- Icono ---
         self.icon = Image.open('Interfaz/img/icon.png')
         self.photo = ImageTk.PhotoImage(self.icon)
@@ -156,4 +157,7 @@ class mainView(Tk):
         self.result_canvas.place(x= 300, y= 100)
         self.result_canvas.image = image
         
+    def on_closing(self):
+        import sys
+        sys.exit()
         

@@ -141,8 +141,7 @@ class DoWhyView(Toplevel):
             else:
                 self.doWhySettings[key] = value.get()
                 
-        #dict = self.doWhySettings
-        #appModel.setDoWhySettings(dict)
+        
 
 
     

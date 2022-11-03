@@ -122,3 +122,9 @@ class appController:
                 self.model.doWhySettings[key] = str(value.get()).split(",")
                 if len(self.model.doWhySettings[key]) == 1:
                     self.model.doWhySettings[key] = self.model.doWhySettings[key][0]
+
+
+    def on_closing(self):
+        self.model = None
+        # delattr(self.model, "_doWhyModel")
+        self.mainView.destroy()

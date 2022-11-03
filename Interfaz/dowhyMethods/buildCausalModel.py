@@ -27,6 +27,5 @@ def generateCausalModel(doWhySettings):
             instrumental= doWhySettings['instrumental_var_column'],
             )  
 
-    print("Model type: ", type(model))
     return model
 
