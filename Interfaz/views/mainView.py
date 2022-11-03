@@ -62,7 +62,7 @@ class mainView(Tk):
 
         # --- Scrolledtext para el centro ---
         self.text_area = scrolledtext.ScrolledText(self, width= 55, height= 20 ,bg='#FFFFFF', font = self.result_font)
-        self.text_area.insert(INSERT, "Bienvenido a Causal Tool 1.0")
+        self.text_area.insert(INSERT, "Welcome to Causal Tool 1.0")
         self.text_area.place(x=300, y=100)
 
         # ---- Canvas para el centro ----

@@ -4,7 +4,7 @@ from tkinter import filedialog, OptionMenu
 from tkinter.font import Font
 from PIL import Image, ImageTk
 from tkinter import Toplevel
-from classes.MainApp.appModel import appModel
+from classes.MainApp import appController 
 
 class DoWhyView(Toplevel):
     def __init__(self, parent, width, height):
@@ -135,6 +135,10 @@ class DoWhyView(Toplevel):
         self.controller.buildDoWhy()
         # Se cierra la ventana
         self.destroy()
+        # Se escribe un mensaje por pantalla
+        display_text = "Causal model created successfully."
+        self.controller.update_text(display_text.split("\n")) 
+
 
     # Guarda la configuracion de dowhy
     def saveSettingsDowhy(self, settings):

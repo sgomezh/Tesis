@@ -147,3 +147,6 @@ class appController:
         self.model = None
         # delattr(self.model, "_doWhyModel")
         self.mainView.destroy()
+
+    def update_text(self, text):
+        self.mainView.update_text(text)
