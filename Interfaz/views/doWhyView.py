@@ -122,7 +122,10 @@ class DoWhyView(Toplevel):
             for name in col_names:
                 menu.add_command(label=name, command=lambda value=name: [self.doWhySettings['outcome_column'].set(value)])
         else:
+            import views.alertWindows as aw
+            aw.datasetError()
             raise Exception("No se ha seleccionado ningun archivo.")
+            
     
     
     def save_button_clicked(self):

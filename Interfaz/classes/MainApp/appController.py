@@ -34,7 +34,10 @@ class appController:
         if (self.model.bartInstance is not None):
             self.predictApp = PredictApp(self)
         else:
+            import views.alertWindows as aw
+            aw.bartModelError()
             raise Exception("No se ha construido el modelo BART")
+            
         
     def variable_importance_button_clicked(self):
         if (self.model.bartInstance is not None):
@@ -44,7 +47,10 @@ class appController:
             self.mainView.update_image(image_path)
 
         else:
+            import views.alertWindows as aw
+            aw.bartModelError()
             raise Exception("No se ha construido el modelo BART")
+            
 
     def ate_button_clicked(self):
         pass
@@ -58,17 +64,30 @@ class appController:
             img_path = generateCausalGraph(self.model.dowhyModel)
             self.mainView.update_image(img_path)
         else:
+            import views.alertWindows as aw
+            aw.dowhyModelError()
             raise Exception("No se ha construido el modelo de DoWhy")
+            
 
     def estimate_effect_button_clicked(self):
         from dowhyMethods.estimate import estimate_effect
-        self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate, displayText = estimate_effect(self.model.dowhyModel, self.model.doWhySettings)
-        self.mainView.update_text(displayText)
+        if (self.model.dowhyModel and self.model.doWhySettings is not None):
+            self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate, displayText = estimate_effect(self.model.dowhyModel, self.model.doWhySettings)
+            self.mainView.update_text(displayText)
+        else:
+            import views.alertWindows as aw
+            aw.estimateError()
+            raise Exception("No se ha construido el modelo de DoWhy")
 
     def refute_button_clicked(self):
         from dowhyMethods.refute import refute
-        displayText = refute(self.model.dowhyModel, self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate)
-        self.mainView.update_text(displayText)
+        if (self.model.dowhyModel and self.model.dowhyIdentifiedEstimand and self.model.doWhyEstimate is not None):
+            displayText = refute(self.model.dowhyModel, self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate)
+            self.mainView.update_text(displayText)
+        else:
+            import views.alertWindows as aw
+            aw.refuteError()
+            raise Exception("No se ha construido el modelo de DoWhy")
 
 # ---------------- Termino: Botones del Main ------------------------------
 

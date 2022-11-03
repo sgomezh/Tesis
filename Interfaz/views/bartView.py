@@ -212,7 +212,10 @@ class BartView(Toplevel):
             for name in col_names:
                 menu.add_command(label=name, command=lambda value=name: self.settings['response'].set(value))
         else:
+            import views.alertWindows as aw
+            aw.datasetError()
             raise Exception("No se selecciono ningun archivo")
+            
 
     # Build button
     def build_button_clicked(self):
@@ -277,5 +280,7 @@ class PredictView(Toplevel):
         if self.file_path:
             self.path_label.config(text=self.file_path)
         else:
+            import views.alertWindows as aw
+            aw.datasetError()
             raise Exception("No se selecciono ningun archivo")
-
+            
