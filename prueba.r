@@ -3,28 +3,32 @@ library(rlang)
 library(caTools)
 library(dplyr)
 library(gridGraphics)
+library(tidytreatment)
 
-data(automobile)
-automobile <- na.omit(automobile)
+dataURL <- "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/master/datasets/IHDP/csv/ihdp_npci_1.csv"
+data <- read.csv(dataURL, header = FALSE)
+# Create list of names
+nList <- c("treatment", "y_factual", "y_cfactual", "mu0", "mu1")
+for (i in 1:25) {
+  nList <- c(nList, paste0("x", i))
+}
+
+# Assign names to data
+names(data) <- nList
+
+# Remove y_cfactual
+data <- data %>% select(-y_cfactual)
+
+names(data)
+
 
 # Split data
-split <- sample.split(automobile$log_price, SplitRatio = 0.8)
-train <- subset(automobile, split == TRUE)
-test <- subset(automobile, split == FALSE)
+split <- sample.split(data$y_factual, SplitRatio = 0.8)
+train <- subset(data, split == TRUE)
+test <- subset(data, split == FALSE)
 
-png(filename = "D:/Escritorio/Codigo/Tesis/Predicciones/varimp.png")
+bart = build_bart_machine(train[, -which(names(train) == 'y_factual')], train$y_factual, num_trees = 200)
 
-bart = build_bart_machine(train[, -which(names(train) == 'log_price')], train$log_price, num_trees = 200)
+ate = avg_treatment_effects(bart, "treatment")
 
-investigate_var_importance(bart)
-
-dev.off()
-
-
-# # Train model
-# bart <- build_bart_machine(train[, 1:ncol(train)-1], train$log_price, num_trees = 200)
-
-# sumario <- capture.output(summary(bart))
-
-# print(sumario)
-
+print(ate[1000, ])

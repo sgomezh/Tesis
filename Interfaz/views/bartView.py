@@ -29,11 +29,12 @@ class BartView(Toplevel):
         # --- Coordenadas de los widgets ---
         mcmc_coordinates = {"x": 60, "y": 180}
         prior_coordinates = {"x": 60, "y": 360}
-        mh_coordinates = {"x": 450, "y": 180}
-        cv_coordinates = {"x": 20, "y": 132}
+        mh_coordinates = {"x": 450, "y": 200}
+        cv_coordinates = {"x": 20, "y": 138}
 
         self.settings = {}
         self.col_names = []
+        self.treatment_names = ["None"]
 
         # --- Titulo principal ---
         build_bart_model_label = Label(self, text="Build BART Model", font=self.title_font, bg='#08013D', fg='#FFFFFF')
@@ -51,12 +52,22 @@ class BartView(Toplevel):
 
         # --- Widget: target picker ---
         self.response_label = Label(self, text="Response variable:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.response_label.place(x=200, y=132)
+        self.response_label.place(x=200, y=142)
         
-        self.settings['response'] = StringVar(value=defaultSettings['response'])
+        #self.settings['response'] = StringVar(value=defaultSettings['response'])
+        self.settings['response'] = StringVar(value="None")
         self.response_option = OptionMenu(self, self.settings['response'], self.col_names)
-        self.response_option.place(x=360, y=130)
+        self.response_option.place(x=360, y=140)
         self.response_option.config(font=self.response_font, bg='#FFFFFF', fg='#000000', width=13, height=1)
+
+        # --- Widget: Treatment variable ---
+        self.treatment_label = Label(self, text="Treatment variable:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
+        self.treatment_label.place(x=500, y=142)
+        self.settings['treatment'] = StringVar(value=defaultSettings['treatment'])
+        self.treatment_option = OptionMenu(self, self.settings['treatment'], self.col_names)
+        self.treatment_option.config(font=self.response_font, bg='#FFFFFF', fg='#000000', width=10, height=1)
+        self.treatment_option.place(x=660, y=140)
+
 
         # --- Widget: Cross-validation checkbox ---
         self.settings['cv'] = BooleanVar()
@@ -206,11 +217,26 @@ class BartView(Toplevel):
             self.settings['file_path'] = file_path
             self.path_label.config(text=self.settings['file_path'])
             col_names = self.controller.get_col_names(self.settings['file_path'])
+            treat_names = self.controller.get_treatments(self.settings['file_path'])
+            
             # Update response variable optionmenu
             menu = self.response_option['menu']
             menu.delete(0, 'end')
+
+            # Add none as an option
+            menu.add_command(label="None", command=lambda value="None": self.response_option_changed(value))
             for name in col_names:
                 menu.add_command(label=name, command=lambda value=name: self.settings['response'].set(value))
+
+            # Update treatment variable optionmenu
+            menu = self.treatment_option['menu']
+            menu.delete(0, 'end')
+
+            # Add none as an option
+            menu.add_command(label="None", command=lambda value="None": self.settings['treatment'].set(value))
+            for name in treat_names:
+                menu.add_command(label=name, command=lambda value=name: self.settings['treatment'].set(value))
+            
         else:
             import views.alertWindows as aw
             aw.datasetError()
@@ -274,6 +300,7 @@ class PredictView(Toplevel):
 
     def predict_button_clicked(self):
         self.controller.predictBart(self.file_path)
+        self.destroy()
 
     def filePickerPredict(self):
         self.file_path = filedialog.askopenfilename()

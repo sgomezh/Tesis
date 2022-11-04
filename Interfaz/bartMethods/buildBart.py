@@ -52,12 +52,19 @@ def buildBartModelV2(settings):
         r('nameList <- names(oos_perf)')
         
         nameList = r('nameList')
-        
-        metricas_oos = {}
+
+        displayText = summary.tolist()
+        displayText.append("Out of sample performance:")
+
         for i in range(len(oos_perf)):
-            metricas_oos[nameList[i]] = np.array(oos_perf[i])
-        
-    return bart, [summary, metricas_oos]
+            if(nameList[i] == 'e' or nameList[i] == 'y_hat'):
+                continue
+
+            displayText.append(nameList[i] + ": " + str(oos_perf[i]))
+        displayText.append("")
+
+                              
+    return bart, displayText
     
 
 # Convierte los valores de los porcentajes a valores entre 0 y 1
@@ -88,6 +95,9 @@ def predict_with_bart(bart, df):
     ''')
     save_path = r('save_path')
     summary = r('summary(pred)')
+    nameList = r('names(summary(pred))')
+    print(nameList)
+
 
     displayText = ["Predicciones guardadas en: " + save_path[0]]
     return displayText
@@ -97,10 +107,29 @@ def predict_with_bart(bart, df):
 def display_var_importance(bart):
     from rpy2.robjects.packages import importr
     bPackage = importr('bartMachine')
-    path = './img/var_importance.png'
+    path = 'var_importance.png'
     # Use png() to save the plot to a file
     r['png'](path)
     bPackage.investigate_var_importance(bart)
     r['dev.off']()
     return path
     
+def calculateATE(bart, settings):
+
+    if settings['treatment'] == 'None':
+        raise Exception('No se ha seleccionado un tratamiento')
+    else: 
+        import pandas as pd
+        from rpy2.robjects.packages import importr
+        from rpy2.robjects import pandas2ri
+        pandas2ri.activate()
+
+        df = pd.read_csv(settings['file_path'])
+
+        bPackage = importr('bartMachine')
+        tidytreatment = importr('tidytreatment')
+        ate = tidytreatment.avg_treatment_effects(bart, settings['treatment'], df)
+        print(ate)
+
+    exit(0)
+    return ate
