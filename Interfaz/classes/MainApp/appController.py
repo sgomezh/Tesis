@@ -54,8 +54,8 @@ class appController:
 
     def ate_button_clicked(self):
         from bartMethods.buildBart import calculateATE
-        ate = calculateATE(self.model.bartInstance, self.model.bartSettings)
-        
+        ate, displayText = calculateATE(self.model.bartInstance, self.model.bartSettings)
+        self.mainView.update_text(displayText)
 # --------------------- DOWHY ---------------------
     def causal_model_button_clicked(self):
         self.dowhyApp = DoWhyApp(self)

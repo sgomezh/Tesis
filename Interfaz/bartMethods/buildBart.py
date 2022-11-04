@@ -41,27 +41,27 @@ def buildBartModelV2(settings):
                                             mh_prob_steps = FloatVector(mh_values)
                                             )
 
-        r.assign('bart', bart)
+    r.assign('bart', bart)
 
-        r('summ <- capture.output(summary(bart))')
+    r('summ <- capture.output(summary(bart))')
 
-        summary = np.array(r['summ'])
-        oos_perf = bPackage.bart_predict_for_test_data(bart, test.loc[: , test.columns != settings['response']], test.loc[:, settings['response']])
+    summary = np.array(r['summ'])
+    oos_perf = bPackage.bart_predict_for_test_data(bart, test.loc[: , test.columns != settings['response']], test.loc[:, settings['response']])
 
-        r.assign('oos_perf', oos_perf)
-        r('nameList <- names(oos_perf)')
-        
-        nameList = r('nameList')
+    r.assign('oos_perf', oos_perf)
+    r('nameList <- names(oos_perf)')
+    
+    nameList = r('nameList')
 
-        displayText = summary.tolist()
-        displayText.append("Out of sample performance:")
+    displayText = summary.tolist()
+    displayText.append("Out of sample performance:")
 
-        for i in range(len(oos_perf)):
-            if(nameList[i] == 'e' or nameList[i] == 'y_hat'):
-                continue
+    for i in range(len(oos_perf)):
+        if(nameList[i] == 'e' or nameList[i] == 'y_hat'):
+            continue
 
-            displayText.append(nameList[i] + ": " + str(oos_perf[i]))
-        displayText.append("")
+        displayText.append(nameList[i] + ": " + str(oos_perf[i]))
+    displayText.append("")
 
                               
     return bart, displayText
@@ -126,10 +126,20 @@ def calculateATE(bart, settings):
 
         df = pd.read_csv(settings['file_path'])
 
-        bPackage = importr('bartMachine')
-        tidytreatment = importr('tidytreatment')
-        ate = tidytreatment.avg_treatment_effects(bart, settings['treatment'], df)
-        print(ate)
+        r.assign('bart', bart)
+        r.assign('df', df)
+        r.assign('treatment', settings['treatment'])
+        
+        r('''
+            library(bartMachine)
+            library(tidytreatment)
+            ate <- avg_treatment_effects(bart, treatment)
 
-    exit(0)
-    return ate
+            r_value = ate$ate[1000]
+        ''')
+        ate = r('r_value')
+
+        displayText = ["Estimated ATE for " + settings['treatment'] + ": " + str(ate)]
+    return ate, displayText
+        
+        

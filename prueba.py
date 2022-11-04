@@ -26,12 +26,10 @@ identified_estimand = model.identify_effect(proceed_when_unidentifiable=True, me
 print(identified_estimand)
 
 
-
 # Estimate the causal effect and compare it with Average Treatment Effect
 estimate = model.estimate_effect(identified_estimand,
-        method_name="backdoor.propensity_score_weighting"
+        method_name="backdoor.propensity_score_stratification", method_params={'num_strata':50, 'clipping_threshold':5}
 )
-
 print(estimate)
 
 print("Causal Estimate is " + str(estimate.value))
