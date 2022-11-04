@@ -31,6 +31,5 @@ class DoWhyApp:
         self.model = parent.model
         self.view = DoWhyView(parent.mainView, 800, 600)
         self.controller = parent.controller
-        
         self.view.set_controller(self.controller)
 
