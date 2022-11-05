@@ -2,29 +2,38 @@ library(bartMachine)
 library(rlang)
 library(caTools)
 library(dplyr)
-library(gridGraphics)
+library(tidytreatment)
 
-data(automobile)
-automobile <- na.omit(automobile)
+dataURL <- "https://users.nber.org/~rdehejia/data/nsw_treated.txt"
+data <- read.csv(dataURL, header = FALSE)
+
+# Save dataframe as csv
+write.csv(data, "nsw_treated.csv", row.names = FALSE)
+
+# Assign names to data
+names(data) <- nList
+
+# Remove y_cfactual
+data <- data %>% select(-y_cfactual)
+
+names(data)
+
+write.csv(data, "ihdp_npci_2.csv", row.names = FALSE)
+
 
 # Split data
-split <- sample.split(automobile$log_price, SplitRatio = 0.8)
-train <- subset(automobile, split == TRUE)
-test <- subset(automobile, split == FALSE)
+split <- sample.split(data$y_factual, SplitRatio = 0.8)
+train <- subset(data, split == TRUE)
+test <- subset(data, split == FALSE)
 
-png(filename = "D:/Escritorio/Codigo/Tesis/Predicciones/varimp.png")
+#bart = build_bart_machine(train[, -which(names(train) == 'y_factual')], train$y_factual, num_trees = 200)
+bart = bartMachineCV(train[, -which(names(train) == 'y_factual')], train$y_factual)
 
-bart = build_bart_machine(train[, -which(names(train) == 'log_price')], train$log_price, num_trees = 200)
+ate = avg_treatment_effects(bart, "treatment")
 
-investigate_var_importance(bart)
+print(ate[1,])
+print(ate[1000, ])
 
-dev.off()
+mean(ate$ate)
 
-
-# # Train model
-# bart <- build_bart_machine(train[, 1:ncol(train)-1], train$log_price, num_trees = 200)
-
-# sumario <- capture.output(summary(bart))
-
-# print(sumario)
-
+head(ate)

@@ -53,7 +53,9 @@ class appController:
             
 
     def ate_button_clicked(self):
-        pass
+        from bartMethods.buildBart import calculateATE
+        ate, displayText = calculateATE(self.model.bartInstance, self.model.bartSettings)
+        self.mainView.update_text(displayText)
 # --------------------- DOWHY ---------------------
     def causal_model_button_clicked(self):
         self.dowhyApp = DoWhyApp(self)
@@ -102,7 +104,7 @@ class appController:
         import bartMethods.buildBart as bb
         self.model.bartInstance, bartInfo = bb.buildBartModelV2(self.model.bartSettings)
         # Formatea el texto a mostrar
-        displayText = bartInfo[0].tolist()
+        displayText = bartInfo
 
         self.mainView.update_text(displayText)
         
@@ -125,6 +127,18 @@ class appController:
         import pandas as pd
         dataset = pd.read_csv(path)
         return list(dataset.columns)
+
+            
+    def get_treatments(self, path):
+        import pandas as pd
+        nameList = []
+        dataset = pd.read_csv(path)
+        
+        for column in dataset:
+            if (dataset[column].nunique() == 2):
+                nameList.append(column)
+                
+        return nameList
 
 
     def predictBart(self, dataPath):

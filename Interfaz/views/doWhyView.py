@@ -1,6 +1,6 @@
 import classes.viewClass as vc
 from tkinter import *
-from tkinter import filedialog, OptionMenu
+from tkinter import filedialog, OptionMenu, scrolledtext
 from tkinter.font import Font
 from PIL import Image, ImageTk
 from tkinter import Toplevel
@@ -10,6 +10,13 @@ class DoWhyView(Toplevel):
     def __init__(self, parent, width, height):
         super(DoWhyView, self).__init__(parent)
         self.doWhySettings = {}
+        self.iv_list = []
+        self.cc_list = []
+        self.iv_var = []
+        self.cc_var = []
+        # --------- Coordenadas de los widgets --------- #
+        iv_coordinates = {"x": 20, "y": 300}
+        cc_coordinates = {"x": 480, "y": 300}
 
         # ---------Configuracion de la ventana ------------
         self.transient(parent)
@@ -64,37 +71,49 @@ class DoWhyView(Toplevel):
         
         self.doWhySettings['treatment_column'] = StringVar()
         self.treatment_column_menu = OptionMenu(self, self.doWhySettings['treatment_column'], "")
-        self.treatment_column_menu.config(font=self.label_font, bg='#FFFFFF', fg='#000000', width=20, height=1)
-        self.treatment_column_menu.place(x=200, y=250)
+        self.treatment_column_menu.config(font=self.label_font, bg='#FFFFFF', fg='#000000', width=15, height=1)
+        self.treatment_column_menu.place(x=170, y=250)
 
         # --------- Outcome column ------------
         self.outcome_column_label= Label(self, text="Outcome column:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.outcome_column_label.place(x=10, y=300)
+        self.outcome_column_label.place(x=370, y=250)
 
         self.doWhySettings['outcome_column'] = StringVar()
         self.outcome_column_menu = OptionMenu(self, self.doWhySettings['outcome_column'], "")
         self.outcome_column_menu.config(font=self.label_font, bg='#FFFFFF', fg='#000000', width=20, height=1)
-        self.outcome_column_menu.place(x=200, y=300)
+        self.outcome_column_menu.place(x=530, y=250)
         
         # --------- Instrument column ------------
-        self.intrumental_variables_label= Label(self, text="Instrumental Variables:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.intrumental_variables_label.place(x=10, y=350)
+        self.intrumental_variables_label= Label(self, text="Instrumental Variables", font=self.label_font, bg='#08013D', fg='#FFFFFF')
+        self.intrumental_variables_label.place(x=iv_coordinates['x']+50, y=iv_coordinates['y'])
 
-        self.doWhySettings['instrumental_var_column'] = StringVar()
-        self.intrumental_variables_entry = Entry(self, font=self.label_font, bg='#FFFFFF', fg='#000000', width=20, textvariable=self.doWhySettings['instrumental_var_column'], justify='left')
-        self.intrumental_variables_entry.place(x=200, y=350)
+        # self.doWhySettings['instrumental_var_column'] = StringVar()
+        # self.intrumental_variables_entry = Entry(self, font=self.label_font, bg='#FFFFFF', fg='#000000', width=20, textvariable=self.doWhySettings['instrumental_var_column'], justify='left')
+        # self.intrumental_variables_entry.place(x=200, y=350)
+
+        # self.instrumental_variables_scrolltext = scrolledtext.ScrolledText(self, width=30, height=10, font=self.label_font, bg='#FFFFFF', fg='#000000')
+        # self.instrumental_variables_scrolltext.place(x=iv_coordinates['x'], y=iv_coordinates['y']+30)
+        self.iv_canvas = Canvas(self, width=300, height=200, bg='#FFFFFF')
+        self.iv_canvas.place(x=iv_coordinates['x'], y=iv_coordinates['y']+30)
 
         # --------- Common causes column ------------
-        self.common_causes_label= Label(self, text="Common Causes:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.common_causes_label.place(x=10, y=400)
+        self.common_causes_label= Label(self, text="Common Causes", font=self.label_font, bg='#08013D', fg='#FFFFFF')
+        self.common_causes_label.place(x=cc_coordinates["x"]+70, y=cc_coordinates["y"])	
 
-        self.doWhySettings['common_causes_column'] = StringVar()
-        self.common_causes_entry = Entry(self, font=self.label_font, bg='#FFFFFF', fg='#000000', textvariable=self.doWhySettings['common_causes_column'], width=20, justify='left')
-        self.common_causes_entry.place(x=200, y=400)
+        # self.common_causes_scrolltext = scrolledtext.ScrolledText(self, width=30, height=10, font=self.label_font, bg='#FFFFFF', fg='#000000')
+        # self.common_causes_scrolltext.place(x=cc_coordinates["x"], y=cc_coordinates["y"]+30)
+        # self.doWhySettings['common_causes_column'] = StringVar()
+        # self.common_causes_entry = Entry(self, font=self.label_font, bg='#FFFFFF', fg='#000000', textvariable=self.doWhySettings['common_causes_column'], width=20, justify='left')
+        # self.common_causes_entry.place(x=200, y=400)
+
+        self.cc_canvas = Canvas(self, width=300, height=200, bg='#FFFFFF')
+        # Add scrollbar to canvas
+        self.cc_canvas.create_window((0, 0), window=self.cc_canvas, anchor='nw')
+        self.cc_canvas.place(x=cc_coordinates["x"], y=cc_coordinates["y"]+30)
 
         # --------- Save button ------------
         self.save_button = Button(self, text="Save", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: self.save_button_clicked())
-        self.save_button.place(x=350, y=450)
+        self.save_button.place(x=350, y=550)
         
         # --------- Controller ------------
         self.controller = None
@@ -112,15 +131,22 @@ class DoWhyView(Toplevel):
 
             col_names = self.controller.get_col_names(file_path)
             # Update treatment column menu
-            menu = self.treatment_column_menu["menu"]
-            menu.delete(0, "end")
+            treatment_menu = self.treatment_column_menu["menu"]
+            treatment_menu.delete(0, "end")
+            outcome_menu = self.outcome_column_menu["menu"]
+            outcome_menu.delete(0, "end")
             for name in col_names:
-                menu.add_command(label=name, command=lambda value=name: self.doWhySettings['treatment_column'].set(value))
-            # Update outcome column menu
-            menu = self.outcome_column_menu["menu"]
-            menu.delete(0, "end")
-            for name in col_names:
-                menu.add_command(label=name, command=lambda value=name: [self.doWhySettings['outcome_column'].set(value)])
+                treatment_menu.add_command(label=name, command=lambda value=name: self.doWhySettings['treatment_column'].set(value))
+                outcome_menu.add_command(label=name, command=lambda value=name: [self.doWhySettings['outcome_column'].set(value)])
+                var = IntVar(value = 0)
+                self.iv_list.append(Checkbutton(self, text=name, variable=var, onvalue=1, offvalue=0, width=20, height=1, anchor='w'))
+                self.instrumental_variables_scrolltext.window_create("end", window=self.iv_list[-1])
+                self.iv_var.append(var)
+                var = IntVar(value = 0)
+                self.cc_list.append(Checkbutton(self, text=name, variable=var, onvalue=1, offvalue=0))
+                self.common_causes_scrolltext.window_create("end", window=self.cc_list[-1])
+                self.cc_var.append(var)
+
         else:
             import views.alertWindows as aw
             aw.datasetError()

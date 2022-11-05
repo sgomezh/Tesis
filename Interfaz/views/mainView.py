@@ -57,7 +57,7 @@ class mainView(Tk):
         self.variable_importance_button = Button(self, text="Display variable \nimportance graph", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command= lambda: self.variable_importance_button_clicked())
         self.variable_importance_button.place(x=20, y= 310)
 
-        self.ate_button = Button(self, text="Get ATE", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3)
+        self.ate_button = Button(self, text="Get ATE", bg="#B7B5C8", fg="black", font=self.button_font, width=20, height=3, command=lambda: self.ate_button_clicked())
         self.ate_button.place(x=20, y= 390)
 
         # --- Scrolledtext para el centro ---

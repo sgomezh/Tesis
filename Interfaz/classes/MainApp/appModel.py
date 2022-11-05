@@ -3,6 +3,7 @@ class appModel:
     def __init__(self):
         self._bartSettings = {
             "response": "",
+            "treatment": "None",
             "cv": False,
             "n_trees": 200,
             "burn_in_iter": 250,
