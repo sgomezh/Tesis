@@ -24,7 +24,7 @@ def generateCausalModel(doWhySettings):
             treatment=doWhySettings['treatment_column'],
             outcome=doWhySettings['outcome_column'],
             common_causes=doWhySettings['common_causes_column'],
-            instrumental= doWhySettings['instrumental_var_column'],
+            instruments= doWhySettings['instrumental_var_column'],
             )  
 
     return model
