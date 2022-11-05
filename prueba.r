@@ -4,13 +4,11 @@ library(caTools)
 library(dplyr)
 library(tidytreatment)
 
-dataURL <- "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/master/datasets/IHDP/csv/ihdp_npci_1.csv"
+dataURL <- "https://users.nber.org/~rdehejia/data/nsw_treated.txt"
 data <- read.csv(dataURL, header = FALSE)
-# Create list of names
-nList <- c("treatment", "y_factual", "y_cfactual", "mu0", "mu1")
-for (i in 1:25) {
-  nList <- c(nList, paste0("x", i))
-}
+
+# Save dataframe as csv
+write.csv(data, "nsw_treated.csv", row.names = FALSE)
 
 # Assign names to data
 names(data) <- nList
