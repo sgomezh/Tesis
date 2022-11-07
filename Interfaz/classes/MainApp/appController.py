@@ -148,6 +148,11 @@ class appController:
     
     
     def store_doWhySettings(self, settings):
+        
+        # Iterate over settings map
+        self.model.doWhySettings["instrumental_variables"] = settings.pop("instrumental_variables")
+        self.model.doWhySettings["common_causes"] = settings.pop("common_causes")
+
         for key, value in settings.items():
             if type(value) == str:
                 self.model.doWhySettings[key] = value
@@ -159,7 +164,6 @@ class appController:
 
     def on_closing(self):
         self.model = None
-        # delattr(self.model, "_doWhyModel")
         self.mainView.destroy()
 
     def update_text(self, text):

@@ -15,8 +15,11 @@ class DoWhyView(Toplevel):
         self.iv_var = []
         self.cc_var = []
         # --------- Coordenadas de los widgets --------- #
-        iv_coordinates = {"x": 20, "y": 300}
-        cc_coordinates = {"x": 480, "y": 300}
+        trt_coordinates = {"x": 10, "y": 215}
+        out_coordinates = {"x": 360, "y": 215}
+        iv_coordinates = {"x": 100, "y": 260}
+        cc_coordinates = {"x": 465, "y": 260}
+
 
         # ---------Configuracion de la ventana ------------
         self.transient(parent)
@@ -67,49 +70,36 @@ class DoWhyView(Toplevel):
 
         # --------- Treatment column ------------
         self.treatment_column_label= Label(self, text="Treatment column:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.treatment_column_label.place(x=10, y=250)
+        self.treatment_column_label.place(x=trt_coordinates['x'], y=trt_coordinates['y'])
         
         self.doWhySettings['treatment_column'] = StringVar()
         self.treatment_column_menu = OptionMenu(self, self.doWhySettings['treatment_column'], "")
         self.treatment_column_menu.config(font=self.label_font, bg='#FFFFFF', fg='#000000', width=15, height=1)
-        self.treatment_column_menu.place(x=170, y=250)
+        self.treatment_column_menu.place(x=trt_coordinates['x']+160, y=trt_coordinates['y'])
 
         # --------- Outcome column ------------
         self.outcome_column_label= Label(self, text="Outcome column:", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.outcome_column_label.place(x=370, y=250)
+        self.outcome_column_label.place(x=out_coordinates['x'], y=out_coordinates['y'])
 
         self.doWhySettings['outcome_column'] = StringVar()
         self.outcome_column_menu = OptionMenu(self, self.doWhySettings['outcome_column'], "")
         self.outcome_column_menu.config(font=self.label_font, bg='#FFFFFF', fg='#000000', width=20, height=1)
-        self.outcome_column_menu.place(x=530, y=250)
+        self.outcome_column_menu.place(x=out_coordinates["x"]+160, y=out_coordinates["y"])
         
         # --------- Instrument column ------------
         self.intrumental_variables_label= Label(self, text="Instrumental Variables", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.intrumental_variables_label.place(x=iv_coordinates['x']+50, y=iv_coordinates['y'])
+        self.intrumental_variables_label.place(x=iv_coordinates['x'], y=iv_coordinates['y'])
 
-        # self.doWhySettings['instrumental_var_column'] = StringVar()
-        # self.intrumental_variables_entry = Entry(self, font=self.label_font, bg='#FFFFFF', fg='#000000', width=20, textvariable=self.doWhySettings['instrumental_var_column'], justify='left')
-        # self.intrumental_variables_entry.place(x=200, y=350)
+        self.iv_scrolltext = scrolledtext.ScrolledText(self, width=30, height=13, font=self.label_font, bg='#FFFFFF', fg='#000000')
+        self.iv_scrolltext.place(x=iv_coordinates['x']-60, y=iv_coordinates['y']+30)
 
-        # self.instrumental_variables_scrolltext = scrolledtext.ScrolledText(self, width=30, height=10, font=self.label_font, bg='#FFFFFF', fg='#000000')
-        # self.instrumental_variables_scrolltext.place(x=iv_coordinates['x'], y=iv_coordinates['y']+30)
-        self.iv_canvas = Canvas(self, width=300, height=200, bg='#FFFFFF')
-        self.iv_canvas.place(x=iv_coordinates['x'], y=iv_coordinates['y']+30)
 
         # --------- Common causes column ------------
         self.common_causes_label= Label(self, text="Common Causes", font=self.label_font, bg='#08013D', fg='#FFFFFF')
-        self.common_causes_label.place(x=cc_coordinates["x"]+70, y=cc_coordinates["y"])	
+        self.common_causes_label.place(x=cc_coordinates["x"]+80, y=cc_coordinates["y"])	
 
-        # self.common_causes_scrolltext = scrolledtext.ScrolledText(self, width=30, height=10, font=self.label_font, bg='#FFFFFF', fg='#000000')
-        # self.common_causes_scrolltext.place(x=cc_coordinates["x"], y=cc_coordinates["y"]+30)
-        # self.doWhySettings['common_causes_column'] = StringVar()
-        # self.common_causes_entry = Entry(self, font=self.label_font, bg='#FFFFFF', fg='#000000', textvariable=self.doWhySettings['common_causes_column'], width=20, justify='left')
-        # self.common_causes_entry.place(x=200, y=400)
-
-        self.cc_canvas = Canvas(self, width=300, height=200, bg='#FFFFFF')
-        # Add scrollbar to canvas
-        self.cc_canvas.create_window((0, 0), window=self.cc_canvas, anchor='nw')
-        self.cc_canvas.place(x=cc_coordinates["x"], y=cc_coordinates["y"]+30)
+        self.cc_scrolltext = scrolledtext.ScrolledText(self, width=32, height=13, bg='#FFFFFF', font=self.label_font)
+        self.cc_scrolltext.place(x=cc_coordinates["x"], y=cc_coordinates["y"]+30)
 
         # --------- Save button ------------
         self.save_button = Button(self, text="Save", font=self.button_font, bg='#FFFFFF', fg='#000000', width=10, height=1, command= lambda: self.save_button_clicked())
@@ -117,6 +107,8 @@ class DoWhyView(Toplevel):
         
         # --------- Controller ------------
         self.controller = None
+
+
 
     def set_controller(self, controller):
         self.controller = controller
@@ -135,26 +127,46 @@ class DoWhyView(Toplevel):
             treatment_menu.delete(0, "end")
             outcome_menu = self.outcome_column_menu["menu"]
             outcome_menu.delete(0, "end")
+
+            self.iv_list.clear()
+            self.cc_list.clear()
+            self.cc_var.clear()
+            self.iv_var.clear()
+            self.iv_scrolltext.delete('1.0', END)
+            self.cc_scrolltext.delete('1.0', END)
+            
+
             for name in col_names:
                 treatment_menu.add_command(label=name, command=lambda value=name: self.doWhySettings['treatment_column'].set(value))
                 outcome_menu.add_command(label=name, command=lambda value=name: [self.doWhySettings['outcome_column'].set(value)])
+
                 var = IntVar(value = 0)
-                self.iv_list.append(Checkbutton(self, text=name, variable=var, onvalue=1, offvalue=0, width=20, height=1, anchor='w'))
-                self.instrumental_variables_scrolltext.window_create("end", window=self.iv_list[-1])
+                self.iv_list.append(Checkbutton(self, text=name, variable=var, onvalue=1, offvalue=0, width=20, height=1, padx=5, pady=5, font=self.label_font))
+                self.iv_scrolltext.window_create("end", window=self.iv_list[-1])
                 self.iv_var.append(var)
+
                 var = IntVar(value = 0)
-                self.cc_list.append(Checkbutton(self, text=name, variable=var, onvalue=1, offvalue=0))
-                self.common_causes_scrolltext.window_create("end", window=self.cc_list[-1])
+                self.cc_list.append(Checkbutton(self, text=name, variable=var, onvalue=1, offvalue=0, width=20, height=1, padx=5, pady=5, font=self.label_font))
+                self.cc_scrolltext.window_create("end", window=self.cc_list[-1])
                 self.cc_var.append(var)
 
         else:
             import views.alertWindows as aw
             aw.datasetError()
-            raise Exception("No se ha seleccionado ningun archivo.")
             
     
     
     def save_button_clicked(self):
+        # We store the selected checkboxes in a list
+        self.doWhySettings['instrumental_variables'] = []
+        self.doWhySettings['common_causes'] = []
+        for i in range(len(self.iv_var)):
+            if self.iv_var[i].get() == 1:
+                self.doWhySettings['instrumental_variables'].append(self.iv_list[i]['text'])
+
+            if self.cc_var[i].get() == 1:
+                self.doWhySettings['common_causes'].append(self.cc_list[i]['text'])
+
         # Se guarda la configuracion
         self.controller.store_doWhySettings(self.doWhySettings)
         # Se crea el modelo de dowhy
