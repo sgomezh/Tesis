@@ -17,3 +17,6 @@ def datasetError():
     
 def dowhyDatasetError():
     tkinter.messagebox.showerror(title="Error", message="Invalid dataset for DoWhy.")
+
+def treatmentError():
+    tkinter.messagebox.showerror(title="Error", message="Bart model does not have a treatment variable.")

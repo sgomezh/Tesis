@@ -4,30 +4,19 @@ library(caTools)
 library(dplyr)
 library(tidytreatment)
 
-dataURL <- "https://users.nber.org/~rdehejia/data/nsw_treated.txt"
-data <- read.csv(dataURL, header = FALSE)
+dataPath <- "D:\\Escritorio\\Codigo\\Tesis\\datasets\\jobs.csv"
+data <- read.csv(dataPath, header = TRUE)
 
-# Save dataframe as csv
-write.csv(data, "nsw_treated.csv", row.names = FALSE)
+data$treatment <- as.logical(data$treatment)
 
-# Assign names to data
-names(data) <- nList
-
-# Remove y_cfactual
-data <- data %>% select(-y_cfactual)
-
-names(data)
-
-write.csv(data, "ihdp_npci_2.csv", row.names = FALSE)
-
-
+unique(data$treatment)
 # Split data
-split <- sample.split(data$y_factual, SplitRatio = 0.8)
+split <- sample.split(data$re78, SplitRatio = 0.8)
 train <- subset(data, split == TRUE)
 test <- subset(data, split == FALSE)
 
-#bart = build_bart_machine(train[, -which(names(train) == 'y_factual')], train$y_factual, num_trees = 200)
-bart = bartMachineCV(train[, -which(names(train) == 'y_factual')], train$y_factual)
+bart = build_bart_machine(train[, -which(names(train) == 're78')], train$re78, num_trees = 200)
+#bart = bartMachineCV(train[, -which(names(train) == 'y_factual')], train$y_factual)
 
 ate = avg_treatment_effects(bart, "treatment")
 

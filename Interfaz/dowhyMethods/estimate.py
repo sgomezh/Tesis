@@ -22,17 +22,17 @@ def estimate_effect(model, doWhySettings):
         # Estimate the causal effect and compare it with Average Treatment Effect
         estimate = model.estimate_effect(identified_estimand,
                 method_name="backdoor.linear_regression")
-        #print('linear_regression')
+        
             
     elif doWhySettings['estimation_option'] == '1':
         estimate = model.estimate_effect(identified_estimand,
                 method_name="backdoor.propensity_score_matching")
-        #print('propensity_score_matching')
+        
         
     elif doWhySettings['estimation_option'] == '2':
         estimate = model.estimate_effect(identified_estimand,
                 method_name="backdoor.propensity_score_weighting")
-        #print('propensity_score_weighting')
+        
 
     elif doWhySettings['estimation_option'] == '3':
         estimate = model.estimate_effect(identified_estimand, 
@@ -46,9 +46,16 @@ def estimate_effect(model, doWhySettings):
                                             "model_final":LassoCV(fit_intercept=False), 
                                             'featurizer':PolynomialFeatures(degree=1, include_bias=False)},
                             "fit_params":{}})
-        #print('dml')
-    # print("Causal Estimate is " + str(estimate.value))
     
     text = str(estimate).split("\n")
+
+    if doWhySettings['estimation_option'] == '3':
+        for i in range(len(text)):
+            if "Effect estimates" in text[i]:
+                break
+        
+        # Remove elements after index i
+        text = text[:i]
+    
     
     return identified_estimand, estimate, text

@@ -14,6 +14,11 @@ def buildBartModelV2(settings):
 
     pandas2ri.activate()
     df = pd.read_csv(settings['file_path'])
+
+    # Si hay tratamiento, se convierte la columna a boolean
+    if settings['treatment'] != 'None':
+        df[settings['treatment']] = df[settings['treatment']].astype(bool)
+
     msk = rand(len(df)) < 0.8
     # Split data into train and test
     train = df[msk]
@@ -22,6 +27,10 @@ def buildBartModelV2(settings):
     mh_values = normalizeValues(settings['grow'], settings['prune'], settings['change'])
 
     bPackage = importr('bartMachine')
+
+
+    
+
 
     if settings['cv']:
         # TODO: Poner una pantalla de carga para esta funcion
@@ -118,21 +127,24 @@ def calculateATE(bart, settings):
 
     if settings['treatment'] == 'None':
         raise Exception('No se ha seleccionado un tratamiento')
+        
     else: 
         import pandas as pd
         from rpy2.robjects.packages import importr
         from rpy2.robjects import pandas2ri
         pandas2ri.activate()
 
-        df = pd.read_csv(settings['file_path'])
 
         r.assign('bart', bart)
-        r.assign('df', df)
+        
+        # Cast treatment to float
         r.assign('treatment', settings['treatment'])
+        
         
         r('''
             library(bartMachine)
             library(tidytreatment)
+
             ate <- avg_treatment_effects(bart, treatment)
 
             r_value = ate$ate[1000]

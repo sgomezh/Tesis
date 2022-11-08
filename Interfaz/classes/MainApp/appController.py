@@ -36,26 +36,32 @@ class appController:
         else:
             import views.alertWindows as aw
             aw.bartModelError()
-            raise Exception("No se ha construido el modelo BART")
+
             
         
     def variable_importance_button_clicked(self):
         if (self.model.bartInstance is not None):
             from bartMethods.buildBart import display_var_importance
             image_path = display_var_importance(self.model.bartInstance)
-            # AQUI VA EL CODIGO PARA MOSTRAR LA IMAGEN, LA RUTA ES Instance/var_importance.png
             self.mainView.update_image(image_path)
 
         else:
             import views.alertWindows as aw
             aw.bartModelError()
-            raise Exception("No se ha construido el modelo BART")
             
 
     def ate_button_clicked(self):
-        from bartMethods.buildBart import calculateATE
-        ate, displayText = calculateATE(self.model.bartInstance, self.model.bartSettings)
-        self.mainView.update_text(displayText)
+        if (self.model.bartInstance is not None):
+            if(self.model.bartSettings['treatment'] != "None"):
+                from bartMethods.buildBart import calculateATE
+                ate, displayText = calculateATE(self.model.bartInstance, self.model.bartSettings)
+                self.mainView.update_text(displayText)
+            else:
+                import views.alertWindows as aw
+                aw.treatmentError()
+        else:
+            import views.alertWindows as aw
+            aw.bartModelError()
 # --------------------- DOWHY ---------------------
     def causal_model_button_clicked(self):
         self.dowhyApp = DoWhyApp(self)
