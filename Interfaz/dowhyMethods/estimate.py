@@ -47,7 +47,8 @@ def estimate_effect(model, doWhySettings):
                                             'featurizer':PolynomialFeatures(degree=1, include_bias=False)},
                             "fit_params":{}})
     
-    text = str(estimate).split("\n")
+    estimate_result = "Estimated effect: " + str(estimate.value)
+    text = str(estimate_result).split("\n")
 
     if doWhySettings['estimation_option'] == '3':
         for i in range(len(text)):
@@ -58,4 +59,5 @@ def estimate_effect(model, doWhySettings):
         text = text[:i]
     
     
+    print(estimate_result)
     return identified_estimand, estimate, text
