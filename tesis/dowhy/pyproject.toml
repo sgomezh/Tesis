@@ -1,4 +1,0 @@
-[tool.pytest.ini_options]
-markers = [
-    "advanced: not be to run each time. only on package updates."
-]
