@@ -90,17 +90,20 @@ def predict_with_bart(bart, df):
     from rpy2.robjects import pandas2ri
     from rpy2.robjects import r
     import pandas as pd
+    import os
     pandas2ri.activate()
-
+    
+    filename = os.path.basename(df)
     df = pd.read_csv(df, header=0)
+    
 
     bPackage = importr('bartMachine')
     pred = bPackage.predict_bartMachine(bart, df)
-
+    
+    #save_path <- './Predicciones/predicciones.csv'
     r.assign('pred', pred)
     r('''
-        save_path <- './Predicciones/predicciones.csv'
-        write.csv(pred, file = save_path)
+        write.csv(pred, file = "Prediccion.csv")
     ''')
     save_path = r('save_path')
     summary = r('summary(pred)')
@@ -116,7 +119,7 @@ def predict_with_bart(bart, df):
 def display_var_importance(bart):
     from rpy2.robjects.packages import importr
     bPackage = importr('bartMachine')
-    path = 'var_importance.png'
+    path = './img/var_importance.png'
     # Use png() to save the plot to a file
     r['png'](path)
     bPackage.investigate_var_importance(bart)
