@@ -93,23 +93,20 @@ def predict_with_bart(bart, df):
     import os
     pandas2ri.activate()
     
-    filename = os.path.basename(df)
+    #filename = os.path.basename(df)
     df = pd.read_csv(df, header=0)
     
 
     bPackage = importr('bartMachine')
     pred = bPackage.predict_bartMachine(bart, df)
     
-    #save_path <- './Predicciones/predicciones.csv'
+    
     r.assign('pred', pred)
     r('''
-        write.csv(pred, file = "Prediccion.csv")
+        save_path <- 'predicciones.csv'
+        write.csv(pred, file = save_path)
     ''')
     save_path = r('save_path')
-    summary = r('summary(pred)')
-    nameList = r('names(summary(pred))')
-    print(nameList)
-
 
     displayText = ["Predicciones guardadas en: " + save_path[0]]
     return displayText
