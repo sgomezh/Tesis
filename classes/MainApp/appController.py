@@ -81,6 +81,7 @@ class appController:
         from dowhyMethods.estimate import estimate_effect
         if (self.model.dowhyModel and self.model.doWhySettings is not None):
             self.model.dowhyIdentifiedEstimand, self.model.doWhyEstimate, displayText = estimate_effect(self.model.dowhyModel, self.model.doWhySettings)
+            print("Hola")
             self.mainView.update_text(displayText)
         else:
             import views.alertWindows as aw

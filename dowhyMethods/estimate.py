@@ -50,14 +50,15 @@ def estimate_effect(model, doWhySettings):
     estimate_result = "Estimated effect: " + str(estimate.value)
     text = str(estimate_result).split("\n")
 
-    if doWhySettings['estimation_option'] == '3':
+    '''if doWhySettings['estimation_option'] == '3':
         for i in range(len(text)):
             if "Effect estimates" in text[i]:
                 break
         
         # Remove elements after index i
-        text = text[:i]
+        text = text[:i]'''
     
     
-    print(estimate_result)
+    #print(estimate_result)
+    print(text)
     return identified_estimand, estimate, text
