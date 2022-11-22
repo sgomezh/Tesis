@@ -59,6 +59,4 @@ def estimate_effect(model, doWhySettings):
         text = text[:i]'''
     
     
-    #print(estimate_result)
-    print(text)
     return identified_estimand, estimate, text

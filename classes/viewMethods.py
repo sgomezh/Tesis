@@ -127,7 +127,6 @@ def buildBartModelView(newWindow, center_canvas):
     cross_validation = IntVar()
 
     def activate_cross_validation():
-        print(cross_validation.get())
         if (cross_validation.get() == 1):
             # Block all entrys except for k and nu
             number_of_burn_in_entry.config(state=DISABLED, disabledbackground='grey')
@@ -387,7 +386,6 @@ def getDowhySettinngs():
             settings['instrumental_variables'] = splitVariables(setting_list[i])
         elif i == 4:
             settings['common_causes'] = splitVariables(setting_list[i])
-    print(settings)
     return settings
 
 def splitVariables(setting_list):
