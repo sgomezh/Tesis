@@ -15,5 +15,6 @@ Para la ejecution del programa es necesario instalar las siguientes librerias:
    
 - Librerias de R 
     * bartMachine
+    * tidytreatment
     * caTools
     * rJava
